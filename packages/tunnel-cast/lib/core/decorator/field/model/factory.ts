@@ -1,13 +1,14 @@
 import "reflect-metadata";
+import { Class } from "../../../../utils/model";
 import { BaseFieldOptions } from "../../../../model/field-options";
 import { embedMetadata } from "../../../model-metadata/embed-metadata";
 import { ModelFieldHandler } from "../../../model-handler";
 import { extractRootRepo } from "../../../model-metadata/extract-metadata";
-import { Class } from "../../../../utils/model";
+import { ModelFieldOptionProcessor } from './../../../field-option-processor'
 
 
 
-
+const optionProcessor = new ModelFieldOptionProcessor()
 export function FieldModelDecoratorFactory<T>(options?: BaseFieldOptions, model?: Class) {
     return function <T>(
         prototype: any,   
@@ -17,11 +18,12 @@ export function FieldModelDecoratorFactory<T>(options?: BaseFieldOptions, model?
 
         const repo = extractRootRepo(type) // will throw if not a valid model
 
+        const processedOptions = optionProcessor.process(options||{}, key)
         return embedMetadata(prototype, key,  { 
             fieldKey: key, 
             fieldHandlerClass: ModelFieldHandler, 
             handlerArgs: [type], 
-            options 
+            options : processedOptions
         });
     };
 }
