@@ -1,0 +1,50 @@
+{
+  "name": "tunnel-cast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "url": "https://github.com/OfirTheOne/tunnel-cast",
+    "type": "GitHub"
+  },
+  "types": "index.d.ts",
+  "scripts": {
+    "build-dev": "tsc -p tsconfig.json",
+    "build-prod": "tsc -p tsconfig.prod.json",
+    "start": "ts-node ./src/index.ts",
+    "test:osx": "mocha --require ts-node/register tests/**/*.test.ts tests/**/*.test.ts",
+    "pack-script": "sh pack-publish-version-test.job.sh",
+    "test": "NODE_ENV=testing&& npm run test:osx"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "author": "Ofir G.",
+  "license": "ISC",
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/config": "0.0.34",
+    "@types/dotenv": "^6.1.1",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "config": "^3.2.3",
+    "dotenv": "^8.1.0",
+    "mocha": "^7.1.2",
+    "ts-essentials": "^6.0.5",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3",
+    "utility-types": "^3.10.0"
+  },
+  "files": [
+    "/**"
+  ],
+  "keywords": []
+}

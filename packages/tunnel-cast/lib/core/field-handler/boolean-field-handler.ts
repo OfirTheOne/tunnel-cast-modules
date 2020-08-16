@@ -1,0 +1,28 @@
+import { BooleanFieldOptions } from "../../model";
+import { FieldHandler } from "./field-handler";
+import { NativeValidationDict } from "../../model/native-validation-dict";
+
+export class BooleanFieldHandler extends FieldHandler<BooleanFieldOptions> {
+
+    nativeValidations : NativeValidationDict<BooleanFieldOptions> = {
+    };
+
+
+    constructor(context: any, fieldName: string, projectedContext: any) { 
+        super(context, fieldName, projectedContext)
+    }
+
+    typeCondition(value: any, options: BooleanFieldOptions): boolean {
+        return typeof value == 'boolean';
+    }
+
+    processOption(options: BooleanFieldOptions): BooleanFieldOptions {
+        const baseOptions = super.processOption(options);
+        return { ...options, ...baseOptions }
+    }
+}
+
+
+
+
+

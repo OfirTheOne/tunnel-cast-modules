@@ -1,0 +1,8 @@
+/dist
+/tests
+/src
+/lib
+/.vscode
+package-lock.json
+tsconfig.json
+tsconfig.prod.json
