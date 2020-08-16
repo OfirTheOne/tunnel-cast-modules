@@ -6,13 +6,8 @@ import { FieldEmbeddedData } from '../../model';
 
 
 export function extractRootRepo(modelClass: any) {
-    return extractRootRepoFromPrototype(modelClass)
-}
-
-
-function extractRootRepoFromPrototype(modelClass: Class<any>) {
+    const rootRepo = extractRootRepoFromPrototype(modelClass.prototype)
     try {
-        const rootRepo = modelClass.prototype[RootMetadataRepoKey];
         if(!rootRepo) {
             throw new ModelMetadataRepoNotFoundError(modelClass.name)
         } 
@@ -23,8 +18,13 @@ function extractRootRepoFromPrototype(modelClass: Class<any>) {
 }
 
 
+export function extractRootRepoFromPrototype(prototype: Class<any>): Map<string, [FieldEmbeddedData]> {
+    return prototype[RootMetadataRepoKey];
+}
 
-export function getFieldDefinitionFromScheme(prototype: any, key: string) {
-    const map = (prototype[RootMetadataRepoKey] as Map<string, [FieldEmbeddedData]>);
+
+
+export function getFieldDefinitionFromPrototype(prototype: any, key: string) {
+    const map = extractRootRepoFromPrototype(prototype);
     return map.get(key);
 }
