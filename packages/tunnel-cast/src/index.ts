@@ -6,6 +6,8 @@ import { field, parsing } from '../lib/core/decorator'
 import { cast } from '../lib/core/cast'
 
 class User {
+
+    @field.options.set('format', /^Bob.*$/)
     @field.String({ required: false })
     username: string;
 
@@ -37,7 +39,7 @@ class ServerResponse {
 const { value, errors } = cast(ServerResponse, { 
         apiVersion: '9', 
         imageTensor: "[[1,2],[2,3]]", 
-        user: { email: 'user@examle.com' } 
+        user: { email: 'user@examle.com', username: 'John' } 
 }); 
 
 
