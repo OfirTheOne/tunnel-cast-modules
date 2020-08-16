@@ -76,6 +76,82 @@ console.log(JSON.stringify({ value, errors }, undefined, 2))
 }
 ```
 
+<br>
+
+## API Documentation
+
+
+### `@field.<TYPE>`
+
+
+<br>
+
+`@field.Number(options?:  ) `
+
+> description
+
+> example
+
+_____
+
+`@field.String(options?:  ) `
+
+> description
+
+> example
+
+_____
+
+`@field.Boolean(options?:  ) `
+
+> description
+
+> example
+
+_____
+
+`@field.Array(options?:  ) `
+
+> description
+
+> example
+
+_____
+
+`@field.Model(options?:  ) `
+
+> description
+
+> example
+
+_____
+<br>
+
+### `@parsing.<PARSER>`
+
+
+<br>
+
+`@parsing.JsonStringify`
+
+> description
+
+> example
+
+_____
+
+`@parsing.JsonParse`
+
+> description
+
+> example
+
+_____
+<br>
+
+
+<br>
+
 
 ## Future TODO - expect soon
     * high level module documentation 
