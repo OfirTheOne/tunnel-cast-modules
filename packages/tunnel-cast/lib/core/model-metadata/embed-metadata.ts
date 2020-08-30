@@ -3,7 +3,13 @@
 import { RootMetadataRepoKey } from './../../consts'
 import { FieldEmbeddedData } from './../../model/field-embedded-data';
 
-function assignRootRepo(prototype: any) {
+
+
+export function assignRootRepo(prototype: any, metaMap: Map<string, any>) {
+    prototype[RootMetadataRepoKey] = metaMap;
+}
+
+function assignNewRootRepo(prototype: any) {
     prototype[RootMetadataRepoKey] = prototype[RootMetadataRepoKey] == undefined ? new Map() : prototype[RootMetadataRepoKey];
 }
 
@@ -17,7 +23,7 @@ function addFieldDefinitionToScheme(prototype: any, key: string, metadataEntry: 
 
 
 export function embedMetadata(prototype: any, key: string, metadataEntry: FieldEmbeddedData) {
-    assignRootRepo(prototype);
+    assignNewRootRepo(prototype);
     addFieldDefinitionToScheme(prototype, key, metadataEntry);
 }
 

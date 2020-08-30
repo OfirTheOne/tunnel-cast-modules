@@ -4,6 +4,7 @@
 
 import { field, parsing } from '../lib/core/decorator'
 import { cast } from '../lib/core/cast'
+import { modelSpec } from '../lib/core/model-spec'
 
 class User {
 
@@ -43,4 +44,6 @@ const { value, errors } = cast(ServerResponse, {
 }); 
 
 
-console.log(JSON.stringify({ value, errors }, undefined, 2))
+// console.log(JSON.stringify({ value, errors }, undefined, 2))
+console.log(modelSpec(ServerResponse).serialize(2))
+
