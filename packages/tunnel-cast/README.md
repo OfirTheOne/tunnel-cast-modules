@@ -4,6 +4,7 @@ Object-To-Model library, lets the user construct a strict model definition using
 
 ![casting process](/docs/casting-process-lean.png)
 
+<br>
 
 ## Highlights
  * Embedding the input transform & validations logic process in the model class definitions using decorators. 
@@ -18,6 +19,7 @@ Object-To-Model library, lets the user construct a strict model definition using
 npm install tunnel-cast
 ```
 
+<br>
 
 ## Usage
 
@@ -77,10 +79,6 @@ console.log(JSON.stringify({ value, errors }, undefined, 2))
 ```
 
 
-
-<br>
-<hr>
-<hr>
 <br>
 
 
@@ -129,9 +127,6 @@ a list of function (provided in the decorator options under the key `validation`
 This stage acts just like `parsing` stage only after the entire validations requirements ended successfully. 
 a list of function (provided in the decorator options under the key `transforming`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the existing value from the last stage.  
 
-<br>
-<hr>
-<hr>
 <br>
 
 ## API Documentation
@@ -228,9 +223,6 @@ class MyModel {
 ```
 <br>
 
-<br>
-<hr>
-<br>
 
 ### `@parsing.<PARSER>`
 Define (append to) the field's (pre-validation) parsing process.  
@@ -255,10 +247,6 @@ Add (the native) JSON.parse function to the parsing function list.
 
 <br>
 
-<br>
-<hr>
-<hr>
-<br>
 
 ### **Models**
 
@@ -372,10 +360,6 @@ Add (the native) JSON.parse function to the parsing function list.
 
 
 <br>
-<hr>
-<hr>
-<br>
-
 
 ### `interface ModelSpec` 
     globals?: { [key: string]: Array<any> }; 
@@ -386,6 +370,11 @@ Add (the native) JSON.parse function to the parsing function list.
 
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Future TODO - expect soon
     * high level module documentation 
