@@ -235,6 +235,19 @@ Define (append to) the field's (pre-validation) parsing process.
 Add (the native) JSON.stringify function to the parsing function list.
 
 > example
+```ts
+class RequestQs {    
+    @parsing.JsonStringify
+    age_range: : string
+}
+const { value } = cast(ImageData, { 
+    age_rage: [13,30], 
+}); 
+
+// value :  "[[1,2],[2,3]]"
+
+
+```
 
 <br>
 
@@ -244,6 +257,26 @@ Add (the native) JSON.stringify function to the parsing function list.
 Add (the native) JSON.parse function to the parsing function list.
 
 > example
+```ts
+class ImageData {    
+    @parsing.JsonParse
+    @field.Array()
+    imageTensor: Array<Array<Array<number>>>;
+}
+const { value } = cast(ImageData, { 
+    imageTensor: "[[1,2],[2,3]]", 
+}); 
+
+// value :  
+/*
+[ 
+    [1,2], 
+    [2,3] 
+]
+*/
+
+```
+
 
 <br>
 
@@ -253,120 +286,80 @@ Add (the native) JSON.parse function to the parsing function list.
 ### `interface BaseFieldOptions`
 
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `validate`  &nbsp; &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `boolean`  
-<b>Default</b> :           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `required`  &nbsp; &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `boolean`  
-<b>Default</b> :  `true`         <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `requiredIf`  &nbsp; &nbsp;  |  &nbsp; <b>Type</b> : `Function`     
-<b>Default</b> : `undefined`         <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `nullable`  &nbsp; &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `boolean`    
-<b>Default</b> :           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `nullableIf`  &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `boolean`    
-<b>Default</b> : `undefined`  <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `default`  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `any`   
-<b>Default</b> : `undefined`  <br>
-<b>Description</b> : will be assigned as the default value if the field not exists and defined as not required.       <br>
-
-<b>Key</b> : `error`  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; |  &nbsp; <b>Type</b> : `boolean`    
-<b>Default</b> : generic error massage          <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `parsing`  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `Array<Function>`    
-<b>Default</b> : `[]`          <br>
-<b>Description</b> : will run if pass required / nullable validation, and before any other validation / transformation will run.      <br>
-
-<b>Key</b> : `validations`  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `Array<Function>`    
-<b>Default</b> : `[]`          <br>
-<b>Description</b> : will run if all native validation pass and after.      <br>
-
-<b>Key</b> : `transformations`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `Array<Function>`    
-<b>Default</b> : `[]`          <br>
-<b>Description</b> : array of functions that receives the final value of the field till the  will run if all validation pass and after.      <br>
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| `attribute`  | `string`  | <details>  same as the decorated attribute  </details> | <details> Mapping key  </details> |
+| `validate`   | `boolean` | `true` | <details>  </details> |
+| `required`   | `boolean` | `true` | <details>  </details> |
+| `requiredIf` | `Function`| `undefined` | <details>  </details> |
+| `nullable`   | `boolean` | `undefined` | <details>  </details> |
+| `nullableIf` | `Function`| `undefined` | <details>  </details> |
+| `default`    | `any`     | `undefined` | <details> will be assigned as the default value if the field not exists and defined as not required. </details> |
+| `error`      | `string`  | <details> generic error massage  </details>  | <details>  </details> |
+| `parsing`         | `Array<Function>`     | `[]`  | <details> will run if pass required / nullable validation, and before any other validation / transformation will run. </details> |
+| `validations`     | `Array<Function>`     | `[]`  | <details> will run if all native validation pass and after. </details> |
+| `transformations` | `Array<Function>`     | `[]`  | <details> array of functions that receives the final value of the field till the  will run if all validation pass and after. </details> |
 
 
 <br>
 
 ### `interface NumberFieldOptions extends BaseFieldOptions`
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| `min`   | `number` | `undefined` | <details> Minimum value restriction.</details> |
+| `max`   | `number` | `undefined` | <details> Maximum value restriction. </details> |
 
 <br>
 
 ### `interface StringFieldOptions extends BaseFieldOptions`
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| `format`   | `string` / `RegExp` | `undefined` | <details> Value's format restriction. </details> |
+| `enums`   | `Array<string>` | `undefined` | <details>Group of valid of values restriction. </details> |
 
 <br>
 
 ### `interface BooleanFieldOptions extends BaseFieldOptions`
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| --   | -- | -- | -- |
 
 <br>
 
 ### `interface ArrayFieldOptions extends BaseFieldOptions`
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| `minLength`   | `number` | -- | -- |
+| `maxLength`   | `number` | -- | -- |
+| `ofType`      | `Array<string>` | `undefined` | <details> Validate the type of each item in the array. </details> |
+| `allowType`   | any primitive type string | `undefined`| -- |
 
 <br>
 
 ### `interface ModelFieldOptions extends BaseFieldOptions`
 
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
-<b>Key</b> : `attribute`  &nbsp; &nbsp; &nbsp; |  &nbsp; <b>Type</b> : `string`  
-<b>Default</b> : same as the decorated attribute           <br>
-<b>Description</b> :       <br>
-
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| --   | -- | -- | -- |
 
 <br>
 
 ### `interface ModelSpec` 
-    globals?: { [key: string]: Array<any> }; 
-    definitions: { [key: string]: Array<any> };
-    fields: Array<string>,
-    name: string,
-    serialize(space?: number): string,
+
+* Experimental 
+
+|Key |Type | Default | Description |
+|--- |---  |---      |---          |
+| globals     | `{ [key: string]: Array<any> }` | -- | -- |
+| definitions | `{ [key: string]: Array<any> }` | -- | -- |
+| fields      | `Array<string>` | -- | -- |
+| name        | `string` | -- | -- |
+| serialize   | `(space?: number): string` | -- | -- |
 
 
 
