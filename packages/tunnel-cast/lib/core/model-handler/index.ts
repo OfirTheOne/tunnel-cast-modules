@@ -4,6 +4,10 @@ import { NativeValidationDict } from "../../model/native-validation-dict";
 import { Class } from "../../utils/model";
 import { cast } from '../cast'
 
+
+
+export const FieldTypeId = "MODEL" 
+
 export class ModelFieldHandler extends FieldHandler<BaseFieldOptions> {
 
     nativeValidations : NativeValidationDict<BaseFieldOptions> = {

@@ -1,6 +1,6 @@
 import { BooleanFieldOptions } from "../../../model"
 import { FieldDefinitionDecoratorFactory } from "./factory"
-import { BooleanFieldHandler } from "../../field-handler"
+import { BooleanFieldHandler, FieldTypeId } from "../../field-handler/boolean-field-handler"
 import { BooleanFieldOptionProcessor } from "../../field-option-processor";
 
 
@@ -12,7 +12,8 @@ export const boolean = (options?: BooleanFieldOptions) => {
     >(
         options||{}, 
         BooleanFieldHandler, 
-        new BooleanFieldOptionProcessor()
+        new BooleanFieldOptionProcessor(),
+        FieldTypeId
     )
 }
 

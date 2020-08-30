@@ -12,6 +12,7 @@ export function FieldDefinitionDecoratorFactory<
     options: FP, 
     handlerClass: new (...args: any[]) => HC, 
     optionProcessor: OP,
+    fieldTypeId: string,
     ...args: Array<any>
 ) {
     return function(prototype: any, key: string) {
@@ -20,7 +21,8 @@ export function FieldDefinitionDecoratorFactory<
             fieldKey: key, 
             fieldHandlerClass: handlerClass, 
             handlerArgs: args, 
-            options: processedOption
+            options: processedOption,
+            fieldTypeId
         });
     };
 }

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Class } from "../../../../utils/model";
 import { BaseFieldOptions } from "../../../../model/field-options";
 import { embedMetadata } from "../../../model-metadata/embed-metadata";
-import { ModelFieldHandler } from "../../../model-handler";
+import { ModelFieldHandler, FieldTypeId } from "../../../model-handler";
 import { extractRootRepo } from "../../../model-metadata/extract-metadata";
 import { ModelFieldOptionProcessor } from './../../../field-option-processor'
 
@@ -23,7 +23,8 @@ export function FieldModelDecoratorFactory<T>(options?: BaseFieldOptions, model?
             fieldKey: key, 
             fieldHandlerClass: ModelFieldHandler, 
             handlerArgs: [type], 
-            options : processedOptions
+            options : processedOptions,
+            fieldTypeId: `${FieldTypeId}#${type.name}`
         });
     };
 }

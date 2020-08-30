@@ -3,6 +3,10 @@ import { FieldHandler } from "./field-handler";
 import { NativeValidationDict, NativeValidationEntry } from '../../model/native-validation-dict'
 
 
+
+export const FieldTypeId = "ARRAY" 
+
+
 export class ArrayFieldHandler extends FieldHandler<ArrayFieldOptions> {
 
 

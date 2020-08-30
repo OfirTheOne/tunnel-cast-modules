@@ -2,6 +2,10 @@ import { NumberFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "lib/model/native-validation-dict";
 
+
+
+export const FieldTypeId = "NUMBER" 
+
 export class NumberFieldHandler extends FieldHandler<NumberFieldOptions> {
 
     nativeValidations : NativeValidationDict<NumberFieldOptions> = {

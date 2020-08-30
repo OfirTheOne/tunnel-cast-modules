@@ -1,6 +1,6 @@
 import { ArrayFieldOptions } from "../../../model"
 import { FieldDefinitionDecoratorFactory } from "./factory"
-import { ArrayFieldHandler } from "../../field-handler"
+import { ArrayFieldHandler, FieldTypeId } from "../../field-handler/array-field-handler"
 import { ArrayFieldOptionProcessor } from "../../field-option-processor";
 
 
@@ -12,7 +12,8 @@ export const array = (options?: ArrayFieldOptions) => {
     >(
         (options||{}), 
         ArrayFieldHandler,
-        new ArrayFieldOptionProcessor()
+        new ArrayFieldOptionProcessor(),
+        FieldTypeId
     )
 }
 

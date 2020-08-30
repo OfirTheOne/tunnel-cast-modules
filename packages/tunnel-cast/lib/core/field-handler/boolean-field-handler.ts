@@ -2,6 +2,9 @@ import { BooleanFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "../../model/native-validation-dict";
 
+
+export const FieldTypeId = "BOOLEAN" 
+
 export class BooleanFieldHandler extends FieldHandler<BooleanFieldOptions> {
 
     nativeValidations : NativeValidationDict<BooleanFieldOptions> = {

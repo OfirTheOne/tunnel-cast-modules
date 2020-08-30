@@ -2,6 +2,9 @@ import { StringFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "../../model/native-validation-dict";
 
+
+export const FieldTypeId = "STRING" 
+
 export class StringFieldHandler extends FieldHandler<StringFieldOptions> {
 
     nativeValidations : NativeValidationDict<StringFieldOptions> = {

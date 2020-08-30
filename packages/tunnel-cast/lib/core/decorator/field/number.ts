@@ -1,6 +1,6 @@
 import { NumberFieldOptions } from "../../../model"
 import { FieldDefinitionDecoratorFactory } from "./factory"
-import { NumberFieldHandler } from "../../field-handler"
+import { NumberFieldHandler, FieldTypeId } from "../../field-handler/number-field-handler"
 import { NumberFieldOptionProcessor } from "../../field-option-processor";
 
 
@@ -12,7 +12,8 @@ export const number = (options?: NumberFieldOptions) => {
     >(
         options||{}, 
         NumberFieldHandler,
-        new NumberFieldOptionProcessor()
+        new NumberFieldOptionProcessor(),
+        FieldTypeId
     )
 }
 
