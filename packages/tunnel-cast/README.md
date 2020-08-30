@@ -143,10 +143,10 @@ Define the field type.
 
 `@field.Number(options?: NumberFieldOptions) `
 
-> description : <br>
+> Description : <br>
 Defines an attribute as a `number` type, with additional requirements.
 
-> example
+> Example :
 ```ts
 class MyModel {
     @fields.Number({
@@ -160,10 +160,10 @@ class MyModel {
 
 `@field.String(options?: StringFieldOptions) `
 
-> description : <br>
+> Description : <br>
 Defines an attribute as a `string` type, with additional requirements.
 
-> example
+> Example :
 ```ts
 class User {
     @fields.string()
@@ -177,10 +177,10 @@ class User {
 
 `@field.Boolean(options?: BooleanFieldOptions) `
 
-> description : <br>
+> Description : <br>
 Defines an attribute as a `boolean` type, with additional requirements.
 
-> example
+> Example :
 ```ts
 class MyModel {
     @fields.Boolean({
@@ -194,19 +194,27 @@ class MyModel {
 
 `@field.Array(options?: ArrayFieldOptions) `
 
-> description : <br>
+> Description : <br>
 Defines an attribute as a `array` type, with additional requirements.
 
-> example
-
+> Example :
+```ts
+class ImageData {    
+    @field.Array()
+    imageTensor: Array<Array<number>>;
+}
+const { value } = cast(ImageData, { 
+    imageTensor: [ [1,2], [2,3] ], 
+}); 
+```
 <br>
 
 `@field.Model(options?: ModelFieldOptions) `
 
-> description : <br>
+> Description : <br>
 Defines an attribute as a `Model` type, with additional requirements. 
 
-> example
+> Example :
 ```ts
 class User {
     @fields.string()
@@ -231,10 +239,10 @@ Define (append to) the field's (pre-validation) parsing process.
 
 `@parsing.JsonStringify`
 
-> description : <br>
+> Description : <br>
 Add (the native) JSON.stringify function to the parsing function list.
 
-> example
+> Example :
 ```ts
 class RequestQs {    
     @parsing.JsonStringify
@@ -253,15 +261,15 @@ const { value } = cast(ImageData, {
 
 `@parsing.JsonParse`
 
-> description : <br>
+> Description : <br>
 Add (the native) JSON.parse function to the parsing function list.
 
-> example
+> Example :
 ```ts
 class ImageData {    
     @parsing.JsonParse
     @field.Array()
-    imageTensor: Array<Array<Array<number>>>;
+    imageTensor: Array<Array<number>>;
 }
 const { value } = cast(ImageData, { 
     imageTensor: "[[1,2],[2,3]]", 
