@@ -1,7 +1,8 @@
 
 
-import { FieldParsingDecoratorFactory } from './factory'
+import { FieldParsingDecoratorFactory } from './factory';
+import { functionsRepo } from './function-repo';
 
-export const jsonStringify = FieldParsingDecoratorFactory((value) => JSON.stringify(value));
+export const jsonStringify = FieldParsingDecoratorFactory(functionsRepo['json-stringify']);
 
-export const jsonParse = FieldParsingDecoratorFactory((value) => JSON.parse(value));
+export const jsonParse = FieldParsingDecoratorFactory(functionsRepo['json-parse']);
