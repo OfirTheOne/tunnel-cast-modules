@@ -5,7 +5,7 @@ import { cast } from '../../../lib/core/cast';
 
 
 
-describe("@field.String", function() {
+describe("Feature : @field.String", function() {
     class _TestClass01 {
         @field.String()
         someString: string;
