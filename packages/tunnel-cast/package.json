@@ -46,5 +46,14 @@
   "files": [
     "/**"
   ],
-  "keywords": []
+  "keywords": [
+    "object-to-model",
+    "cast",
+    "casting",
+    "validation",
+    "parsing",
+    "model",
+    "typescript",
+    "decorators"
+  ]
 }
