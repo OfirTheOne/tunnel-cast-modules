@@ -102,6 +102,18 @@ Extracting the value from the input object. using the origin attribute name of a
 2. [ **Existents stage** ]  <br>
 Evaluating "existents" status of the current input attribute, and checking the attribute value against the `required` (or `nullable`) requirement (from the provided options or the global default setting). 
 
+```ts 
+// simplified required-status evaluation.
+let requiredStatus;
+if(ops.required != null) {
+    requiredStatus = ops.required;
+} else if(ops.nullable != null) {
+    requiredStatus = !ops.nullable;
+} else {
+    requiredStatus = globalSetting.DEFAULT_REQUIRED; // can be configured
+}
+```
+
 <br>
 
 > If stage 2. fails - an is error thrown. <br>
@@ -135,7 +147,7 @@ a list of function (provided in the decorator options under the key `transformin
 ### **Decorators**
 
 
-### `@field.<TYPE>`
+#### `@field.<TYPE>`
 Define the field type.
 
 <br>
@@ -166,10 +178,10 @@ Defines an attribute as a `string` type, with additional requirements.
 > Example :
 ```ts
 class User {
-    @fields.string()
+    @field.String()
     id: string;
 
-    @fields.string({ format: /^ ... $/ })
+    @field.String({ format: /^ ... $/ })
     email: string;
 }
 ```
@@ -217,10 +229,10 @@ Defines an attribute as a `Model` type, with additional requirements.
 > Example :
 ```ts
 class User {
-    @fields.string()
+    @field.String()
     id: string;
 
-    @fields.string({ format: /^ ... $/ })
+    @field.String({ format: /^ ... $/ })
     email: string;
 }
 
@@ -232,7 +244,7 @@ class MyModel {
 <br>
 
 
-### `@parsing.<PARSER>`
+#### `@parsing.<PARSER>`
 Define (append to) the field's (pre-validation) parsing process.  
 
 <br>
@@ -246,6 +258,7 @@ Add (the native) JSON.stringify function to the parsing function list.
 ```ts
 class RequestQs {    
     @parsing.JsonStringify
+    @field.String()
     age_range: : string
 }
 const { value } = cast(ImageData, { 
@@ -287,11 +300,12 @@ const { value } = cast(ImageData, {
 
 
 <br>
+<br>
 
 
 ### **Models**
 
-### `interface BaseFieldOptions`
+`interface BaseFieldOptions`
 
 
 |Key |Type | Default | Description |
@@ -311,7 +325,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface NumberFieldOptions extends BaseFieldOptions`
+`interface NumberFieldOptions extends BaseFieldOptions`
 
 |Key |Type | Default | Description |
 |--- |---  |---      |---          |
@@ -320,7 +334,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface StringFieldOptions extends BaseFieldOptions`
+`interface StringFieldOptions extends BaseFieldOptions`
 
 
 |Key |Type | Default | Description |
@@ -330,7 +344,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface BooleanFieldOptions extends BaseFieldOptions`
+`interface BooleanFieldOptions extends BaseFieldOptions`
 
 |Key |Type | Default | Description |
 |--- |---  |---      |---          |
@@ -338,7 +352,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface ArrayFieldOptions extends BaseFieldOptions`
+`interface ArrayFieldOptions extends BaseFieldOptions`
 
 |Key |Type | Default | Description |
 |--- |---  |---      |---          |
@@ -349,7 +363,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface ModelFieldOptions extends BaseFieldOptions`
+`interface ModelFieldOptions extends BaseFieldOptions`
 
 |Key |Type | Default | Description |
 |--- |---  |---      |---          |
@@ -357,7 +371,7 @@ const { value } = cast(ImageData, {
 
 <br>
 
-### `interface ModelSpec` 
+`interface ModelSpec` 
 
 * Experimental 
 
@@ -370,8 +384,17 @@ const { value } = cast(ImageData, {
 | serialize   | `(space?: number): string` | -- | -- |
 
 
-
 <br>
+<br>
+
+### **Methods**
+
+`cast<T>(model: Class<T>, object: any): T`
+
+> Description : <br>
+
+> Example : <br>
+
 <br>
 <br>
 <br>

@@ -15,7 +15,7 @@
     "build-dev": "tsc -p tsconfig.json",
     "build-prod": "tsc -p tsconfig.prod.json",
     "start": "ts-node ./src/index.ts",
-    "test:osx": "mocha --require ts-node/register tests/**/*.test.ts tests/**/*.test.ts",
+    "test:osx": "mocha --require ts-node/register tests/**/*.test.ts tests/**/**/*.test.ts",
     "pack-script": "sh pack-publish-version-test.job.sh",
     "test": "NODE_ENV=testing&& npm run test:osx"
   },
