@@ -22,7 +22,7 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>): CastResolve<
             ...(def.handlerArgs||[])
         );
         const handlerResult = handler.handle(def.options);
-        if('error' in handlerResult) {
+        if('errors' in handlerResult) {
             errors.push(handlerResult)
             if(globals.STOP_ON_FIRST_FAIL) {
                 break;
