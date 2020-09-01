@@ -13,16 +13,20 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     public abstract nativeValidations:  NativeValidationDict<OP>
 
+    protected processedOptions: any;
+
     constructor(protected context: any, protected fieldName: string, protected projectedContext: any) { }
     
     public abstract typeCondition(value: any, options: BaseFieldOptions): boolean
 
     
+
     // - main driver
     public handle(options: OP) {
         let value;
         try {
             const ops  = this.processOption(options) as OP;
+            this.processedOptions = ops;
             value = this.extractValue(ops);
 
             const originValueExists = this.applyExistentRestriction(value);
@@ -167,13 +171,15 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
     }
 
     protected buildError(
-        error: Error,
+        errors: Error | Array<Error>,
         fieldName: string,
         value: any,
         options: BaseFieldOptions,
     ) {
+
+        errors = Array.isArray(errors) ? errors : [errors];
         return globals.DEBUG_ERROR ? 
-            { error, fieldName, options, value } :
-            { error }
+            { errors, fieldName, options, value } :
+            { errors }
     }
 }
