@@ -89,7 +89,14 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     // #region == apply in-house base logic
     protected extractValue(options: BaseFieldOptions): any {
-        const value = this.context[options.attribute];
+        let value = this.context[options.attribute];
+
+        if(options.fallbackAttribute) {
+            if(!this.applyExistentRestriction(value)) {
+                value = this.context[options.fallbackAttribute];
+            }
+        }
+
         return value;
     }
 
@@ -157,6 +164,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
         return {
             attribute: options.attribute || this.fieldName,
+            fallbackAttribute: options.fallbackAttribute,
             validate: options.validate,
             transformations: options.transformations || [],
             validations: options.validations || [],

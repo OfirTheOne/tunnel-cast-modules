@@ -10,6 +10,12 @@ export interface BaseFieldOptions extends FieldOptions {
      * default: same as the decorated attribute
      **/
     attribute?: string; 
+
+    /* 
+     * default: undefined
+     **/
+    fallbackAttribute?: string; 
+
     /* 
      * default: true
      **/
