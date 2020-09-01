@@ -55,9 +55,9 @@ class ServerResponse {
 }
 
 const { value, errors } = cast(ServerResponse, { 
-        apiVersion: '9', 
-        imageTensor: "[[1,2],[2,3]]", 
-        user: { email: 'user@examle.com' } 
+    apiVersion: '9', 
+    imageTensor: "[[1,2],[2,3]]", 
+    user: { email: 'user@examle.com' } 
 }); 
 
 
@@ -66,19 +66,78 @@ console.log(JSON.stringify({ value, errors }, undefined, 2))
 
 ```sh
 {
-  "value": {
-    "apiVersion": 9,
-    "imageTensor": [
-        [1, 2], [2, 3]
-    ],
-    "user": {
-      "email": "user@examle.com"
+    "value": {
+        "apiVersion": 9,
+        "imageTensor": [
+            [1, 2], [2, 3]
+        ],
+        "user": {
+            "email": "user@examle.com"
+        }
     }
-  }
 }
 ```
 
+```ts
+class User {
+    @field.String({
+        fallbackAttribute: "name"
+    })
+    username: string;
 
+    @field.String({
+        format: /.+@.+\.com/
+    })
+    email: string;
+
+    @field.Boolean({
+        required: false,
+        default: false
+    })
+    notificationOn: number;
+
+    @field.Array({
+        validations: [(value) => value.length > 2 && value[1].startsWith('Rocky')],
+        minLength: 1,
+        maxLength: 15,
+        ofType: 'string'
+    })
+    favorites: Array<string>
+
+    @field.String({
+        parsing: [(value) => (typeof value == 'string' ? value.toLowerCase() : value)],
+        enums: ['male', 'female'],
+    })
+    gender: string
+}
+
+const { value, errors } = cast(User, { 
+    name: "Bob",
+    email: "bob@gmail.com",
+    favorites: ["Rocky 1", "Rocky 2", "Rocky 3", "Rocky 4", "Rocky 5"],
+    gender: "MALE"
+}); 
+
+console.log(JSON.stringify({ value, errors }, undefined, 2))
+```
+
+```sh
+{
+    "value": {
+        "username": "Bob",
+        "email": "bob@gmail.com",
+        "notificationOn": false,
+        "favorites": [
+            "Rocky 1",
+            "Rocky 2",
+            "Rocky 3",
+            "Rocky 4",
+            "Rocky 5"
+        ],
+        "gender": "male"
+    }
+}
+```
 <br>
 
 
@@ -311,6 +370,7 @@ const { value } = cast(ImageData, {
 |Key |Type | Default | Description |
 |--- |---  |---      |---          |
 | `attribute`  | `string`  | <details>  same as the decorated attribute  </details> | <details> Mapping key  </details> |
+| `fallbackAttribute`  | `string`  | `undefined ` | <details> A fallback mapping key, if the value for [`attribute`] is `undefined` the value will be taken from  [`fallbackAttribute`]  </details> |
 | `validate`   | `boolean` | `true` | <details>  </details> |
 | `required`   | `boolean` | `true` | <details>  </details> |
 | `requiredIf` | `Function`| `undefined` | <details>  </details> |
