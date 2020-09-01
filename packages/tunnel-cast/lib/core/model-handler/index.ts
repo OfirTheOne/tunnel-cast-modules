@@ -30,7 +30,7 @@ export class ModelFieldHandler extends FieldHandler<ModelFieldOptions> {
         if('errors' in castValue) {
             throw castValue.errors
         } 
-        return super.runParsing(castValue, parsing)
+        return super.runParsing(castValue.value, parsing)
 
     }
 
