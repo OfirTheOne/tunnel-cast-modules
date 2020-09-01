@@ -9,7 +9,10 @@ import { modelSpec } from '../lib/core/model-spec'
 class User {
 
     @field.options.set('format', /^Bob.*$/)
-    @field.String({ required: false })
+    @field.String({ 
+        required: false,
+        attribute: "name"
+    })
     username: string;
 
     @field.String()
@@ -40,10 +43,10 @@ class ServerResponse {
 const { value, errors } = cast(ServerResponse, { 
         apiVersion: '9', 
         imageTensor: "[[1,2],[2,3]]", 
-        user: { email: 'user@examle.com', username: 'John' } 
+        user: { email: 'user@examle.com', username: 'John', name: "Bob" } 
 }); 
 
 
-// console.log(JSON.stringify({ value, errors }, undefined, 2))
-console.log(modelSpec(ServerResponse).serialize(2))
+console.log(JSON.stringify({ value, errors }, undefined, 2))
+// console.log(modelSpec(ServerResponse).serialize(2))
 
