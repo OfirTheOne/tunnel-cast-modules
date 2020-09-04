@@ -7,17 +7,27 @@ Object-To-Model library, lets the user construct a strict model definition using
 <br>
 
 ## Highlights
- * Embedding the input transform & validations logic process in the model class definitions using decorators. 
+ * Embedding an input processing logic & validation in the model class definitions using decorators. 
  * Supporting common types and your own Models as (nested) class attributes in your model class definition.
- * Proving an easy API to customize each stage in the process, parsing, validating and transforming.
+ * Providing an easy API to customize each stage in the process, parsing, validating and transforming.
  * Supporting Model class extending (eg. `class AdminModel extends UserModel ...`)
 
+<br>
 
 ## Install
 
 ```sh
 npm install tunnel-cast
 ```
+
+<br>
+
+## Test
+
+1. Clone the project repo.
+2. Move to project folder.
+3. Run `npm i`
+4. Run `npm run test`
 
 <br>
 
@@ -64,7 +74,8 @@ const { value, errors } = cast(ServerResponse, {
 console.log(JSON.stringify({ value, errors }, undefined, 2))
 ```
 
-```sh
+```ts
+// output :
 {
     "value": {
         "apiVersion": 9,
@@ -121,7 +132,8 @@ const { value, errors } = cast(User, {
 console.log(JSON.stringify({ value, errors }, undefined, 2))
 ```
 
-```sh
+```ts
+// output :
 {
     "value": {
         "username": "Bob",
@@ -138,16 +150,17 @@ console.log(JSON.stringify({ value, errors }, undefined, 2))
     }
 }
 ```
+
 <br>
 
 
 ## The general flow :
 
-Lets state some terms regarding the flow, 
+Lets define some terms regarding the flow; 
 
 * `casting` - The process of applying a model definitions on an object and trying to transform the object to the model instance.
 
-* `model`  /  `model definitions` - As a concept, a model is a collection of restrictions and conditions where a value that satisfied those can be referred to a model instance. <br>
+* `model`  /  `model definitions` - As a concept, a model is a collection of restrictions and conditions where a value that satisfied those, can be referred to as a model instance. <br>
 In practice a model would be a class declared with this module fields decorators and such.
 
 A process of casting (as this module implements) an object to a model (a class with decorated attributes), 
@@ -156,7 +169,21 @@ is done by iterating the model's decorated attributes, and one by one, trying to
 The "fit" action assembled from cupel of stages (executed in that order) : 
 
 1. [ **Extracting stage** ]  <br>
-Extracting the value from the input object. using the origin attribute name of a mapping key (provided in the decorator options).  
+Extracting the value from the input object. In one of three ways:
+* using the origin field name, in case `options.attribute` wasn't provided,  
+* using `options.attribute` has the field, in case it was provided.
+* using `options.fallbackAttribute` has the field, in case it was provided, and the value in the origin field name is not defined.
+
+```ts 
+// simplified value extraction.
+let value = input[ops.attribute || originFieldName];
+if(value == undefined && ops.fallbackAttribute) {
+    value = input[fallbackAttribute]   
+}
+
+```
+
+<br>
 
 2. [ **Existents stage** ]  <br>
 Evaluating "existents" status of the current input attribute, and checking the attribute value against the `required` (or `nullable`) requirement (from the provided options or the global default setting). 
@@ -175,29 +202,38 @@ if(ops.required != null) {
 
 <br>
 
-> If stage 2. fails - an is error thrown. <br>
-If stage 2. passes with an existing value - the process continue to the "parsing" stage. <br>
-If stage 2. passes with non existing value - the process continue to the "defaulting" stage.
+> If stage 2. fails - an error will be thrown. <br>
+If stage 2. passes with an existing value - the process will continue to the "parsing" stage. <br>
+If stage 2. passes with non existing value - the process will continue to the "defaulting" stage.
 
 <br>
 
 3. [ **Defaulting stage** ] <br>
 Assigning a default value, if one was provided in the decorator options. The default value will be assigned on projected output object. After this stage the "fit" action is done and the casting process will continue to the next model's attribute. 
 
+<br>
+
 4. [ **Parsing stage** ] <br>
 After stage 2., a list of function (provided in the decorator options under the key `parsing`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the original value.   
+
+<br>
 
 5. [ **Native Validation stage** ]  
 The native-validation are the type's "from the box" validations, e.g `min`, `max` from `Number` type.
 If all the native-validation (provided in the decorator options) passed the process continue to stage 6.
 
+<br>
+
 6. [ **Extra Validation stage** ]  
 a list of function (provided in the decorator options under the key `validation`), will run one after the other. If all the validation function return will true the process continue to stage 7.
+
+<br>
 
 7. [ **Transforming stage** ]  
 This stage acts just like `parsing` stage only after the entire validations requirements ended successfully. 
 a list of function (provided in the decorator options under the key `transforming`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the existing value from the last stage.  
 
+<br>
 <br>
 
 ## API Documentation
@@ -228,6 +264,7 @@ class MyModel {
 ```
 
 <br>
+<br>
 
 `@field.String(options?: StringFieldOptions) `
 
@@ -244,6 +281,8 @@ class User {
     email: string;
 }
 ```
+
+<br>
 <br>
 
 `@field.Boolean(options?: BooleanFieldOptions) `
@@ -261,6 +300,8 @@ class MyModel {
     myNumber: boolean;
 }
 ```
+
+<br>
 <br>
 
 `@field.Array(options?: ArrayFieldOptions) `
@@ -278,6 +319,8 @@ const { value } = cast(ImageData, {
     imageTensor: [ [1,2], [2,3] ], 
 }); 
 ```
+
+<br>
 <br>
 
 `@field.Model(options?: ModelFieldOptions) `
@@ -300,8 +343,9 @@ class MyModel {
     user: User;
 }
 ```
-<br>
 
+<br>
+<br>
 
 #### `@parsing.<PARSER>`
 Define (append to) the field's (pre-validation) parsing process.  
@@ -329,6 +373,7 @@ const { value } = cast(ImageData, {
 
 ```
 
+<br>
 <br>
 
 `@parsing.JsonParse`
@@ -360,9 +405,11 @@ const { value } = cast(ImageData, {
 
 <br>
 <br>
-
+<br>
 
 ### **Models**
+
+<br>
 
 `interface BaseFieldOptions`
 
@@ -384,6 +431,7 @@ const { value } = cast(ImageData, {
 
 
 <br>
+<br>
 
 `interface NumberFieldOptions extends BaseFieldOptions`
 
@@ -392,6 +440,7 @@ const { value } = cast(ImageData, {
 | `min`   | `number` | `undefined` | <details> Minimum value restriction.</details> |
 | `max`   | `number` | `undefined` | <details> Maximum value restriction. </details> |
 
+<br>
 <br>
 
 `interface StringFieldOptions extends BaseFieldOptions`
@@ -403,6 +452,7 @@ const { value } = cast(ImageData, {
 | `enums`   | `Array<string>` | `undefined` | <details>Group of valid of values restriction. </details> |
 
 <br>
+<br>
 
 `interface BooleanFieldOptions extends BaseFieldOptions`
 
@@ -410,6 +460,7 @@ const { value } = cast(ImageData, {
 |--- |---  |---      |---          |
 | --   | -- | -- | -- |
 
+<br>
 <br>
 
 `interface ArrayFieldOptions extends BaseFieldOptions`
@@ -422,6 +473,7 @@ const { value } = cast(ImageData, {
 | `allowType`   | any primitive type string | `undefined`| -- |
 
 <br>
+<br>
 
 `interface ModelFieldOptions extends BaseFieldOptions`
 
@@ -429,6 +481,7 @@ const { value } = cast(ImageData, {
 |--- |---  |---      |---          |
 | --   | -- | -- | -- |
 
+<br>
 <br>
 
 `interface ModelSpec` 
@@ -446,21 +499,49 @@ const { value } = cast(ImageData, {
 
 <br>
 <br>
+<br>
 
 ### **Methods**
 
-`cast<T>(model: Class<T>, object: any): T`
+`cast<T>(model: Class<T>, object: any): { value: T, errors: }`
 
 > Description : <br>
+Preform the casting process of a model on an object, it applies the model definitions on an object, and attempt to cast it to the model instance, in case of success the return value, will be an actual instance of the model class.
 
 > Example : <br>
+```ts
+class User {
+    @field.String({ 
+        fallbackAttribute: "email"
+    })
+    username: string;
 
+    @field.String()
+    email: string;
+
+    @field.Boolean({ required: false })
+    notificationOn: number;
+}
+
+const { value, errors } = cast(User, { 
+    email: 'john@examle.com', 
+    username: 'John', 
+}); 
+
+if(errors) {
+    throw Error('Invalid input.')
+}
+
+```
 <br>
 <br>
 <br>
 <br>
 
-## Future TODO - expect soon
+
+## TODO
+
+### Future TODO - expect soon
     * high level module documentation 
     * in detail API documentation 
         * each decorator & option
@@ -470,12 +551,12 @@ const { value } = cast(ImageData, {
     * create global key-value registration repository for parsing - transformations - validations.
 
 
-## Near Future Feature - expect sooner then later
+### Near Future Feature - expect sooner then later
     * add model-array decorator
         * with options of multiple model, where the list should be strict to single consist model or any of the provided.
 
 
-## Future Feather - expect later
+### Future Feather - expect later
 
     * add modelToJson / XML utility function, for serialization of the model definitions.
     * model doc generation tool / module/ plugin.
