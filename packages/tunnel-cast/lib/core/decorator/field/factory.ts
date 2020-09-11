@@ -1,4 +1,4 @@
-import { BaseFieldOptions } from "../../../model/field-options";
+import { BaseFieldOptions } from "../../../model/public/field-options";
 import { embedMetadata } from "../../model-metadata/embed-metadata";
 import { FieldHandler } from "../../field-handler/field-handler";
 import { FieldOptionProcessor } from "../../field-option-processor";

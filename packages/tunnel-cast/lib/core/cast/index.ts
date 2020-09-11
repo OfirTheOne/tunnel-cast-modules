@@ -2,7 +2,8 @@ import 'reflect-metadata';
 
 import { Class } from "../../utils/model";
 import { extractRootRepo } from '../model-metadata/extract-metadata'
-import { FieldEmbeddedData, CastResolve } from '../../model';
+import { CastResolve } from '../../model/public/cast-resolve';
+import { FieldEmbeddedData } from '../../model/inner/field-embedded-data';
 import { FieldHandler } from '../../core/field-handler/field-handler';
 import { globals } from "../../globals";
 

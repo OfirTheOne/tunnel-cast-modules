@@ -1,4 +1,4 @@
-import { BaseFieldOptions } from "../../lib/model/field-options";
+import { BaseFieldOptions } from "../public/field-options";
 
 
 

@@ -1,5 +1,5 @@
-import { ModelSpec } from "../../model/model-spec";
-import { FieldEmbeddedData } from "../../model/field-embedded-data";
+import { ModelSpec } from "../../model/public/model-spec";
+import { FieldEmbeddedData } from "../../model/inner/field-embedded-data";
 
 export function serialize(space?: number) {
     const specObject: ModelSpec = this;

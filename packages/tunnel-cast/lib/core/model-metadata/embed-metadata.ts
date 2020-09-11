@@ -1,7 +1,7 @@
 
 
 import { RootMetadataRepoKey } from './../../consts'
-import { FieldEmbeddedData } from './../../model/field-embedded-data';
+import { FieldEmbeddedData } from './../../model/inner/field-embedded-data';
 
 
 

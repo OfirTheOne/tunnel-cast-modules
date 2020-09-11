@@ -1,4 +1,4 @@
-import { BaseFieldOptions } from "../../../model/field-options";
+import { BaseFieldOptions } from "../../../model/public/field-options";
 import { getFieldDefinitionFromPrototype } from "../../model-metadata/extract-metadata";
 
 

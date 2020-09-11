@@ -1,4 +1,4 @@
-import { FieldEmbeddedData } from "./field-embedded-data";
+import { FieldEmbeddedData } from "../inner/field-embedded-data";
 
 export interface ModelSpec {
     globals?: { [key: string]: Array<FieldEmbeddedData> }; 

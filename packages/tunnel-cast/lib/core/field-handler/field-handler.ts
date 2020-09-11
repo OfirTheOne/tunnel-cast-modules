@@ -1,6 +1,6 @@
 import { BaseFieldOptions } from "../../model";
 import { globals } from "../../globals";
-import { NativeValidationDict, NativeValidationEntry } from "../../model/native-validation-dict";
+import { NativeValidationDict, NativeValidationEntry } from "../../model/inner/native-validation-dict";
 
 
 

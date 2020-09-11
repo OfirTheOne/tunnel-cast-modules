@@ -1,6 +1,6 @@
 import { NumberFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "lib/model/native-validation-dict";
+import { NativeValidationDict } from "../../model/inner/native-validation-dict";
 
 
 

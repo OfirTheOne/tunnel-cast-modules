@@ -1,6 +1,7 @@
 
-export { CastResolve } from './cast-resolve';
-export { CastError } from './cast-error';
-export * from './field-options';
-export * from './native-field-type';
-export * from './field-embedded-data';
+export { CastResolve } from './public/cast-resolve';
+export { CastError } from './public/cast-error';
+export * from './public/field-options';
+export * from './public/model-spec';
+// export * from './native-field-type';
+// export * from './public/field-embedded-data';

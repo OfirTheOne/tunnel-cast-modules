@@ -1,5 +1,5 @@
 
-import * as OPS from './../../model/field-options'
+import * as OPS from './../../model/public/field-options'
 import { globals } from '../../globals';
 
 export class FieldOptionProcessor<T extends OPS.BaseFieldOptions = OPS.BaseFieldOptions> {

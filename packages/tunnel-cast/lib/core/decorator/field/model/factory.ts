@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Class } from "../../../../utils/model";
-import { BaseFieldOptions } from "../../../../model/field-options";
+import { BaseFieldOptions } from "../../../../model/public/field-options";
 import { embedMetadata } from "../../../model-metadata/embed-metadata";
 import { ModelFieldHandler, FieldTypeId } from "../../../model-handler";
 import { extractRootRepo } from "../../../model-metadata/extract-metadata";

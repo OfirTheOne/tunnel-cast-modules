@@ -1,6 +1,6 @@
 import { BaseFieldOptions, ModelFieldOptions } from "../../model";
 import { FieldHandler } from "../field-handler";
-import { NativeValidationDict } from "../../model/native-validation-dict";
+import { NativeValidationDict } from "../../model/inner/native-validation-dict";
 import { Class } from "../../utils/model";
 import { cast } from '../cast'
 import { options } from "../decorator/field-option-setter";

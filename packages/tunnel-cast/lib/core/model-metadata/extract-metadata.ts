@@ -1,7 +1,7 @@
 import { RootMetadataRepoKey } from './../../consts'
 import { ModelMetadataRepoNotFoundError } from '../../error';
 import { Class } from '../../utils/model';
-import { FieldEmbeddedData } from '../../model';
+import { FieldEmbeddedData } from '../../model/inner/field-embedded-data';
 
 
 
