@@ -216,9 +216,9 @@ Assigning a default value, if one was provided in the decorator options. The def
 
 4. [ **Assertion stage** ] <br>
 Asserting the original field's value against a given type, it can be one of the following :
-* A string indication a primitive type (e.g `number`, `string` ...), assertion performed as `typeof input == ops.assert` 
-* A class indication a non primitive type (e.g `User`), assertion performed as `input instanceof ops.assert`
-* An array of one of the above, (e.g `[]`, `[number]`, `[User]` ... ).<br> The assertion acknowledge the first item in the assert array, and assert each item in the input array. <br> If the input is not an array the assertion fails, assert array with the value `[]` will allow any type of input array. 
+* A string indicating a primitive type (e.g `number`, `string` ...), assertion performed as `typeof input == ops.assert` 
+* A class indicating a non primitive type (e.g `User`), assertion performed as `input instanceof ops.assert`
+* An array of one of the above indication an array of that type, (e.g `[]`, `[number]`, `[User]` ... ).<br> The assertion acknowledge the first item in the assert array, and assert each item in the input array. <br> If the input is not an array the assertion fails, assert array with the value `[]` will allow any type of input array. 
 
 <br>
 
@@ -365,6 +365,39 @@ class MyModel {
 <br>
 <br>
 
+
+#### `@field.Assert(<TYPE>)`
+Define the original (untouched) attribute type.
+
+<br>
+
+`@field.Assert(type?: PrimitiveType | Class | [PrimitiveType] | [Class])`
+
+> Description : <br>
+Define the original (untouched) attribute type, an alternative for using `options.assert`.
+
+> Example :
+```ts
+class Result {    
+
+    @field.Assert(['string'])
+    @field.Array({ 
+        parsing: [(value) => value.map(s => Number(s))]
+        ofType: 'number',
+    })
+    age_range: : string
+}
+const { value } = cast(Result, { 
+    age_rage: ["13","30"], 
+}); 
+
+// value :  [13, 30]
+```
+
+<br>
+<br>
+
+
 #### `@parsing.<PARSER>`
 Define (append to) the field's (pre-validation) parsing process.  
 
@@ -382,12 +415,11 @@ class RequestQs {
     @field.String()
     age_range: : string
 }
-const { value } = cast(ImageData, { 
+const { value } = cast(RequestQs, { 
     age_rage: [13,30], 
 }); 
 
-// value :  "[[1,2],[2,3]]"
-
+// value :  "[13, 30]"
 
 ```
 
@@ -410,13 +442,7 @@ const { value } = cast(ImageData, {
     imageTensor: "[[1,2],[2,3]]", 
 }); 
 
-// value :  
-/*
-[ 
-    [1,2], 
-    [2,3] 
-]
-*/
+// value :  [ [1,2], [2,3] ]
 
 ```
 
@@ -436,6 +462,7 @@ const { value } = cast(ImageData, {
 |--- |---  |---      |---          |
 | `attribute`  | `string`  | <details>  same as the decorated attribute  </details> | <details> Mapping key  </details> |
 | `fallbackAttribute`  | `string`  | `undefined ` | <details> A fallback mapping key, if the value for [`attribute`] is `undefined` the value will be taken from  [`fallbackAttribute`]  </details> |
+| `assert`   | <details> `PrimitiveType | Class | [PrimitiveType] | [Class]` </details> | `undefined` | <details>  </details> |
 | `validate`   | `boolean` | `true` | <details>  </details> |
 | `required`   | `boolean` | `true` | <details>  </details> |
 | `requiredIf` | `Function`| `undefined` | <details>  </details> |
