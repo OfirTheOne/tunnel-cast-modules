@@ -213,23 +213,41 @@ Assigning a default value, if one was provided in the decorator options. The def
 
 <br>
 
-4. [ **Parsing stage** ] <br>
-After stage 2., a list of function (provided in the decorator options under the key `parsing`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the original value.   
+
+4. [ **Assertion stage** ] <br>
+Asserting the original field's value against a given type, it can be one of the following :
+* A string indication a primitive type (e.g `number`, `string` ...), assertion performed as `typeof input == ops.assert` 
+* A class indication a non primitive type (e.g `User`), assertion performed as `input instanceof ops.assert`
+* An array of one of the above, (e.g `[]`, `[number]`, `[User]` ... ).<br> The assertion acknowledge the first item in the assert array, and assert each item in the input array. <br> If the input is not an array the assertion fails, assert array with the value `[]` will allow any type of input array. 
 
 <br>
 
-5. [ **Native Validation stage** ]  
+
+> **Note :** Assertion stage allows you to create a first contact layer interface, giving you control over both sides of the tunnel, assert the original given input, and validate final casted value. 
+
+<br>
+
+
+5. [ **Parsing stage** ] <br>
+After stage 3., a list of function (provided in the decorator options under the key `parsing`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the original value.   
+
+<br>
+
+
+6. [ **Native Validation stage** ]  
 The native-validation are the type's "from the box" validations, e.g `min`, `max` from `Number` type.
 If all the native-validation (provided in the decorator options) passed the process continue to stage 6.
 
 <br>
 
-6. [ **Extra Validation stage** ]  
+
+7. [ **Extra Validation stage** ]  
 a list of function (provided in the decorator options under the key `validation`), will run one after the other. If all the validation function return will true the process continue to stage 7.
 
 <br>
 
-7. [ **Transforming stage** ]  
+
+8. [ **Transforming stage** ]  
 This stage acts just like `parsing` stage only after the entire validations requirements ended successfully. 
 a list of function (provided in the decorator options under the key `transforming`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the existing value from the last stage.  
 
