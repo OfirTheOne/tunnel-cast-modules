@@ -1,6 +1,7 @@
 # Tunnel Cast
 
 Object-To-Model library, lets the user construct a strict model definition using ES6 class and Typescript Decorators api, the model class will wrapped the parsing validation and transforming processes, just like a tunnel were in one side a raw object enters and exit in the other side after passes the "casting" process.   
+<br>
 
 ![casting process](/docs/casting-process-lean.png)
 
@@ -399,7 +400,8 @@ const { value } = cast(Result, {
 
 
 #### `@parsing.<PARSER>`
-Define (append to) the field's (pre-validation) parsing process.  
+Define (append to) the field's (pre-validation) parsing process. <br> 
+The `parsing` object is a collection of commonly used parsing functions, simply for reducing duplication.
 
 <br>
 
