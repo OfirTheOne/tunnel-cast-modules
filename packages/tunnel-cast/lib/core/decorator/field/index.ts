@@ -1,11 +1,13 @@
 
-import { number } from './number'
-import { string } from './string'
-import { boolean } from './boolean'
-import { array } from './array'
+import { 
+    number,
+    string,
+    boolean,
+    array
+} from './native-type'
 import { model } from './model'
-
 import { options } from './../field-option-setter'
+import { assert } from './assert';
 
 export const field = {
     Number: number,
@@ -14,5 +16,6 @@ export const field = {
     Array: array,
     Model: model,
     //
+    Assert: assert,
     options
 }
