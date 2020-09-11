@@ -12,6 +12,8 @@ export class FieldOptionProcessor<T extends OPS.BaseFieldOptions = OPS.BaseField
 
         return {
             attribute: options.attribute || fieldName,
+            fallbackAttribute: options.fallbackAttribute,
+            assert: options.assert,
             validate: options.validate,
             transformations: options.transformations || [],
             validations: options.validations || [],

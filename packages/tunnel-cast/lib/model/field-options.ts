@@ -16,6 +16,12 @@ export interface BaseFieldOptions extends FieldOptions {
      **/
     fallbackAttribute?: string; 
 
+    /**
+     * default: undefined
+     * assert the type of the incoming origin input.
+     */
+    assert?: (Class | PrimitiveType | Array<(Class | PrimitiveType)>)
+
     /* 
      * default: true
      **/

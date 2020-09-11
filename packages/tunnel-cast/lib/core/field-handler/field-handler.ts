@@ -39,6 +39,13 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
             let projectedValue;
             if (originValueExists) { // if exist
+                
+                // do assertion
+                if(!this.applyAssertion(value, ops)) {
+                    throw Error('type assertion failed!');
+                }
+
+
                 // do parsing
                 projectedValue = this.runParsing(value, ops.parsing as Array<Function>)
 
@@ -106,6 +113,42 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
             value != null
         )
     }
+
+    protected applyAssertion(value: any, options: OP) {
+        try {
+            const {assert} = options;
+            if(assert == undefined) {
+                return true;
+            } else {
+                if(Array.isArray(assert)) {
+                    if(!Array.isArray(value)) { // value not an array & and assert is an array --> false
+                        return false;
+                    } else if(assert.length == 0){ // value is an array & and assert is an empty array --> true
+                        return true;
+                    } else { // value is an array & and assert is an array of some type  --> true
+                        const [arrayAssert,] =  assert
+                        if(typeof arrayAssert == 'string') { // primitive type string
+                            return value.every(item => typeof item == arrayAssert) 
+                        } else { // assert is a class type
+                            return value.every(item => item instanceof arrayAssert) 
+                        }
+                    }
+                }  else { // assert is non array type  
+    
+                    if(typeof assert == 'string') { // primitive type string
+                        return typeof value == assert
+                    } else { // assert is a class type
+                        return value instanceof assert
+                    }
+                }
+            }
+        } catch (error) {
+            throw error; // TODO : add assert error;
+        }
+
+    }
+
+    
 
     protected applyNativeValidation(value: any, options: OP): boolean {
 

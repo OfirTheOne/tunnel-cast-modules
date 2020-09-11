@@ -10,6 +10,7 @@ class User {
 
     @field.options.set('format', /^Bob.*$/)
     @field.String({ 
+        assert: 'number',
         required: false,
         attribute: "name"
     })
