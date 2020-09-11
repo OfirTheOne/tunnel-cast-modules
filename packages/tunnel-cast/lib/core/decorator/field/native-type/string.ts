@@ -1,7 +1,7 @@
-import { StringFieldOptions } from "../../../model"
-import { FieldDefinitionDecoratorFactory } from "./factory"
-import { StringFieldHandler, FieldTypeId } from "../../field-handler/string-field-handler"
-import { StringFieldOptionProcessor } from "../../field-option-processor";
+import { StringFieldOptions } from "../../../../model"
+import { FieldDefinitionDecoratorFactory } from "./../factory"
+import { StringFieldHandler, FieldTypeId } from "../../../field-handler/string-field-handler"
+import { StringFieldOptionProcessor } from "../../../field-option-processor";
 
 
 export const string = (options?: StringFieldOptions) => {
