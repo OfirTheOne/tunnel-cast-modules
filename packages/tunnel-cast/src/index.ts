@@ -24,6 +24,8 @@ class User {
 }
 
 class ServerResponse {
+    
+    @field.Assert('string')
     @field.Number({ 
         min: 3,
         required: true,
