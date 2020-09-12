@@ -2,6 +2,7 @@ import { BaseFieldOptions } from "../../model";
 import { globals } from "../../globals";
 import { NativeValidationDict, NativeValidationEntry } from "../../model/inner/native-validation-dict";
 
+import { VerboseLevel } from '../../utils/logger'
 
 
 // define description field for api documentation
@@ -23,17 +24,23 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     // - main driver
     public handle(options: OP) {
+
+        const logger = globals['LOGGER'];
+
         let value;
         try {
-            const ops  = this.processOption(options) as OP;
+            const ops = this.processOption(options) as OP;
             this.processedOptions = ops;
             value = this.extractValue(ops);
 
             const originValueExists = this.applyExistentRestriction(value);
 
+            logger.log(`pass extraction stage`, VerboseLevel.High);
+
             if (!originValueExists && ops.required == true) {
                 throw Error('required failed!');
             }
+            logger.log(`pass required-valuation stage`, VerboseLevel.High);
 
             // here pass required or nullable
 
@@ -44,6 +51,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                 if(!this.applyAssertion(value, ops)) {
                     throw Error('type assertion failed!');
                 }
+                logger.log(`pass assertion stage`, VerboseLevel.High);
 
 
                 // do parsing
@@ -55,6 +63,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                 if (!this.typeCondition(projectedValue, ops)) {
                     throw Error('type validation failed!');
                 }
+                logger.log(`pass type-condition stage`, VerboseLevel.High);
 
                 // run validations
                 if (originValueExists) {
@@ -62,11 +71,14 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                     if (!nativeValidationPass) {
                         throw Error('native validations failed!');
                     }
+                    logger.log(`pass native-validations stage`, VerboseLevel.High);
 
                     const providedValidationPass = this.runValidations(projectedValue, ops.validations as Array<Function>)
                     if (!providedValidationPass) {
                         throw Error('provided validations failed!');
                     }
+                    logger.log(`pass extra-validations stage`, VerboseLevel.High);
+
                 }
 
                 // run transformations
@@ -75,10 +87,13 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
             } else { // if not exist
                 // apply default
                 projectedValue = ops.default
+                logger.log(`assign default value ${projectedValue}`, VerboseLevel.High);
+
             }
 
             this.projectedContext[this.fieldName] = projectedValue
 
+            logger.log(`assign default value ${projectedValue}`, VerboseLevel.High);
             return {
                 context: this.context,
                 projectedContext: this.projectedContext,
@@ -96,11 +111,15 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     // #region == apply in-house base logic
     protected extractValue(options: BaseFieldOptions): any {
+        const logger = globals['LOGGER'];
         let value = this.context[options.attribute];
 
         if(options.fallbackAttribute) {
             if(!this.applyExistentRestriction(value)) {
                 value = this.context[options.fallbackAttribute];
+                logger.log(`extract value using attribute ${options.fallbackAttribute}`, VerboseLevel.Medium)
+            } else {
+                logger.log(`extract value using attribute ${options.attribute}`, VerboseLevel.Medium)
             }
         }
 
