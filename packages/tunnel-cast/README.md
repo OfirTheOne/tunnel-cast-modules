@@ -230,20 +230,20 @@ Asserting the original field's value against a given type, it can be one of the 
 
 
 5. [ **Parsing stage** ] <br>
-After stage 3., a list of function (provided in the decorator options under the key `parsing`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the original value.   
+After stage 4, a list of function (provided in the decorator options under the key `parsing`), will run one after the other where the output of the last function will be provided as the input for the next, has the input for the first function will be the original value.   
 
 <br>
 
 
 6. [ **Native Validation stage** ]  
 The native-validation are the type's "from the box" validations, e.g `min`, `max` from `Number` type.
-If all the native-validation (provided in the decorator options) passed the process continue to stage 6.
+If all the native-validation (provided in the decorator options) passed the process continue to stage 7.
 
 <br>
 
 
 7. [ **Extra Validation stage** ]  
-a list of function (provided in the decorator options under the key `validation`), will run one after the other. If all the validation function return will true the process continue to stage 7.
+a list of function (provided in the decorator options under the key `validation`), will run one after the other. If all the validation function return will true the process continue to stage 8.
 
 <br>
 
@@ -582,30 +582,7 @@ if(errors) {
 ```
 <br>
 <br>
-<br>
-<br>
 
-
-## TODO
-
-### Future TODO - expect soon
-    * high level module documentation 
-    * in detail API documentation 
-        * each decorator & option
-        * custom user extension - for type-handle & options
-    * add @field.Infer decorator, for auto type inferring.
-    * reduce unnecessary nested structure on error object (error on nested model fields).
-    * create global key-value registration repository for parsing - transformations - validations.
-
-
-### Near Future Feature - expect sooner then later
-    * add model-array decorator
-        * with options of multiple model, where the list should be strict to single consist model or any of the provided.
-
-
-### Future Feather - expect later
-
-    * add modelToJson / XML utility function, for serialization of the model definitions.
-    * model doc generation tool / module/ plugin.
+### **Errors**
 
 
