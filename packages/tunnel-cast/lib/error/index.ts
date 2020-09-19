@@ -40,9 +40,9 @@ export class CastingError extends TunnelCastError {
 
 export class FieldRequiredError extends CastingError {
 
-    constructor(modelName: string) {
+    constructor(fieldName: string, modelName: string) {
         super(
-            `Metadata repository not found in "${modelName}."`,
+            `The field "${fieldName}" on the model "${modelName}" failed required validation.`,
             'FieldRequiredError'
         );
     }   
@@ -50,9 +50,10 @@ export class FieldRequiredError extends CastingError {
 
 export class AssertError extends CastingError {
 
-    constructor() {
+    constructor(fieldName: string, modelName: string, actualValue: any, expected: any) {
         super(
-            `Assertion failed."`,
+            `The field "${fieldName}" on the model "${modelName}" failed assertion.\n` +
+            `The value ${JSON.stringify(actualValue)} do not match the expects assertion ${JSON.stringify(expected)}.`,
             'AssertError'
         );
     }   
