@@ -3,6 +3,8 @@ import { globals } from "../../globals";
 import { NativeValidationDict, NativeValidationEntry } from "../../model/inner/native-validation-dict";
 
 import { VerboseLevel } from '../../utils/logger'
+import { FieldRequiredError, AssertError } from "../../error";
+import { Class } from "../../utils/model";
 
 
 // define description field for api documentation
@@ -16,11 +18,15 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     protected processedOptions: any;
 
-    constructor(protected context: any, protected fieldName: string, protected projectedContext: any) { }
-    
-    public abstract typeCondition(value: any, options: BaseFieldOptions): boolean
+    constructor(
+        protected context: any, 
+        protected fieldName: string, 
+        protected projectedContext: any,
+        protected parentModelRef: Class,
 
+    ) { }
     
+    public abstract typeCondition(value: any, options: BaseFieldOptions): boolean;   
 
     // - main driver
     public handle(options: OP) {
@@ -35,12 +41,19 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
             const originValueExists = this.applyExistentRestriction(value);
 
+            // == //
+            //#region - log
             logger.log(`pass extraction stage`, VerboseLevel.High);
+            //#endregion
 
             if (!originValueExists && ops.required == true) {
-                throw Error('required failed!');
+                throw new FieldRequiredError(this.fieldName, this.parentModelRef.name); //Error('required failed!');
             }
+
+            // == //
+            //#region - log
             logger.log(`pass required-valuation stage`, VerboseLevel.High);
+            //#endregion
 
             // here pass required or nullable
 
@@ -49,35 +62,54 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                 
                 // do assertion
                 if(!this.applyAssertion(value, ops)) {
-                    throw Error('type assertion failed!');
+                    throw new AssertError(this.fieldName, this.parentModelRef.name, value ,ops.assert) //Error('type assertion failed!');
                 }
-                logger.log(`pass assertion stage`, VerboseLevel.High);
 
+                // == //
+                //#region - log
+                logger.log(`pass assertion stage`, VerboseLevel.High);
+                //#endregion
 
                 // do parsing
                 projectedValue = this.runParsing(value, ops.parsing as Array<Function>)
-
-                // run native validations
+                
+                // == //
+                //#region - log
+                logger.log(`pass parsing stage`, VerboseLevel.High);
+                //#endregion
 
 
                 if (!this.typeCondition(projectedValue, ops)) {
                     throw Error('type validation failed!');
                 }
+
+                // == //
+                //#region - log
                 logger.log(`pass type-condition stage`, VerboseLevel.High);
+                //#endregion
 
                 // run validations
                 if (originValueExists) {
+                    // run native validations
                     const nativeValidationPass = this.applyNativeValidation(projectedValue, ops)
                     if (!nativeValidationPass) {
                         throw Error('native validations failed!');
                     }
+
+                    // == //
+                    //#region - log
                     logger.log(`pass native-validations stage`, VerboseLevel.High);
+                    //#endregion
 
                     const providedValidationPass = this.runValidations(projectedValue, ops.validations as Array<Function>)
                     if (!providedValidationPass) {
                         throw Error('provided validations failed!');
                     }
+
+                    // == //
+                    //#region - log
                     logger.log(`pass extra-validations stage`, VerboseLevel.High);
+                    //#endregion
 
                 }
 
@@ -86,14 +118,22 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
             } else { // if not exist
                 // apply default
-                projectedValue = ops.default
+                projectedValue = ops.default;
+                
+                // == //
+                //#region - log
                 logger.log(`assign default value ${projectedValue}`, VerboseLevel.High);
+                //#endregion
 
             }
 
-            this.projectedContext[this.fieldName] = projectedValue
+            this.projectedContext[this.fieldName] = projectedValue;
 
+            // == //
+            //#region - log
             logger.log(`assign default value ${projectedValue}`, VerboseLevel.High);
+            //#endregion
+
             return {
                 context: this.context,
                 projectedContext: this.projectedContext,

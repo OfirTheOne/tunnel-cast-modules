@@ -3,6 +3,7 @@ import { embedMetadata } from "../../model-metadata/embed-metadata";
 import { FieldHandler } from "../../field-handler/field-handler";
 import { FieldOptionProcessor } from "../../field-option-processor";
 
+import { Class } from '../../../utils/model'
 
 export function FieldDefinitionDecoratorFactory<
     FP extends BaseFieldOptions, 
@@ -10,7 +11,7 @@ export function FieldDefinitionDecoratorFactory<
     OP extends FieldOptionProcessor
 >(
     options: FP, 
-    handlerClass: new (...args: any[]) => HC, 
+    handlerClass: Class<HC>, 
     optionProcessor: OP,
     fieldTypeId: string,
     ...args: Array<any>

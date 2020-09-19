@@ -1,6 +1,7 @@
 import { BooleanFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { Class } from "../../utils/model";
 
 
 export const FieldTypeId = "BOOLEAN" 
@@ -11,8 +12,8 @@ export class BooleanFieldHandler extends FieldHandler<BooleanFieldOptions> {
     };
 
 
-    constructor(context: any, fieldName: string, projectedContext: any) { 
-        super(context, fieldName, projectedContext)
+    constructor(context: any, fieldName: string, projectedContext: any, parentModelRef: Class) { 
+        super(context, fieldName, projectedContext, parentModelRef)
     }
 
     typeCondition(value: any, options: BooleanFieldOptions): boolean {

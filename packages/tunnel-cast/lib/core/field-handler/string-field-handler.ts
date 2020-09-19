@@ -1,6 +1,7 @@
 import { StringFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { Class } from "../../utils/model";
 
 
 export const FieldTypeId = "STRING" 
@@ -19,8 +20,8 @@ export class StringFieldHandler extends FieldHandler<StringFieldOptions> {
     };
 
 
-    constructor(context: any, fieldName: string, projectedContext: any) { 
-        super(context, fieldName, projectedContext)
+    constructor(context: any, fieldName: string, projectedContext: any, parentModelRef: Class) { 
+        super(context, fieldName, projectedContext, parentModelRef)
     }
 
     typeCondition(value: any, options: StringFieldOptions): boolean {

@@ -1,6 +1,7 @@
 import { NumberFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { Class } from "../../utils/model";
 
 
 
@@ -20,8 +21,8 @@ export class NumberFieldHandler extends FieldHandler<NumberFieldOptions> {
     };
 
 
-    constructor(context: any, fieldName: string, projectedContext: any) { 
-        super(context, fieldName, projectedContext)
+    constructor(context: any, fieldName: string, projectedContext: any, parentModelRef: Class) { 
+        super(context, fieldName, projectedContext, parentModelRef)
     }
 
     typeCondition(value: any, options: NumberFieldOptions): boolean {

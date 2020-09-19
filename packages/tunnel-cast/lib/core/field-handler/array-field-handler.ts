@@ -1,6 +1,7 @@
 import { ArrayFieldOptions } from "../../model";
 import { FieldHandler } from "./field-handler";
 import { NativeValidationDict, NativeValidationEntry } from '../../model/inner/native-validation-dict'
+import { Class } from "../../utils/model";
 
 
 
@@ -30,8 +31,8 @@ export class ArrayFieldHandler extends FieldHandler<ArrayFieldOptions> {
     };
 
     
-    constructor(context: any, fieldName: string, projectedContext: any) { 
-        super(context, fieldName, projectedContext)
+    constructor(context: any, fieldName: string, projectedContext: any, parentModelRef: Class) { 
+        super(context, fieldName, projectedContext, parentModelRef)
     }
 
 
