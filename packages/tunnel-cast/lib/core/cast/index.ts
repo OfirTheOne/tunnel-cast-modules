@@ -15,22 +15,29 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>): CastResolve<
     const fieldDefinitions = getFieldDefinitions(repo).map(entry=> entry[0]);
     const projectedContext = {};
     const errors = [];
-
+    
+    //#region - log
     logger.log(`run cast on "${Model.name}" model, with ${fieldDefinitions.length} definitions`, VerboseLevel.Low);
+    //#endregion
 
     for(let def of fieldDefinitions) {
         const handler: FieldHandler = new def.fieldHandlerClass(
             target,
             def.fieldKey,
             projectedContext,
+            Model,
             ...(def.handlerArgs||[])
         );
 
+        //#region - log
         logger.log(`handling "${def.fieldKey}" field definition`, VerboseLevel.Medium);
-
+        //#endregion
+        
         const handlerResult = handler.handle(def.options);
         if('errors' in handlerResult) {
+            //#region - log
             logger.log(`error occurred on "${def.fieldKey}" field definition`, VerboseLevel.Medium);
+            //#endregion
 
             errors.push(handlerResult)
             if(globals.STOP_ON_FIRST_FAIL) {
