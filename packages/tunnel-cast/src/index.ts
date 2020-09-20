@@ -53,3 +53,28 @@ const { value, errors } = cast(ServerResponse, {
 console.log(JSON.stringify({ value, errors }, undefined, 2))
 // console.log(modelSpec(ServerResponse).serialize(2))
 
+namespace SomeSpecificApiRequestName {
+
+    class Body {
+        
+    }
+
+    class Headers {
+        
+    }
+
+    class Params {
+
+    }
+
+    class Query {
+        
+    }
+
+    class ApiRequest {
+        body: Body;
+        headers: Headers;
+        params: Params;
+        query: Query;
+    }
+}
