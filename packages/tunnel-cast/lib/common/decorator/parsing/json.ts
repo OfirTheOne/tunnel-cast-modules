@@ -1,8 +1,8 @@
 
 
-import { FieldParsingDecoratorFactory } from './factory';
+import { parsing } from './../field-options/option-wrapper';
 import { functionsRepo } from './function-repo';
 
-export const jsonStringify = FieldParsingDecoratorFactory(functionsRepo['json-stringify']);
+export const jsonStringify = parsing(functionsRepo['json-stringify']);
 
-export const jsonParse = FieldParsingDecoratorFactory(functionsRepo['json-parse']);
+export const jsonParse = parsing(functionsRepo['json-parse']);
