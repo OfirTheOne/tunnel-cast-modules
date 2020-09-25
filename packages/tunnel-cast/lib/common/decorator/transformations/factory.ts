@@ -2,7 +2,9 @@
 
 import { getFieldDefinitionFromPrototype } from "../../../internal/model-metadata/extract-metadata";
 
-
+/**
+ * @deprecated
+ */
 export function FieldTransformationsDecoratorFactory(transformations: Function) {
 
     return function(prototype: any, key: string) {

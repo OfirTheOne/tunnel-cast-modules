@@ -3,6 +3,9 @@
 import { getFieldDefinitionFromPrototype } from "../../../internal/model-metadata/extract-metadata";
 
 
+/**
+ * @deprecated
+ */
 export function FieldParsingDecoratorFactory(parser: Function) {
 
     return function(prototype: any, key: string) {
