@@ -1,6 +1,6 @@
 
-import { extractRootRepo } from './../model-metadata/extract-metadata';
-import { assignRootRepo } from './../model-metadata/embed-metadata';
+import { extractRootRepo } from './../../internal/model-metadata/extract-metadata';
+import { assignRootRepo } from '../../internal/model-metadata/embed-metadata';
 
 import { Class } from './../../utils/model';
 import { ModelSpec } from '../../model/public/model-spec';

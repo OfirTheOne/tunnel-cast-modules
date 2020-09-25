@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 
-import { field } from '../../../lib/core/decorator';
-import { cast } from '../../../lib/core/cast';
+import * as field from '../../../lib/common';
+import { AssertType } from '../../../lib/common';
+import { cast } from '../../../lib/common/cast';
 
 
 
-describe("Feature : @field.Assert", function() {
+describe("Feature : @Assert", function() {
     class _TestClass01 {
-        @field.Assert('number')
+        @AssertType('number')
         @field.String({
             parsing: [String]
         })
@@ -42,7 +43,7 @@ describe("Feature : @field.Assert", function() {
     })
 
     class _TestClass02 {
-        @field.Assert([])
+        @AssertType([])
         @field.String({
             parsing: [(value) => value.map(String).join(' ')]
         })

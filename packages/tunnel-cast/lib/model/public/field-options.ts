@@ -1,7 +1,7 @@
 
 
 import { PrimitiveType } from '../inner/primitive-type'
-import { Class } from 'lib/utils/model';
+import { Class } from '../../utils/model';
 
 export interface FieldOptions {}
 

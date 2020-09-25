@@ -6,7 +6,7 @@ import { Class } from '../../utils/model';
 export interface FieldEmbeddedData {
     fieldKey: string;
     options: BaseFieldOptions;
-    fieldTypeId: string;
+    fieldTypeId: string | symbol;
     handlerArgs?: Array<any>;
     fieldHandlerClass: Class<any>;
 }

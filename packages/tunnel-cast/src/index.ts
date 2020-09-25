@@ -2,31 +2,31 @@
 
 
 
-import { field, parsing } from '../lib/core/decorator'
-import { cast } from '../lib/core/cast'
+import { String, Boolean, Number, Array, Model, OptionSetter, AssertType, parsing } from '../lib/common';
+import { cast } from '../lib/common/cast'
 import { modelSpec } from '../lib/core/model-spec'
 
 class User {
 
-    @field.options.set('format', /^Bob.*$/)
-    @field.String({ 
+    @OptionSetter('format', /^Bob.*$/)
+    @String({ 
         assert: 'number',
         required: false,
         attribute: "name"
     })
     username: string;
 
-    @field.String()
+    @String()
     email: string;
 
-    @field.Boolean({ required: false })
+    @Boolean({ required: false })
     notificationOn: number;
 }
 
 class ServerResponse {
     
-    @field.Assert('string')
-    @field.Number({ 
+    @AssertType('string')
+    @Number({ 
         min: 3,
         required: true,
         parsing: [(val) => Number(val)]
@@ -35,11 +35,11 @@ class ServerResponse {
 
     
     @parsing.JsonParse
-    @field.Array()
+    @Array()
     imageTensor: Array<Array<number>>;
 
 
-    @field.Model()
+    @Model()
     user: User
 }
 
