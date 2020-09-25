@@ -25,11 +25,18 @@ export const _default = function(value) {
     return FieldOptionSetterDecoratorFactory('default', value);
 } 
 
-export const validations = function(value) {
-    return FieldOptionSetterDecoratorFactory('validations', value);
+
+export const parsing = function(value) {
+    return FieldOptionSetterDecoratorFactory('parsing', value, true);
 } 
 
+export const validations = function(value) {
+    return FieldOptionSetterDecoratorFactory('validations', value, true);
+} 
 
+export const transformations = function(value) {
+    return FieldOptionSetterDecoratorFactory('transformations', value, true);
+} 
 
 
 
