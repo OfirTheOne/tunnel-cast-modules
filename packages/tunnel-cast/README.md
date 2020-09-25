@@ -32,6 +32,17 @@ npm install tunnel-cast
 
 <br>
 
+
+
+## See Documentation
+
+* #### [The general flow of the `cast` process](/docs/general-flow.md) 
+* #### [API documentation](/docs/api-documentation/index.md)
+
+<br>
+
+
+
 ## Usage
 
 ```ts
@@ -156,15 +167,3 @@ console.log(JSON.stringify({ value, errors }, undefined, 2))
 
 
 
-<br>
-<br>
-
-
-
-
-## See Documentation
-
-* #### [Api Documentation](/docs/api-documentation/index.md)
-* #### [General Flow](/docs/general-flow.md)
-
- 
