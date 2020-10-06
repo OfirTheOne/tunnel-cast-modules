@@ -1,0 +1,19 @@
+{
+  "name": "nestjs-tunnel-cast",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Ofir Genish <ofir3322@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/nestjs-tunnel-cast.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
