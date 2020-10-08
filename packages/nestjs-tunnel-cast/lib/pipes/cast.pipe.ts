@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform, BadRequestException, UsePipes, mixin, Type, Inject } from '@nestjs/common';
-import { cast } from 'tunnel-cast/dist-prod/common/cast';
+import { cast } from 'tunnel-cast/lib/common/cast';
 import { CAST_METADATA_STORAGE } from '../constants';
 import { MetadataStorage } from '../storage';
 

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from '../constants';
 import { InvalidCastException } from './../errors';
 
-import { cast } from 'tunnel-cast/dist-prod/common'
+import { cast } from 'tunnel-cast/lib/common/cast';
 import { MetadataStorage } from '../storage';
 
 export function CastInterceptor(model: any, fieldKey: string): Type<NestInterceptor> {
