@@ -13,7 +13,8 @@
     "incremental": true
   },
   "include": [
-    "./lib/"
+    "lib/**/*",
+    "test/**/*"
   ]
 
 }
