@@ -1,6 +1,12 @@
 ## TODO
 
 
+### Important !
+
+* define error object structure 
+* add toJSON function toString 
+
+
 * Errors
     * cover cast handle function with error classes for each case
     * over decorator options where user pass some type string crate invalid input error
