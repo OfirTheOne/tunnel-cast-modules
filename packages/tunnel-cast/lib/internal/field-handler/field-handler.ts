@@ -1,9 +1,9 @@
-import { BaseFieldOptions } from "../../model";
+import { BaseFieldOptions } from "../../interfaces";
 import { globals } from "../../globals";
-import { NativeValidationDict, NativeValidationEntry } from "../../model/inner/native-validation-dict";
+import { NativeValidationDict, NativeValidationEntry } from "../../interfaces/inner/native-validation-dict";
 
 import { VerboseLevel } from '../../utils/logger'
-import { FieldRequiredError, AssertError } from "../../error";
+import { FieldRequiredError, AssertError, TypeValidationError, NativeValidationError, ProvidedValidationError } from "../../error";
 import { Class } from "../../utils/model";
 
 
@@ -80,20 +80,20 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
 
                 if (!this.typeCondition(projectedValue, ops)) {
-                    throw Error('type validation failed!');
+                    throw new TypeValidationError();
                 }
 
                 // == //
                 //#region - log
-                logger.log(`pass type-condition stage`, VerboseLevel.High);
+                logger.log(`pass type-validation stage`, VerboseLevel.High);
                 //#endregion
 
                 // run validations
                 if (originValueExists) {
                     // run native validations
-                    const nativeValidationPass = this.applyNativeValidation(projectedValue, ops)
-                    if (!nativeValidationPass) {
-                        throw Error('native validations failed!');
+                    let nativeValidationPass  = this.applyNativeValidation(projectedValue, ops);    
+                    if(Array.isArray(nativeValidationPass) && nativeValidationPass.length > 0) {
+                        throw new NativeValidationError(nativeValidationPass);
                     }
 
                     // == //
@@ -101,9 +101,15 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                     logger.log(`pass native-validations stage`, VerboseLevel.High);
                     //#endregion
 
-                    const providedValidationPass = this.runValidations(projectedValue, ops.validations as Array<Function>)
+
+                    let providedValidationPass: boolean;
+                    try {
+                        providedValidationPass = this.runValidations(projectedValue, ops.validations as Array<Function>)
+                    } catch (error) {
+                        throw new ProvidedValidationError(error)
+                    }
                     if (!providedValidationPass) {
-                        throw Error('provided validations failed!');
+                        throw new ProvidedValidationError(undefined)
                     }
 
                     // == //
@@ -209,21 +215,21 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     
 
-    protected applyNativeValidation(value: any, options: OP): boolean {
+    protected applyNativeValidation(value: any, options: OP): boolean | Array<{key: string, message: string}> {
 
         const validations = Object.keys(options)
             .map(key => ((key in this.nativeValidations) ? [key, this.nativeValidations[key]] : undefined)  as [keyof OP, NativeValidationEntry<OP>] )
             .filter(val => val != undefined ) ;
 
         const foundErrors = validations
-            .map(([key, validation]) => (!validation.condition(value, options[key], options)) ?  validation.message as string : undefined )
+            .map(([key, validation]) => (
+                !validation.condition(value, options[key], options)) ? 
+                    { message: validation.message as string, key : key as string } : 
+                    undefined 
+            )
             .filter(val => val != undefined ) ;
 
-        if(foundErrors.length > 0) {
-            throw foundErrors;
-        }
-
-        return true;
+        return (foundErrors.length > 0) ? foundErrors : true;
         
     }
     // #endregion

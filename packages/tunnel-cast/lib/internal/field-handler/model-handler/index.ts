@@ -1,14 +1,14 @@
 import { Class } from "../../../utils/model";
 import { FieldHandler } from "../field-handler";
-import { NativeValidationDict } from "../../../model/inner/native-validation-dict";
-import { BaseFieldOptions, ModelFieldOptions } from "../../../model";
+import { NativeValidationDict } from "../../../interfaces/inner/native-validation-dict";
+import { BaseFieldOptions, ModelFieldOptions } from "../../../interfaces";
 import { cast } from '../../../common/cast'
 import { TypeRegistry } from '../../type-registry'
 
 
 export const FieldTypeId = Symbol("MODEL")
 
-export class ModelFieldHandler extends FieldHandler<ModelFieldOptions> {
+export class ModelHandler extends FieldHandler<ModelFieldOptions> {
 
     nativeValidations: NativeValidationDict<ModelFieldOptions> = {
     };
@@ -56,8 +56,8 @@ export class ModelFieldHandler extends FieldHandler<ModelFieldOptions> {
 
 
 TypeRegistry
-    .fetch()
-    .register(FieldTypeId, ModelFieldHandler);
+    .getInstance()
+    .register(FieldTypeId, ModelHandler);
 
 
 

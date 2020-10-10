@@ -1,13 +1,10 @@
-import { ArrayFieldOptions } from "../../model";
-import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from '../../model/inner/native-validation-dict'
-import { Class } from "../../utils/model";
+import { ArrayFieldOptions } from "../../../interfaces";
+import { FieldHandler } from "../field-handler";
+import { NativeValidationDict } from '../../../interfaces/inner/native-validation-dict'
+import { Class } from "../../../utils/model";
 
-import { TypeRegistry } from '../type-registry'
 
-export const FieldTypeId = Symbol("ARRAY") 
-
-export class ArrayFieldHandler extends FieldHandler<ArrayFieldOptions> {
+export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
 
 
     nativeValidations : NativeValidationDict<ArrayFieldOptions> = {
@@ -44,9 +41,4 @@ export class ArrayFieldHandler extends FieldHandler<ArrayFieldOptions> {
         return { ...options, ...baseOptions }
     }
 }
-
-TypeRegistry
-    .fetch()
-    .register(FieldTypeId, ArrayFieldHandler);
-
 

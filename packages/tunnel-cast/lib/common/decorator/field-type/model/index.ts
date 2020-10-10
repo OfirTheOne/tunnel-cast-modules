@@ -1,5 +1,5 @@
 
-import { ModelFieldOptions } from "../../../../model"
+import { ModelFieldOptions } from "../../../../interfaces"
 import { FieldModelDecoratorFactory } from './factory';
 
 export const model = (options?: ModelFieldOptions) => {

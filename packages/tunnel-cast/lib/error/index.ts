@@ -1,15 +1,7 @@
 
 
-
-
-
-export class TunnelCastError  extends Error {
-
-    constructor(message: string, public code: string, description?: string) {
-        super(message);
-    }
-}
-
+import { ErrorCode } from './error-code.enum'
+import { TunnelCastError, CastingError, ErrorWrapper } from './super-class-error'
 
 
 export class ModelMetadataRepoNotFoundError extends TunnelCastError {
@@ -17,33 +9,19 @@ export class ModelMetadataRepoNotFoundError extends TunnelCastError {
     constructor(modelName: string) {
         super(
             `Metadata repository not found in "${modelName}."`,
-            `ModelMetadataRepoNotFoundError`,
+            ErrorCode.ModelMetadataRepoNotFoundError,
         );
     }   
 }
 
 
-
-export class CastingError extends TunnelCastError {
-
-    constructor(
-        message: string, 
-        code: string, 
-        context?: { modelName: string, fieldName: string, fieldOptions: any, parentRef: any}
-    ) {
-        super(
-            message,
-            code
-        );
-    }   
-}
 
 export class FieldRequiredError extends CastingError {
 
     constructor(fieldName: string, modelName: string) {
         super(
             `The field "${fieldName}" on the model "${modelName}" failed required validation.`,
-            'FieldRequiredError'
+            ErrorCode.FieldRequiredError
         );
     }   
 }
@@ -54,28 +32,48 @@ export class AssertError extends CastingError {
         super(
             `The field "${fieldName}" on the model "${modelName}" failed assertion.\n` +
             `The value ${JSON.stringify(actualValue)} do not match the expects assertion ${JSON.stringify(expected)}.`,
-            'AssertError'
+            ErrorCode.AssertError
         );
     }   
 }
 
 export class TypeConditionError extends CastingError {
 
-    constructor(modelName: string) {
+    constructor() {
         super(
-            `Type condition failed."`,
-            'TypeConditionError'
+            `Type condition failed.`,
+            ErrorCode.TypeConditionError
         );
     }   
 }
 
 export class TypeValidationError extends CastingError {
 
-    constructor(modelName: string) {
+    constructor() {
         super(
-            `Metadata repository not found in "${modelName}."`,
-            'TypeValidationError'
+            `Type validation failed.`,
+            ErrorCode.TypeValidationError
         );
     }   
 }
 
+export class NativeValidationError extends CastingError implements ErrorWrapper {
+
+    constructor(public originError: any) {
+        super(
+            `native validation failed.`,
+            ErrorCode.TypeValidationError
+        );
+    }
+}
+
+
+export class ProvidedValidationError extends CastingError implements ErrorWrapper {
+
+    constructor(public originError: any) {
+        super(
+            `provided validation failed.`,
+            ErrorCode.TypeValidationError
+        );
+    }
+}

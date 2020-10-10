@@ -1,13 +1,13 @@
-import { BooleanFieldOptions } from "../../model";
+import { BooleanFieldOptions } from "../../interfaces";
 import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { NativeValidationDict } from "../../interfaces/inner/native-validation-dict";
 import { Class } from "../../utils/model";
 
 import { TypeRegistry } from '../type-registry'
 
 export const FieldTypeId = Symbol("BOOLEAN") 
 
-export class BooleanFieldHandler extends FieldHandler<BooleanFieldOptions> {
+export class BooleanHandler extends FieldHandler<BooleanFieldOptions> {
 
     nativeValidations : NativeValidationDict<BooleanFieldOptions> = {
     };
@@ -28,8 +28,8 @@ export class BooleanFieldHandler extends FieldHandler<BooleanFieldOptions> {
 }
 
 TypeRegistry
-    .fetch()
-    .register(FieldTypeId, BooleanFieldHandler);
+    .getInstance()
+    .register(FieldTypeId, BooleanHandler);
 
 
 

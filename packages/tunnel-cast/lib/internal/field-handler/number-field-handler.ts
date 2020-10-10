@@ -1,13 +1,13 @@
-import { NumberFieldOptions } from "../../model";
+import { NumberFieldOptions } from "../../interfaces";
 import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { NativeValidationDict } from "../../interfaces/inner/native-validation-dict";
 import { Class } from "../../utils/model";
 
 import { TypeRegistry } from '../type-registry'
 
 export const FieldTypeId = Symbol("NUMBER") 
 
-export class NumberFieldHandler extends FieldHandler<NumberFieldOptions> {
+export class NumberHandler extends FieldHandler<NumberFieldOptions> {
 
     nativeValidations : NativeValidationDict<NumberFieldOptions> = {
         'max' : { 
@@ -37,8 +37,8 @@ export class NumberFieldHandler extends FieldHandler<NumberFieldOptions> {
 
 
 TypeRegistry
-    .fetch()
-    .register(FieldTypeId, NumberFieldHandler);
+    .getInstance()
+    .register(FieldTypeId, NumberHandler);
 
 
 

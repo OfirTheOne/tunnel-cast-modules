@@ -3,7 +3,7 @@ import { extractRootRepo } from './../../internal/model-metadata/extract-metadat
 import { assignRootRepo } from '../../internal/model-metadata/embed-metadata';
 
 import { Class } from './../../utils/model';
-import { ModelSpec } from '../../model/public/model-spec';
+import { ModelSpec } from '../../interfaces/public/model-spec';
 import { serialize } from './serialize'
 
 

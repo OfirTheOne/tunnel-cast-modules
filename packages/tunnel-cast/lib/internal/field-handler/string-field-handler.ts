@@ -1,13 +1,13 @@
 import { Class } from "../../utils/model";
-import { StringFieldOptions } from "../../model";
+import { StringFieldOptions } from "../../interfaces";
 import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "../../model/inner/native-validation-dict";
+import { NativeValidationDict } from "../../interfaces/inner/native-validation-dict";
 
 import { TypeRegistry } from '../type-registry'
 
 export const FieldTypeId = Symbol("STRING") 
 
-export class StringFieldHandler extends FieldHandler<StringFieldOptions> {
+export class StringHandler extends FieldHandler<StringFieldOptions> {
 
     nativeValidations : NativeValidationDict<StringFieldOptions> = {
         'format' : { 
@@ -37,8 +37,8 @@ export class StringFieldHandler extends FieldHandler<StringFieldOptions> {
 
 
 TypeRegistry
-    .fetch()
-    .register(FieldTypeId, StringFieldHandler);
+    .getInstance()
+    .register(FieldTypeId, StringHandler);
 
 
 

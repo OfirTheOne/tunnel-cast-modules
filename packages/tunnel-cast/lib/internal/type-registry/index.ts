@@ -9,7 +9,7 @@ export class TypeRegistry {
 
     protected registry: Map<string | symbol, Class<FieldHandler>> = new Map();
 
-    static fetch(): TypeRegistry {
+    static getInstance(): TypeRegistry {
         if(!TypeRegistry.instance) {
             TypeRegistry.instance = new TypeRegistry();
         }

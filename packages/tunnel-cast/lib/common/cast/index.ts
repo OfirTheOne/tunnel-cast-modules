@@ -11,11 +11,12 @@ import { VerboseLevel } from '../../utils/logger'
 import { TypeRegistry } from '../../internal/type-registry'
 import { extractRootRepo } from '../../internal/model-metadata/extract-metadata'
 
-import { CastResolve } from '../../model/public/cast-resolve';
-import { FieldEmbeddedData } from '../../model/inner/field-embedded-data';
+import { CastResolve } from '../../interfaces/public/cast-resolve';
+import { CastOptions } from '../../interfaces/public/cast-options';
+import { FieldEmbeddedData } from '../../interfaces/inner/field-embedded-data';
 
 
-export function cast<T>(Model: Class<T>, target: Record<any, any>): CastResolve<T> {
+export function cast<T>(Model: Class<T>, target: Record<any, any>, options? : CastOptions): CastResolve<T> {
 
     const logger = globals['LOGGER'];
     const repo: Map<string, Array<FieldEmbeddedData>> = extractRootRepo(Model)
@@ -23,12 +24,10 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>): CastResolve<
     const projectedContext = {};
     const errors = [];
     
-    //#region - log
     logger.log(`run cast on "${Model.name}" model, with ${fieldDefinitions.length} definitions`, VerboseLevel.Low);
-    //#endregion
 
     for(let def of fieldDefinitions) {
-        const fieldHandlerClass = TypeRegistry.fetch().get(def.fieldTypeId)
+        const fieldHandlerClass = TypeRegistry.getInstance().get(def.typeHandlerId)
         const handler: FieldHandler = new fieldHandlerClass(
             target,
             def.fieldKey,
@@ -37,15 +36,11 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>): CastResolve<
             ...(def.handlerArgs||[])
         );
 
-        //#region - log
         logger.log(`handling "${def.fieldKey}" field definition`, VerboseLevel.Medium);
-        //#endregion
         
         const handlerResult = handler.handle(def.options);
         if('errors' in handlerResult) {
-            //#region - log
             logger.log(`error occurred on "${def.fieldKey}" field definition`, VerboseLevel.Medium);
-            //#endregion
 
             errors.push(handlerResult)
             if(globals.STOP_ON_FIRST_FAIL) {
