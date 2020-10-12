@@ -1,10 +1,10 @@
-import { BaseFieldOptions } from "../../interfaces";
-import { globals } from "../../globals";
-import { NativeValidationDict, NativeValidationEntry } from "../../interfaces/inner/native-validation-dict";
+import { BaseFieldOptions } from "../../../interfaces";
+import { globals } from "../../../globals";
+import { NativeValidationDict, NativeValidationEntry } from "../../../interfaces/inner/native-validation-dict";
 
-import { VerboseLevel } from '../../utils/logger'
-import { FieldRequiredError, AssertError, TypeValidationError, NativeValidationError, ProvidedValidationError } from "../../error";
-import { Class } from "../../utils/model";
+import { VerboseLevel } from '../../../utils/logger'
+import { FieldRequiredError, AssertError, TypeConditionError, NativeValidationError, ProvidedValidationError } from "../../../error";
+import { Class } from "../../../utils/model";
 
 
 // define description field for api documentation
@@ -15,6 +15,7 @@ import { Class } from "../../utils/model";
 export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOptions> {
 
     public abstract nativeValidations:  NativeValidationDict<OP>
+    public abstract typeName: string;
 
     protected processedOptions: any;
 
@@ -80,7 +81,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
 
                 if (!this.typeCondition(projectedValue, ops)) {
-                    throw new TypeValidationError();
+                    throw new TypeConditionError(this.fieldName, this.parentModelRef.name, this.typeName);
                 }
 
                 // == //
