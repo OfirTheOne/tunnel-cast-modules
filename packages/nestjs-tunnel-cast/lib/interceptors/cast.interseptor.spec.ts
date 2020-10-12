@@ -1,13 +1,7 @@
 import { CallHandler, ExecutionContext } from '@nestjs/common';
-// import { HttpArgumentsHost } from '@nestjs/core/helpers/http-adapter-host';
-import { of } from 'rxjs';
-import * as sinon from 'sinon';
 import { CastQueryInterceptor } from './common-cast-interceptor';
 import { QueryTest01, QueryTest02 } from '../../test/assets/models'
 import { HttpArgumentsHost, NestInterceptor } from '@nestjs/common/interfaces';
-
-
-
 
 
 
@@ -41,55 +35,37 @@ describe('CastQueryInterceptor', () => {
             interceptor, 
             {
                 request: {
-                    query: { skip: 10, limit: 20, name: 'bob' }
+                    query: { skip: 10, limit: 'hello', name: 'bob' }
                 },
-                next: undefined
+                next: undefined,
+                error: [
+                    {
+                        fieldName:'limit',
+                        errors: [ { code: 4 } ]
+                    }
+                ]
             },
             {
                 request: {
                     query: { skip: 10, limit: 20, name: 'bob' }
                 },
-                next: undefined
+                next: undefined,
+                errorTransform: (e: Array<any>) => 
+                    e.map(({fieldName, errors}) => ({
+                        fieldName, 
+                        errors: errors.map(({code}) => ({code}))
+                    }))
             }
         );
     });
 
 });
-
-
-describe('CastQueryInterceptor', () => {
-    const interceptor = new (CastQueryInterceptor(QueryTest02))();
-
-    it('should be defined', () => {
-        expect(interceptor).toBeDefined();
-    });
-
-    it('should execute intercept and **pass** cast model', async () => {
-        await testInterceptor(
-            interceptor, 
-            {
-                request: {
-                    query: { skip: 10, limit: 20, name: 'bob' }
-                },
-                next: undefined
-            },
-            {
-                request: {
-                    query: { skip: 10, limit: 20, name: 'bob' }
-                },
-                next: undefined
-            }
-        );
-    });
-
-});
-
 
 
 async function testInterceptor(
     interceptor: NestInterceptor<any, any>, 
-    mock: {request: any, next: any}, 
-    expected: {request: any, next: any}
+    mock: {request: any, next: any, error?: any}, 
+    expected: {request: any, next: any, errorTransform?: (e:any) => any}
 ) {
     const executionContextHost: HttpArgumentsHost = {
         getRequest: jest.fn().mockReturnThis(),
@@ -107,11 +83,15 @@ async function testInterceptor(
 
     callHandler.handle.mockResolvedValueOnce(mock.next);
 
-    const actualValue = await interceptor.intercept(executionContext as ExecutionContext, callHandler);
+    try {
+        const actualValue = await interceptor.intercept(executionContext as ExecutionContext, callHandler);
+        expect(actualValue).toBe(mock.next);
+        expect(executionContext.switchToHttp().getRequest().query).toEqual(expected.request.query);
+        expect(callHandler.handle).toBeCalledTimes(1);
+    } catch (error) {
+        expect(expected?.errorTransform(error.response.originError) || error).toEqual(mock.error)
+    }
 
 
-    expect(actualValue).toBe(mock.next);
-    expect(executionContext.switchToHttp().getRequest().query).toEqual(expected.request.query);
-    expect(callHandler.handle).toBeCalledTimes(1);
 }
 
