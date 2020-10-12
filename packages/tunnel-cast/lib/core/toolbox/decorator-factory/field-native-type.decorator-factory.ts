@@ -1,5 +1,5 @@
 import { BaseFieldOptions } from "../../../interfaces/public/field-options";
-import { embedMetadata } from "../../../internal/model-metadata/embed-metadata";
+import { embedMetadata } from "../../internal/model-metadata/embed-metadata";
 import { FieldOptionProcessor } from "../field-option-processor";
 import { TypeRegistry } from '../../toolbox/type-registry'
 

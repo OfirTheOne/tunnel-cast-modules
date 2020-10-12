@@ -8,7 +8,7 @@ import { VerboseLevel } from '../../utils/logger'
 
 import { FieldHandler } from '../../core/toolbox/field-handler';
 import { TypeRegistry } from '../../core/toolbox/type-registry'
-import { extractRootRepo } from '../../internal/model-metadata/extract-metadata'
+import { extractRootRepo } from '../../core/internal/model-metadata/extract-metadata'
 
 import { CastResolve } from '../../interfaces/public/cast-resolve';
 import { CastOptions } from '../../interfaces/public/cast-options';

@@ -1,4 +1,4 @@
-import { getFieldDefinitionFromPrototype } from "../../../internal/model-metadata/extract-metadata";
+import { getFieldDefinitionFromPrototype } from "../../internal/model-metadata/extract-metadata";
 
 
 export function FieldOptionSetterDecoratorFactory(

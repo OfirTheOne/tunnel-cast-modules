@@ -2,8 +2,8 @@ import "reflect-metadata";
 import { Class } from "../../../utils/model";
 import { BaseFieldOptions } from "../../../interfaces/public/field-options";
 // import { FieldTypeId } from "../../../internal/field-handler/model-handler";
-import { embedMetadata } from "../../../internal/model-metadata/embed-metadata";
-import { extractRootRepo } from "../../../internal/model-metadata/extract-metadata";
+import { embedMetadata } from "../../internal/model-metadata/embed-metadata";
+import { extractRootRepo } from "../../internal/model-metadata/extract-metadata";
 // import { FieldOptionProcessor } from '../../../core/toolbox/field-option-processor'
 
 import { TypeRegistry } from '../type-registry'
