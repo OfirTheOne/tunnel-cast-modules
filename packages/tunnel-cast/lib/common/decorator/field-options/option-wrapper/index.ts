@@ -1,5 +1,5 @@
 
-import { FieldOptionSetterDecoratorFactory } from '../option-setter/factory'
+import { FieldOptionSetterDecoratorFactory } from './../../../../core/toolbox/decorator-factory/field-option-setter.decorator-factory'
 
 export const assert = function(value) {
     return FieldOptionSetterDecoratorFactory('assert', value);

@@ -1,13 +1,18 @@
-import { Class } from "../../utils/model";
-import { StringFieldOptions } from "../../interfaces";
-import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "../../interfaces/inner/native-validation-dict";
+import { FieldHandler } from "./../../../../../core/toolbox/field-handler";
+import { NativeValidationDict } from "../../../../../interfaces/inner/native-validation-dict";
+import { Class } from "../../../../../utils/model";
 
-import { TypeRegistry } from '../type-registry'
+import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
+import { StringFieldOptions } from "../../../../../interfaces";
+import { StringFieldOptionProcessor } from "./string.option-processor";
 
-export const FieldTypeId = Symbol("STRING") 
+
+export const TypeHandlerId = Symbol("STRING") 
+
+export const TypeName = 'string'
 
 export class StringHandler extends FieldHandler<StringFieldOptions> {
+    public typeName: string = TypeName;
 
     nativeValidations : NativeValidationDict<StringFieldOptions> = {
         'format' : { 
@@ -35,11 +40,11 @@ export class StringHandler extends FieldHandler<StringFieldOptions> {
     }
 }
 
-
 TypeRegistry
     .getInstance()
-    .register(FieldTypeId, StringHandler);
-
-
-
-
+    .register(TypeHandlerId, {
+        handlerClass: StringHandler,
+        optionsProcessor:  new StringFieldOptionProcessor(),
+        typeHandlerId: TypeHandlerId,
+        typeName: TypeName
+    });

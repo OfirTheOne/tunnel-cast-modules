@@ -1,11 +1,19 @@
-import { ArrayFieldOptions } from "../../../interfaces";
-import { FieldHandler } from "../field-handler";
-import { NativeValidationDict } from '../../../interfaces/inner/native-validation-dict'
-import { Class } from "../../../utils/model";
+import { FieldHandler } from "./../../../../../core/toolbox/field-handler";
+import { NativeValidationDict } from "../../../../../interfaces/inner/native-validation-dict";
+import { Class } from "../../../../../utils/model";
+
+import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
+import { ArrayFieldOptions } from "../../../../../interfaces";
+import { ArrayFieldOptionProcessor } from "./array.option-processor";
+
+
+export const TypeName = 'array'
+
+export const TypeHandlerId = Symbol("ARRAY") 
 
 
 export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
-
+    public typeName: string = TypeName
 
     nativeValidations : NativeValidationDict<ArrayFieldOptions> = {
         'maxLength' : { 
@@ -41,4 +49,14 @@ export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
         return { ...options, ...baseOptions }
     }
 }
+
+
+TypeRegistry
+    .getInstance()
+    .register(TypeHandlerId, {
+        handlerClass: ArrayHandler,
+        optionsProcessor:  new ArrayFieldOptionProcessor(),
+        typeHandlerId: TypeHandlerId,
+        typeName: TypeName
+    });
 

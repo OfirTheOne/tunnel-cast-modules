@@ -1,14 +1,16 @@
-import { Class } from "../../../utils/model";
-import { FieldHandler } from "../field-handler";
-import { NativeValidationDict } from "../../../interfaces/inner/native-validation-dict";
-import { BaseFieldOptions, ModelFieldOptions } from "../../../interfaces";
-import { cast } from '../../../common/cast'
-import { TypeRegistry } from '../../type-registry'
+import { Class } from "../../../../utils/model";
+import { NativeValidationDict } from "../../../../interfaces/inner/native-validation-dict";
+import { ModelFieldOptions } from "../../../../interfaces";
+import { FieldHandler } from "./../../../../core/toolbox/field-handler";
+import { TypeRegistry } from '../../../../core/toolbox/type-registry'
+import { cast } from '../../../../common/cast'
+import { ModelFieldOptionProcessor } from "./model.option-processor";
 
 
-export const FieldTypeId = Symbol("MODEL")
+export const TypeHandlerId = Symbol("MODEL")
 
 export class ModelHandler extends FieldHandler<ModelFieldOptions> {
+    public typeName: string;
 
     nativeValidations: NativeValidationDict<ModelFieldOptions> = {
     };
@@ -21,7 +23,8 @@ export class ModelHandler extends FieldHandler<ModelFieldOptions> {
         modelParentRef: Class,
         protected modelClass: Class
     ) {
-        super(context, fieldName, projectedContext, modelParentRef)
+        super(context, fieldName, projectedContext, modelParentRef);
+        this.typeName = this.modelClass.name;
     }
 
     // protected extractValue(options: ModelFieldOptions) {
@@ -57,7 +60,12 @@ export class ModelHandler extends FieldHandler<ModelFieldOptions> {
 
 TypeRegistry
     .getInstance()
-    .register(FieldTypeId, ModelHandler);
+    .register(TypeHandlerId, {
+        handlerClass: ModelHandler,
+        optionsProcessor:  new ModelFieldOptionProcessor(),
+        typeHandlerId: TypeHandlerId,
+        typeName: undefined
+    });
 
 
 

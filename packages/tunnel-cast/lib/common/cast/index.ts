@@ -1,14 +1,13 @@
 import 'reflect-metadata';
 
-import '../../internal/field-handler'; // register all field handler
 
 import { Class } from "../../utils/model";
 
-import { FieldHandler } from '../../internal/field-handler';
 import { globals } from "../../globals";
 import { VerboseLevel } from '../../utils/logger'
 
-import { TypeRegistry } from '../../internal/type-registry'
+import { FieldHandler } from '../../core/toolbox/field-handler';
+import { TypeRegistry } from '../../core/toolbox/type-registry'
 import { extractRootRepo } from '../../internal/model-metadata/extract-metadata'
 
 import { CastResolve } from '../../interfaces/public/cast-resolve';
@@ -27,8 +26,8 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>, options? : Ca
     logger.log(`run cast on "${Model.name}" model, with ${fieldDefinitions.length} definitions`, VerboseLevel.Low);
 
     for(let def of fieldDefinitions) {
-        const fieldHandlerClass = TypeRegistry.getInstance().get(def.typeHandlerId)
-        const handler: FieldHandler = new fieldHandlerClass(
+        const typeProvider = TypeRegistry.getInstance().get(def.typeHandlerId)
+        const handler: FieldHandler = new typeProvider.handlerClass(
             target,
             def.fieldKey,
             projectedContext,

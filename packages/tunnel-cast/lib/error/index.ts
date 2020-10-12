@@ -20,8 +20,9 @@ export class FieldRequiredError extends CastingError {
 
     constructor(fieldName: string, modelName: string) {
         super(
-            `The field "${fieldName}" on the model "${modelName}" failed required validation.`,
-            ErrorCode.FieldRequiredError
+            'required validation failed.',
+            ErrorCode.FieldRequiredError,
+            `The field "${fieldName}" on model "${modelName}" failed required validation.`,
         );
     }   
 }
@@ -30,29 +31,21 @@ export class AssertError extends CastingError {
 
     constructor(fieldName: string, modelName: string, actualValue: any, expected: any) {
         super(
-            `The field "${fieldName}" on the model "${modelName}" failed assertion.\n` +
+            'assertion failed.',
+            ErrorCode.AssertError,
+            `The field "${fieldName}" on model "${modelName}" failed assertion.\n` +
             `The value ${JSON.stringify(actualValue)} do not match the expects assertion ${JSON.stringify(expected)}.`,
-            ErrorCode.AssertError
         );
     }   
 }
 
 export class TypeConditionError extends CastingError {
 
-    constructor() {
+    constructor(fieldName: string, modelName: string, typeName: string)  {
         super(
-            `Type condition failed.`,
-            ErrorCode.TypeConditionError
-        );
-    }   
-}
-
-export class TypeValidationError extends CastingError {
-
-    constructor() {
-        super(
-            `Type validation failed.`,
-            ErrorCode.TypeValidationError
+            `type condition failed.`,
+            ErrorCode.TypeConditionError,
+            `The field '${fieldName}' on model '${modelName}' failed type condition of ${typeName}.`
         );
     }   
 }
@@ -62,18 +55,33 @@ export class NativeValidationError extends CastingError implements ErrorWrapper 
     constructor(public originError: any) {
         super(
             `native validation failed.`,
-            ErrorCode.TypeValidationError
+            ErrorCode.TypeValidationError,
+            ''
         );
     }
-}
 
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            originError: this.originError
+        }
+    }
+}
 
 export class ProvidedValidationError extends CastingError implements ErrorWrapper {
 
     constructor(public originError: any) {
         super(
             `provided validation failed.`,
-            ErrorCode.TypeValidationError
+            ErrorCode.TypeValidationError,
+            ''
         );
+    }
+
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            originError: this.originError
+        }
     }
 }

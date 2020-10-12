@@ -1,13 +1,18 @@
-import { NumberFieldOptions } from "../../interfaces";
-import { FieldHandler } from "./field-handler";
-import { NativeValidationDict } from "../../interfaces/inner/native-validation-dict";
-import { Class } from "../../utils/model";
 
-import { TypeRegistry } from '../type-registry'
+import { FieldHandler } from '../../../../../core/toolbox/field-handler';
+import { NativeValidationDict } from '../../../../../interfaces/inner/native-validation-dict';
+import { NumberFieldOptions } from '../../../../../interfaces/public/field-options';
+import { Class } from '../../../../../utils/model';
+import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
+import { NumberFieldOptionProcessor } from './number.option-processor';
 
-export const FieldTypeId = Symbol("NUMBER") 
+export const TypeHandlerId = Symbol("NUMBER") 
+
+export const TypeName = 'number';
+
 
 export class NumberHandler extends FieldHandler<NumberFieldOptions> {
+    public typeName: string = TypeName;
 
     nativeValidations : NativeValidationDict<NumberFieldOptions> = {
         'max' : { 
@@ -38,7 +43,12 @@ export class NumberHandler extends FieldHandler<NumberFieldOptions> {
 
 TypeRegistry
     .getInstance()
-    .register(FieldTypeId, NumberHandler);
+    .register(TypeHandlerId, {
+        handlerClass: NumberHandler,
+        optionsProcessor:  new NumberFieldOptionProcessor(),
+        typeHandlerId: TypeHandlerId,
+        typeName: TypeName
+    });
 
 
 
