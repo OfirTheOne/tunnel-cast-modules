@@ -3,13 +3,9 @@ import { embedMetadata } from "../../internal/model-metadata/embed-metadata";
 import { FieldOptionProcessor } from "../field-option-processor";
 import { TypeRegistry } from '../../toolbox/type-registry'
 
-export function FieldNativeTypeDecoratorFactory<
-    FP extends BaseFieldOptions, 
->(
-    options: FP, 
-    typeHandlerId: string|symbol,
-    ...args: Array<any>
-) {
+export function FieldNativeTypeDecoratorFactory<FP extends BaseFieldOptions>( 
+    options: FP,  typeHandlerId: string|symbol, ...args: Array<any>
+): PropertyDecorator {
     return function(prototype: any, key: string) {
         const optionProcessor: FieldOptionProcessor = TypeRegistry.getInstance().get(typeHandlerId).optionsProcessor
         const processedOption = optionProcessor.process(options, key);

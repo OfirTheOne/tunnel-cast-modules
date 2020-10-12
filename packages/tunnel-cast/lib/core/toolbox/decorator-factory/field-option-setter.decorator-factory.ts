@@ -1,11 +1,7 @@
 import { getFieldDefinitionFromPrototype } from "../../internal/model-metadata/extract-metadata";
 
 
-export function FieldOptionSetterDecoratorFactory(
-    optionKey: string, 
-    value: any,
-    handlerAsArray: boolean = false
-) {
+export function FieldOptionSetterDecoratorFactory(optionKey: string, value: any, handlerAsArray: boolean = false): PropertyDecorator {
     return function(prototype: any, key: string) {
         const embedData = getFieldDefinitionFromPrototype(prototype, key);
         

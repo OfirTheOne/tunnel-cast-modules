@@ -8,15 +8,10 @@ import { extractRootRepo } from "../../internal/model-metadata/extract-metadata"
 
 import { TypeRegistry } from '../type-registry'
 
-export function FieldModelTypeDecoratorFactory<T>(typeHandlerId: string | symbol ,options?: BaseFieldOptions, model?: Class) {
-    return function <T>(
-        prototype: any,   
-        key: string
-    ) {
+export function FieldModelTypeDecoratorFactory<T>(typeHandlerId: string | symbol ,options?: BaseFieldOptions, model?: Class): PropertyDecorator {
+    return function <T>(prototype: any, key: string) {
         TypeRegistry.getInstance().get(typeHandlerId).optionsProcessor
-
         let type = model ? model : Reflect.getMetadata("design:type", prototype, key);
-
         const repo = extractRootRepo(type) // will throw if not a valid model
 
         const processedOptions = TypeRegistry.getInstance().get(typeHandlerId).optionsProcessor.process(options||{}, key)
