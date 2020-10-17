@@ -3,8 +3,6 @@ import { FieldHandler } from '../../../../../core/toolbox/field-handler';
 import { NativeValidationDict } from '../../../../../interfaces/inner/native-validation-dict';
 import { NumberFieldOptions } from '../../../../../interfaces/public/field-options';
 import { Class } from '../../../../../utils/model';
-import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
-import { NumberFieldOptionProcessor } from './number.option-processor';
 
 export const TypeHandlerId = Symbol("NUMBER") 
 
@@ -39,18 +37,6 @@ export class NumberHandler extends FieldHandler<NumberFieldOptions> {
         return { ...options, ...baseOptions }
     }
 }
-
-
-TypeRegistry
-    .getInstance()
-    .register(TypeHandlerId, {
-        handlerClass: NumberHandler,
-        optionsProcessor:  new NumberFieldOptionProcessor(),
-        typeHandlerId: TypeHandlerId,
-        typeName: TypeName
-    });
-
-
 
 
 

@@ -2,9 +2,7 @@ import { FieldHandler } from "./../../../../../core/toolbox/field-handler";
 import { NativeValidationDict } from "../../../../../interfaces/inner/native-validation-dict";
 import { Class } from "../../../../../utils/model";
 
-import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
 import { StringFieldOptions } from "../../../../../interfaces";
-import { StringFieldOptionProcessor } from "./string.option-processor";
 
 
 export const TypeHandlerId = Symbol("STRING") 
@@ -40,11 +38,3 @@ export class StringHandler extends FieldHandler<StringFieldOptions> {
     }
 }
 
-TypeRegistry
-    .getInstance()
-    .register(TypeHandlerId, {
-        handlerClass: StringHandler,
-        optionsProcessor:  new StringFieldOptionProcessor(),
-        typeHandlerId: TypeHandlerId,
-        typeName: TypeName
-    });

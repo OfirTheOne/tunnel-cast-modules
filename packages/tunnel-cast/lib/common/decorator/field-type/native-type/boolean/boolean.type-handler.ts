@@ -3,10 +3,7 @@ import { FieldHandler } from "./../../../../../core/toolbox/field-handler";
 import { NativeValidationDict } from "../../../../../interfaces/inner/native-validation-dict";
 import { Class } from "../../../../../utils/model";
 
-import { TypeRegistry } from '../../../../../core/toolbox/type-registry'
-import { BooleanFieldOptionProcessor } from "./boolean.option-processor";
-
-export const FieldTypeId = Symbol("BOOLEAN") 
+export const TypeHandlerId = Symbol("BOOLEAN") 
 
 export const TypeName = 'boolean'
 
@@ -32,16 +29,6 @@ export class BooleanHandler extends FieldHandler<BooleanFieldOptions> {
     }
 }
 
-
-
-TypeRegistry
-    .getInstance()
-    .register(FieldTypeId, {
-        handlerClass: BooleanHandler,
-        optionsProcessor:  new BooleanFieldOptionProcessor(),
-        typeHandlerId: FieldTypeId,
-        typeName: TypeName
-    });
 
 
 

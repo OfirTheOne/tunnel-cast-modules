@@ -58,14 +58,5 @@ export class ModelHandler extends FieldHandler<ModelFieldOptions> {
 }
 
 
-TypeRegistry
-    .getInstance()
-    .register(TypeHandlerId, {
-        handlerClass: ModelHandler,
-        optionsProcessor:  new ModelFieldOptionProcessor(),
-        typeHandlerId: TypeHandlerId,
-        typeName: undefined
-    });
-
 
 
