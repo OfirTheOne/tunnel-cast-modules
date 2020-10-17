@@ -17,15 +17,16 @@ export class TypeRegistry {
     }
 
     public register(type: string | symbol, provider: RegisteredTypeProvider) {
-        this.registry.set(type, provider);
+        this.registry.set(typeof type == 'symbol' ? String(type) : type, provider);
     }
 
     public get(key: string | symbol) {
+        const keyAsString = typeof key == 'symbol' ? String(key) : key;
         try {
-            if(this.registry.has(key)) {
-                return this.registry.get(key)
+            if(this.registry.has(keyAsString)) {
+                return this.registry.get(keyAsString)
             } 
-            throw Error(`Provider for identifier ${key.toString()} was not register.`)
+            throw Error(`Provider for identifier ${keyAsString} was not register.`)
         } catch (error) {
             throw error;
         }
