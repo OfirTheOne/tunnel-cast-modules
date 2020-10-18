@@ -3,11 +3,17 @@ import { CastQueryInterceptor } from './common-cast-interceptor';
 import { QueryTest01, QueryTest02 } from '../../test/assets/models'
 import { HttpArgumentsHost, NestInterceptor } from '@nestjs/common/interfaces';
 
-
+import { defaultOptions } from './../cast-module-default-options'
+import { MetadataStorage } from '../storage';
 
 describe('CastQueryInterceptor', () => {
     const interceptor = new (CastQueryInterceptor(QueryTest01))();
 
+    beforeEach(() => {
+        interceptor['storage'] = new MetadataStorage();
+        interceptor['options'] = defaultOptions;
+    })
+    
     it('should be defined', () => {
         expect(interceptor).toBeDefined();
     });
@@ -50,17 +56,26 @@ describe('CastQueryInterceptor', () => {
                     query: { skip: 10, limit: 20, name: 'bob' }
                 },
                 next: undefined,
-                errorTransform: (e: Array<any>) => 
-                    e.map(({fieldName, errors}) => ({
-                        fieldName, 
-                        errors: errors.map(({code}) => ({code}))
-                    }))
+                errorTransform: undefined
             }
         );
     });
 
 });
 
+function projectLeanErrors(errors: Array<any>) {
+    
+    if(errors?.every(e => e.code != undefined)) {
+        return errors.map(({code}) => ({code}));
+    } else if(errors?.every(e => e.fieldName != undefined)) {
+        return errors.map(e => {
+            return {
+                fieldName: e.fieldName, 
+                errors: projectLeanErrors(e.errors)
+            }
+        })
+    }
+}
 
 async function testInterceptor(
     interceptor: NestInterceptor<any, any>, 
@@ -89,7 +104,7 @@ async function testInterceptor(
         expect(executionContext.switchToHttp().getRequest().query).toEqual(expected.request.query);
         expect(callHandler.handle).toBeCalledTimes(1);
     } catch (error) {
-        expect(expected?.errorTransform(error.response.originError) || error).toEqual(mock.error)
+        expect(error.originError).toEqual(mock.error)
     }
 
 
