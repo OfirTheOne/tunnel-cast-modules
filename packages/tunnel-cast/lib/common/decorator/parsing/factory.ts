@@ -1,6 +1,6 @@
 
 
-import { getFieldDefinitionFromPrototype } from "../../../internal/model-metadata/extract-metadata";
+import { getFieldDefinitionFromPrototype } from "../../../core/internal/model-metadata/extract-metadata";
 
 
 /**
