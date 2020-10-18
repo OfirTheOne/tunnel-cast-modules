@@ -1,10 +1,8 @@
 
-import { 
-    number,
-    string,
-    boolean,
-    array
-} from './native-type';
+import { number } from './native-type/number';
+import { string } from './native-type/string';
+import { boolean } from './native-type/boolean';
+import { array } from './native-type/array';
 import { model } from './model';
 
 
