@@ -1,4 +1,4 @@
-import { Number, String } from 'tunnel-cast/lib/common' 
+import { Number, String } from 'tunnel-cast/dist/lib/common' 
 
 
 export class QueryTest01 {
