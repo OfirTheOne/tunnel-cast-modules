@@ -12,7 +12,7 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "build": "npm tu build:dev",
+    "build": "npm run build:dev",
     "build:dev": "tsc -p tsconfig.json",
     "build:prod": "tsc -p tsconfig.prod.json",
     "start": "ts-node ./src/index.ts",
