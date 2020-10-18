@@ -1,14 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class InvalidCastException extends HttpException {
-  constructor(fieldName: string, error: any) {
+  public originError: any;
+  constructor(error: any) {
     super(
-      {
-        message: 'Invalid',
-        description: `Casting of ${fieldName} failed.`,
-        originError: error
-      },
+      JSON.stringify(error, undefined, 2),
       HttpStatus.BAD_REQUEST
     );
+    this.originError = error;
   }
 } 
