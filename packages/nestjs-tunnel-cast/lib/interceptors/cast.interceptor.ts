@@ -12,15 +12,16 @@ import { Observable } from 'rxjs';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from '../constants';
 import { InvalidCastException } from './../errors';
 
-import { cast } from 'tunnel-cast/lib/common/cast';
+import { cast } from 'tunnel-cast/dist/lib/common/cast';
 import { MetadataStorage } from '../storage';
+import { CastModuleOptions } from '../interfaces';
 
 export function CastInterceptor(model: any, fieldKey: string): Type<NestInterceptor> {
     class MixinInterceptor implements NestInterceptor {
 
         constructor(
-            @Optional() @Inject(CAST_MODULE_OPTIONS) options: any = {},
-            @Inject(CAST_METADATA_STORAGE) private storage: MetadataStorage
+            @Inject(CAST_METADATA_STORAGE) public storage: MetadataStorage,
+            @Optional() @Inject(CAST_MODULE_OPTIONS) public options: CastModuleOptions,
         ) { }
 
         async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
@@ -29,7 +30,7 @@ export function CastInterceptor(model: any, fieldKey: string): Type<NestIntercep
             const res = ctx.getResponse();
             const castResult = cast(model, req[fieldKey])
             if (castResult.errors) {
-                throw new InvalidCastException(fieldKey, castResult.errors);
+                throw new InvalidCastException(this.options.transformError(castResult.errors));
             } else {
                 req[fieldKey] = castResult.value;
             }
