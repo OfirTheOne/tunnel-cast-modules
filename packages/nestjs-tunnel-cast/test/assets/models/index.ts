@@ -1,4 +1,4 @@
-import { Number, String } from 'tunnel-cast/dist/lib/common' 
+import { Number, String, Parsing } from 'tunnel-cast/dist/lib/common' 
 
 
 export class QueryTest01 {
@@ -14,12 +14,14 @@ export class QueryTest01 {
 
 
 export class QueryTest02 {
+    @Parsing((value: string) => global.Number(value) )
     @Number({
         min: 0,
         max: 50
     })
     skip: number;
-
+    
+    @Parsing((value: string) => global.Number(value) )
     @Number({
         min: 0,
         max: 50
