@@ -6,21 +6,12 @@ import { MetadataStorage } from './storage';
 
 import { defaultOptions } from './cast-module-default-options'
 @Module({
-    providers: [
-        { 
-            provide: CAST_METADATA_STORAGE, 
-            useValue: new MetadataStorage() 
-        },
-        { 
-            provide: CAST_MODULE_OPTIONS, 
-            useValue: defaultOptions
-        }
-    ]
+    providers: buildFeatureProviders({})
 })
 export class CastModule {
 
-    static forFeature(factoryParams: Partial<CastModuleFactoryParameters> ): DynamicModule {
-        const providers = this.buildFeatureProviders(factoryParams); 
+    static forFeature(factoryParams: Partial<CastModuleFactoryParameters> = {}): DynamicModule {
+        const providers = buildFeatureProviders(factoryParams); 
         return {
             module: CastModule,
             providers: providers,
@@ -46,21 +37,21 @@ export class CastModule {
         };
     }
 
+}
 
-    private static buildFeatureProviders(factoryParams: Partial<CastModuleFactoryParameters>) {
-        const providers = [ 
-            { 
-                provide: CAST_METADATA_STORAGE, 
-                useValue: new MetadataStorage(factoryParams.models||[]) 
-            },
-            { 
-                provide: CAST_MODULE_OPTIONS, 
-                useValue: {
-                    castError: factoryParams.castError || defaultOptions.castError,
-                    transformError: factoryParams.transformError || defaultOptions.transformError
-                } as CastModuleOptions
-            }
-        ] 
-        return providers;
-    }
+function buildFeatureProviders(factoryParams: Partial<CastModuleFactoryParameters>) {
+    const providers = [ 
+        { 
+            provide: CAST_METADATA_STORAGE, 
+            useValue: new MetadataStorage(factoryParams.models||[]) 
+        },
+        { 
+            provide: CAST_MODULE_OPTIONS, 
+            useValue: {
+                castError: factoryParams.castError || defaultOptions.castError,
+                transformError: factoryParams.transformError || defaultOptions.transformError
+            } as CastModuleOptions
+        }
+    ] 
+    return providers;
 }
