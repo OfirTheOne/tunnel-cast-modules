@@ -1,6 +1,6 @@
-import { CallHandler, ExecutionContext } from '@nestjs/common';
+import { ExecutionContext } from '@nestjs/common';
 import { CastQueryInterceptor } from './common-cast-interceptor';
-import { QueryTest01, QueryTest02 } from '../../test/assets/models'
+import { QueryTest01 } from '../../test/assets/models'
 import { HttpArgumentsHost, NestInterceptor } from '@nestjs/common/interfaces';
 
 import { defaultOptions } from './../cast-module-default-options'
@@ -62,20 +62,6 @@ describe('CastQueryInterceptor', () => {
     });
 
 });
-
-function projectLeanErrors(errors: Array<any>) {
-    
-    if(errors?.every(e => e.code != undefined)) {
-        return errors.map(({code}) => ({code}));
-    } else if(errors?.every(e => e.fieldName != undefined)) {
-        return errors.map(e => {
-            return {
-                fieldName: e.fieldName, 
-                errors: projectLeanErrors(e.errors)
-            }
-        })
-    }
-}
 
 async function testInterceptor(
     interceptor: NestInterceptor<any, any>, 
