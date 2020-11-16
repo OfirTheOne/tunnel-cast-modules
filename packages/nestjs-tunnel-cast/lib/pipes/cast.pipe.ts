@@ -2,6 +2,7 @@ import { ArgumentMetadata, Injectable, PipeTransform, Type, Inject, Optional } f
 import { CastModuleOptions } from '../interfaces';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from '../constants';
 import { MetadataStorage } from '../storage';
+import { CastPipeTransformValue } from '../interfaces/cast-pipe-transform-value';
 
 import { castValue} from './cast-value';
 
@@ -44,7 +45,8 @@ export class CastPipe<Result = any> implements PipeTransform<any, Result> {
       @Optional() @Inject(CAST_MODULE_OPTIONS) private options: CastModuleOptions,
     ) { }
 
-    transform(value: any, metadata: ArgumentMetadata): Result {
+    transform(value: CastPipeTransformValue, metadata: ArgumentMetadata): Result {
+      const { extractedValue } = value;
 
       let model: Type<any>;
       if(typeof metadata.data == 'string') {
@@ -58,7 +60,7 @@ export class CastPipe<Result = any> implements PipeTransform<any, Result> {
 
 
       const appliedModel = model;
-      return castValue(value, appliedModel, this.options) as Result;
+      return castValue(extractedValue, appliedModel, this.options) as Result;
 
     }
   }

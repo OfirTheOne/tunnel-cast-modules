@@ -3,8 +3,10 @@ import { CastModuleOptions } from '../interfaces';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from '../constants';
 import { MetadataStorage } from '../storage';
 import { castValue} from './cast-value';
+import { CastPipeTransformValue } from '../interfaces/cast-pipe-transform-value';
 
-export function CastPipeFactory<Result>(model?: Type<Result> | string, options?: any) {
+
+export function CastPipeFactory<Result>(model?: Type<Result> | string) {
   class MixinPipe implements PipeTransform<any, Result> {
 
     constructor(
@@ -12,13 +14,13 @@ export function CastPipeFactory<Result>(model?: Type<Result> | string, options?:
       @Optional() @Inject(CAST_MODULE_OPTIONS) private options: CastModuleOptions,
     ) { }
 
-    transform(value: any, metadata: ArgumentMetadata): Result {
-
+    transform(value: CastPipeTransformValue, metadata: ArgumentMetadata): Result {
+      const { extractedValue } = value;
       let appliedModel = typeof model == 'string' ? 
           (this.storage.map.get(model)?.model) : model;
       appliedModel = appliedModel || metadata.metatype;
 
-      return castValue(value, appliedModel, this.options) as Result;
+      return castValue(extractedValue, appliedModel, this.options) as Result;
     }
   }
 
