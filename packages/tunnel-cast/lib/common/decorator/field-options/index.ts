@@ -1,7 +1,7 @@
 
 
 import { optionsSetter } from '../field-options/option-setter';
-import { assert, _default, required } from '../field-options/option-wrapper';
+import { assert, _default, required, parsing } from '../field-options/option-wrapper';
 
 
 
@@ -26,3 +26,10 @@ export const AssertType = assert;
  * @description provide access to the field-type's options object.
  */
 export const OptionSetter = optionsSetter;
+
+
+
+/**
+ * @description add parsing function to the field 
+ */
+export const Parsing = parsing;
