@@ -4,7 +4,7 @@ export class InvalidCastException extends HttpException {
   public originError: any;
   constructor(error: any) {
     super(
-      JSON.stringify(error, undefined, 2),
+      error, //JSON.stringify(error, undefined, 2),
       HttpStatus.BAD_REQUEST
     );
     this.originError = error;
