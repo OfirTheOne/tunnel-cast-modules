@@ -25,7 +25,6 @@ export const _default = function(value) {
     return FieldOptionSetterDecoratorFactory('default', value);
 } 
 
-
 export const parsing = function(value) {
     return FieldOptionSetterDecoratorFactory('parsing', value, true);
 } 
