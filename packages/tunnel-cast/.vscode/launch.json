@@ -7,12 +7,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch src Program",
             "program": "${workspaceFolder}/dist/src/index.js",
             "preLaunchTask": "tsc: build - tsconfig.json",
-            // "preLaunchTask": "build-with-html",
             "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/dist-dev/**/*.js"
             ],
             
         },  
@@ -28,41 +27,6 @@
             "windows": {
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
             }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Jest Current File",
-            "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "args": [
-            "${fileBasenameNoExtension}",
-            "--config",
-            "jest.config.js"
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
-            "windows": {
-            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-            }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Mocha All",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "env": {"NODE_ENV": "testing"},
-            "args": [
-                "-r",
-                "ts-node/register",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/tests/**/**/*.test.ts",
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "protocol": "inspector"
         }
     ]
 }
