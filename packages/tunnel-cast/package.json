@@ -12,9 +12,9 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "build": "npm run build:dev",
-    "build:dev": "tsc -p tsconfig.json",
-    "build:prod": "tsc -p tsconfig.prod.json",
+    "prebuild": "rimraf dist",
+    "build": "npm run build:prod",
+    "build:prod": "tsc -p tsconfig.build.json",
     "start": "ts-node ./src/index.ts",
     "pack-script": "sh pack-publish-version-test.job.sh",
     "test": "jest",
@@ -30,7 +30,8 @@
   "author": "Ofir G.",
   "license": "ISC",
   "dependencies": {
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
