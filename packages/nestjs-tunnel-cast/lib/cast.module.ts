@@ -1,10 +1,9 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from './constants';
 import { AsyncModelFactory, CastModuleFactoryParameters, CastModuleOptions } from './interfaces';
 import { MetadataStorage } from './storage';
+import { defaultOptions } from './cast-module-default-options';
 
-
-import { defaultOptions } from './cast-module-default-options'
 @Module({
     providers: buildFeatureProviders({})
 })
@@ -39,8 +38,8 @@ export class CastModule {
 
 }
 
-function buildFeatureProviders(factoryParams: Partial<CastModuleFactoryParameters>) {
-    const providers = [ 
+function buildFeatureProviders(factoryParams: Partial<CastModuleFactoryParameters>): Array<Provider<any>> {
+    return [ 
         { 
             provide: CAST_METADATA_STORAGE, 
             useValue: new MetadataStorage(factoryParams.models||[]) 
@@ -52,6 +51,5 @@ function buildFeatureProviders(factoryParams: Partial<CastModuleFactoryParameter
                 transformError: factoryParams.transformError || defaultOptions.transformError
             } as CastModuleOptions
         }
-    ] 
-    return providers;
+    ];
 }
