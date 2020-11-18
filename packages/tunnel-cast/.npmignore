@@ -1,8 +1,8 @@
-/dist
+/dist-dev
 /tests
 /src
 /lib
 /.vscode
 package-lock.json
 tsconfig.json
-tsconfig.prod.json
+tsconfig.build.json
