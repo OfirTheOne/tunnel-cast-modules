@@ -2,9 +2,9 @@
 
 
 
-import { String, Boolean, Number, Array, Model, OptionSetter, AssertType, parsing } from '../lib/common';
+import { String, Boolean, Number, Array, Model, OptionSetter, AssertType, JsonParse } from '../lib/common';
 import { cast } from '../lib/common/cast'
-import { modelSpec } from '../lib/core/model-spec'
+import { extractRootRepo } from '../lib/core/internal/model-metadata/extract-metadata'
 
 class User {
 
@@ -23,6 +23,12 @@ class User {
     notificationOn: number;
 }
 
+class Admin extends User {
+
+    @OptionSetter('format', /.+@admin\.com/)
+    email: string
+}
+
 class ServerResponse {
     
     @AssertType('string')
@@ -34,15 +40,18 @@ class ServerResponse {
     apiVersion: number;
 
     
-    @parsing.JsonParse
+    @JsonParse
     @Array()
     imageTensor: Array<Array<number>>;
 
 
     @Model()
-    user: User
+    user: Admin
 }
 
+const extractedModel = extractRootRepo(ServerResponse);
+
+console.log(extractedModel)
 const { value, errors } = cast(ServerResponse, { 
         apiVersion: '9', 
         imageTensor: "[[1,2],[2,3]]", 
