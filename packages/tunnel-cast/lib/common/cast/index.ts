@@ -7,12 +7,13 @@ import { globals } from "../../globals";
 import { VerboseLevel } from '../../utils/logger'
 
 import { FieldHandler } from '../../core/toolbox/field-handler';
-import { TypeRegistry } from '../../core/toolbox/type-registry'
+import { RegisteredTypeProvider, TypeRegistry } from '../../core/toolbox/type-registry'
 import { extractRootRepo } from '../../core/internal/model-metadata/extract-metadata'
 
 import { CastResolve } from '../../interfaces/public/cast-resolve';
 import { CastOptions } from '../../interfaces/public/cast-options';
 import { FieldEmbeddedData } from '../../interfaces/inner/field-embedded-data';
+import { NonTypeFieldHandler } from '../decorator/field-type/non-type';
 
 
 export function cast<T>(Model: Class<T>, target: Record<any, any>, options? : CastOptions): CastResolve<T> {
@@ -26,7 +27,7 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>, options? : Ca
     logger.log(`run cast on "${Model.name}" model, with ${fieldDefinitions.length} definitions`, VerboseLevel.Low);
 
     for(let def of fieldDefinitions) {
-        const typeProvider = TypeRegistry.getInstance().get(def.typeHandlerId)
+        const typeProvider = getTypeProviderClass(def.typeHandlerId);
         const handler: FieldHandler = new typeProvider.handlerClass(
             target,
             def.fieldKey,
@@ -59,4 +60,16 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>, options? : Ca
 function getFieldDefinitions(repo: Map<string, Array<FieldEmbeddedData>>) {
 
     return Array.from(repo.values())
+}
+
+
+function getTypeProviderClass(typeHandlerId: FieldEmbeddedData['typeHandlerId']): RegisteredTypeProvider {
+    if(typeHandlerId) {
+        return TypeRegistry.getInstance().get(typeHandlerId)
+    } else {
+        return {
+            handlerClass: NonTypeFieldHandler
+        } as RegisteredTypeProvider;
+
+    }
 }
