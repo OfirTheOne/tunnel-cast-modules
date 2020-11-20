@@ -5,7 +5,6 @@ import {
  } from './json'
 
 
-export const parsing = {
-    JsonParse: jsonParse,
-    JsonStringify: jsonStringify
-}
+export const JsonParse = jsonParse;
+
+export const JsonStringify = jsonStringify;
