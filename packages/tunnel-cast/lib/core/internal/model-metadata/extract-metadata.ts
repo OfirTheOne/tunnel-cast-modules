@@ -5,7 +5,7 @@ import { FieldEmbeddedData } from '../../../interfaces/inner/field-embedded-data
 
 
 
-export function extractRootRepo(modelClass: any) {
+export function extractRootRepo(modelClass: any): Map<string, [FieldEmbeddedData]> {
     const rootRepo = extractRootRepoFromPrototype(modelClass.prototype)
     try {
         if(!rootRepo) {
