@@ -24,7 +24,12 @@ export function extractRootRepoFromPrototype(prototype: Class<any>): Map<string,
 
 
 
-export function getFieldDefinitionFromPrototype(prototype: any, key: string) {
+export function getFieldDefinitionFromPrototype(prototype: any, key: string, fillEmptyEntry: boolean = true) {
     const map = extractRootRepoFromPrototype(prototype);
-    return map.get(key);
+
+    return map.has(key) ? 
+        map.get(key) : 
+        !fillEmptyEntry ?  
+            undefined :
+            map.set(key, [{ fieldKey: key, options: {}, typeHandlerId: undefined }]).get(key);
 }
