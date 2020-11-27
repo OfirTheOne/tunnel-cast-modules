@@ -1,4 +1,5 @@
 import { getFieldDefinitionFromPrototype } from "../../internal/model-metadata/extract-metadata";
+import {  } from "../../internal/model-metadata/embed-metadata";
 
 
 export function FieldOptionSetterDecoratorFactory(optionKey: string, value: any, handlerAsArray: boolean = false): PropertyDecorator {
