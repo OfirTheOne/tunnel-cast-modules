@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import * as field from '../../../lib/common/decorator';
-import { cast } from '../../../lib/common/cast';
+import * as field from '../../../../lib/common/decorator';
+import { cast } from '../../../../lib/common/cast';
 
 
 
-describe("Feature : @field.Number", function() {
+describe("Feature : @field.String", function() {
     class _TestClass01 {
-        @field.Number()
-        someNumber: number;
+        @field.String()
+        someString: string;
     }
 
     it("Test case 01", function() {
@@ -17,7 +17,7 @@ describe("Feature : @field.Number", function() {
         // ============ error case ============ //
 
         const bad_input_01 = {
-            someNumber: "hello"
+            someString: []
         } 
 
         const bad_result_01 = cast(_TestClass01, bad_input_01);
@@ -27,23 +27,23 @@ describe("Feature : @field.Number", function() {
         // ============ success case ============ //
 
         const good_input_01 = {
-            someNumber: 50
+            someString: "hello"
         } 
 
         const good_result_01 = cast(_TestClass01, good_input_01);
         expect(good_result_01.errors).to.be.undefined
-        expect(good_result_01.value).to.have.key('someNumber')
+        expect(good_result_01.value).to.have.key('someString')
         expect(good_result_01.value).to.be.a.instanceOf(_TestClass01)
-        expect(good_result_01.value.someNumber).to.be.of.a('number').eqls(good_input_01.someNumber)
+        expect(good_result_01.value.someString).to.be.of.a('string').eqls(good_input_01.someString)
 
     })
 
     class _TestClass02 {
-        @field.Number({
-            min: 20,
-            max: 55
+        @field.String({
+            required: true,
+            format: /^.+(cast)$/
         })
-        someNumber: number;
+        someString: string;
     }
 
     it("Test case 02", function() {
@@ -51,13 +51,13 @@ describe("Feature : @field.Number", function() {
         // ============ error case ============ //
 
         const bad_input_01 = {
-            someNumber: "hello"
+            someString: 40
         } 
         const bad_input_02 = {
-            someNumber: 60
+            someString: "tunnel-cas___t"
         } 
         const bad_input_03 = {
-            someNumber: 12
+            someString: undefined
         } 
 
         const bad_result_01 = cast(_TestClass02, bad_input_01);
@@ -73,23 +73,23 @@ describe("Feature : @field.Number", function() {
         // ============ success case ============ //
 
         const good_input_01 = {
-            someNumber: 50
+            someString: "tunnel-cast"
         } 
 
         const good_result_01 = cast(_TestClass02, good_input_01);
         expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.have.key('someNumber');
+        expect(good_result_01.value).to.have.key('someString');
         expect(good_result_01.value).to.be.a.instanceOf(_TestClass02)
-        expect(good_result_01.value.someNumber).to.be.of.a('number').eqls(good_input_01.someNumber);
+        expect(good_result_01.value.someString).to.be.of.a('String').eqls(good_input_01.someString);
 
     })
 
     class _TestClass03 {
-        @field.Number({
+        @field.String({
             required: false,
-            max: 55
+            enums: ["tunnel", "cast", "tunnel-cast"]
         })
-        someNumber: number;
+        someString: String;
     }
 
     it("Test case 03", function() {
@@ -97,10 +97,10 @@ describe("Feature : @field.Number", function() {
         // ============ error case ============ //
 
         const bad_input_01 = {
-            someNumber: "hello"
+            someString: "hello"
         } 
         const bad_input_02 = {
-            someNumber: 60
+            someString: 60
         } 
 
         const bad_result_01 = cast(_TestClass03, bad_input_01);
@@ -113,24 +113,24 @@ describe("Feature : @field.Number", function() {
         // ============ success case ============ //
 
         const good_input_01 = {
-            someNumber: undefined
+            someString: undefined
         } 
         const good_input_02 = {
-            someNumber: 12
+            someString: "tunnel"
         } 
 
         const good_result_01 = cast(_TestClass03, good_input_01);
         expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.have.key('someNumber');
+        expect(good_result_01.value).to.have.key('someString');
         expect(good_result_01.value).to.be.a.instanceOf(_TestClass03)
-        expect(good_result_01.value.someNumber).to.be.of.undefined.eqls(good_input_01.someNumber);
+        expect(good_result_01.value.someString).to.be.of.undefined.eqls(good_input_01.someString);
 
 
         const good_result_02 = cast(_TestClass03, good_input_02);
         expect(good_result_02.errors).to.be.undefined;
-        expect(good_result_02.value).to.have.key('someNumber');
+        expect(good_result_02.value).to.have.key('someString');
         expect(good_result_02.value).to.be.a.instanceOf(_TestClass03)
-        expect(good_result_02.value.someNumber).to.be.of.a('number').eqls(good_input_02.someNumber);
+        expect(good_result_02.value.someString).to.be.of.a('string').eqls(good_input_02.someString);
 
     })
 })

@@ -1,18 +1,14 @@
 import { expect } from 'chai';
 
-import * as field from '../../../lib/common';
-import { AssertType } from '../../../lib/common';
-import { cast } from '../../../lib/common/cast';
+import * as field from '../../../../lib/common/decorator';
+import { cast } from '../../../../lib/common/cast';
 
 
 
-describe("Feature : @Assert", function() {
+describe("Feature : @field.Boolean", function() {
     class _TestClass01 {
-        @AssertType('number')
-        @field.String({
-            parsing: [String]
-        })
-        someString: string;
+        @field.Boolean()
+        someBoolean: boolean;
     }
 
     it("Test case 01", function() {
@@ -21,7 +17,7 @@ describe("Feature : @Assert", function() {
         // ============ error case ============ //
 
         const bad_input_01 = {
-            someString: "hello"
+            someBoolean: "hello"
         } 
 
         const bad_result_01 = cast(_TestClass01, bad_input_01);
@@ -31,23 +27,23 @@ describe("Feature : @Assert", function() {
         // ============ success case ============ //
 
         const good_input_01 = {
-            someString: 1500
+            someBoolean: true
         } 
 
         const good_result_01 = cast(_TestClass01, good_input_01);
         expect(good_result_01.errors).to.be.undefined
-        expect(good_result_01.value).to.have.key('someString')
+        expect(good_result_01.value).to.have.key('someBoolean')
         expect(good_result_01.value).to.be.a.instanceOf(_TestClass01)
-        expect(good_result_01.value.someString).to.be.of.a('string').eqls(String(good_input_01.someString))
+        expect(good_result_01.value.someBoolean).to.be.of.a('boolean').eqls(good_input_01.someBoolean)
 
     })
 
     class _TestClass02 {
-        @AssertType([])
-        @field.String({
-            parsing: [(value) => value.map(String).join(' ')]
+        @field.Boolean({
+            required: false,
+            default: false
         })
-        someString: string;
+        someBoolean: boolean;
     }
 
     it("Test case 02", function() {
@@ -55,7 +51,7 @@ describe("Feature : @Assert", function() {
         // ============ error case ============ //
 
         const bad_input_01 = {
-            someString: "hello"
+            someBoolean: "hello"
         } 
 
         const bad_result_01 = cast(_TestClass02, bad_input_01);
@@ -65,25 +61,25 @@ describe("Feature : @Assert", function() {
         // ============ success case ============ //
 
         const good_input_01 = {
-            someString: ["hello", "from", "area", 51]
+            someBoolean: true
         } 
 
         const good_result_01 = cast(_TestClass02, good_input_01);
         expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.have.key('someString');
+        expect(good_result_01.value).to.have.key('someBoolean');
         expect(good_result_01.value).to.be.a.instanceOf(_TestClass02)
-        expect(good_result_01.value.someString).to.be.of.a('string').eqls("hello from area 51");
+        expect(good_result_01.value.someBoolean).to.be.of.a('boolean').eqls(good_input_01.someBoolean);
 
         
         const good_input_02 = {
-            someString: []
+            someBoolean: undefined
         } 
 
         const good_result_02 = cast(_TestClass02, good_input_02);
         expect(good_result_02.errors).to.be.undefined;
-        expect(good_result_02.value).to.have.key('someString');
+        expect(good_result_02.value).to.have.key('someBoolean');
         expect(good_result_02.value).to.be.a.instanceOf(_TestClass02)
-        expect(good_result_02.value.someString).to.be.of.a('string').eqls('');
+        expect(good_result_02.value.someBoolean).to.be.of.a('boolean').eqls(false);
 
     })
 
