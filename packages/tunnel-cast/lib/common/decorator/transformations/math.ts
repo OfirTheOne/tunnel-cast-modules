@@ -1,10 +1,10 @@
 
 
 // import { FieldTransformationsDecoratorFactory } from './factory';
-import { parsing } from './../field-options/option-wrapper';
+import { Transformations } from './../field-options/option-wrapper/transformations.decorator';
 import { functionsRepo } from './function-repo';
 
 
-export const mathFloor = parsing(functionsRepo['math-floor']);
+export const mathFloor = Transformations(functionsRepo['math-floor']);
 
-export const mathCeil = parsing(functionsRepo['math-ceil']);
+export const mathCeil = Transformations(functionsRepo['math-ceil']);
