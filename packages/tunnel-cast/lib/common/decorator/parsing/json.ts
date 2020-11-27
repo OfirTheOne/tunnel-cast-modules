@@ -1,8 +1,8 @@
 
 
-import { parsing } from './../field-options/option-wrapper';
+import { Parsing } from './../field-options/option-wrapper/parsing.decorator';
 import { functionsRepo } from './function-repo';
 
-export const jsonStringify = parsing(functionsRepo['json-stringify']);
+export const jsonStringify = Parsing(functionsRepo['json-stringify']);
 
-export const jsonParse = parsing(functionsRepo['json-parse']);
+export const jsonParse = Parsing(functionsRepo['json-parse']);
