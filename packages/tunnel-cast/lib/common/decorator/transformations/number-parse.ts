@@ -1,11 +1,9 @@
 
-
-// import { FieldTransformationsDecoratorFactory } from './factory';
-import { transformations } from './../field-options/option-wrapper';
+import { Transformations } from './../field-options/option-wrapper/transformations.decorator';
 import { functionsRepo } from './function-repo';
 
 
 
-export const parseInt = transformations(functionsRepo['parse-int']);
+export const parseInt = Transformations(functionsRepo['parse-int']);
 
-export const parseFloat = transformations(functionsRepo['parse-float']);
+export const parseFloat = Transformations(functionsRepo['parse-float']);
