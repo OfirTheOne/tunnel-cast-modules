@@ -77,30 +77,6 @@ export interface BaseFieldOptions extends FieldOptions {
 
 }
 
-export interface NumberFieldOptions extends BaseFieldOptions{
-    min?:  number;
-    max?: number;
-}
-
-export interface StringFieldOptions extends BaseFieldOptions{
-    format?: string | RegExp;
-    enums?: Array<string>
-}
-
-export interface BooleanFieldOptions extends BaseFieldOptions{
-}
-
-export interface ArrayFieldOptions extends BaseFieldOptions{
-    minLength?: number
-    maxLength?: number
-    ofType?: PrimitiveType
-    allowType?: Array<PrimitiveType>
-}
-
-
-export interface ModelFieldOptions extends BaseFieldOptions{
-    modelClass?: Class
-}
 
 
 
