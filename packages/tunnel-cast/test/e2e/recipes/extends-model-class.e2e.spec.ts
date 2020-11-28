@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import * as field from '../../lib/common/decorator';
-import { cast } from '../../lib/common/cast';
+import * as field from '../../../lib/common/decorator';
+import { cast } from '../../../lib/common/cast';
 
 
 
