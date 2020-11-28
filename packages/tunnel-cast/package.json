@@ -17,7 +17,9 @@
     "build:prod": "tsc -p tsconfig.build.json",
     "start": "ts-node ./src/index.ts",
     "pack-script": "sh pack-publish-version-test.job.sh",
-    "test": "jest --config ./test/config/unit.config.json",
+    "test:unit": "jest --config ./test/config/unit.config.json",
+    "test:e2e": "jest --config ./test/config/e2e.config.json",
+    "test": "jest --config ./test/config/all.config.json",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
