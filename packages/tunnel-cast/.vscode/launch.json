@@ -18,9 +18,22 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Jest All",
+            "name": "Jest All / Unit",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "args": ["--runInBand"],
+            "args": ["--runInBand", "--config=test/config/unit.config.json"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "windows": {
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            }
+        },  
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest All / e2e",
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "args": ["--runInBand", "--config=test/config/e2e.config.json"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "disableOptimisticBPs": true,
