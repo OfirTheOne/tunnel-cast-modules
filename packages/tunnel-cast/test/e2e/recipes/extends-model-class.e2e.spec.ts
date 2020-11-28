@@ -1,24 +1,24 @@
-import { expect } from 'chai';
+// import { expect } from 'chai';
 
-import * as field from '../../../lib/common/decorator';
+import * as fieldType from '../../../lib/common/decorator/field-type';
 import { cast } from '../../../lib/common/cast';
 
 
 
-describe("Feature : extends-model-class", function() {
-    class _SuperClass {
-        @field.String()
+describe("Recipe : extends-model-class", function() {
+    class SuperClass {
+        @fieldType.String()
         name: string;
 
-        @field.Number({ min: 20 })
+        @fieldType.Number({ min: 20 })
         age: number;
 
-        @field.String({ enums: ['Admin', 'Standard']})
+        @fieldType.String({ enums: ['Admin', 'Standard']})
         role: string
     }
 
-    class _SubClass extends _SuperClass {
-        @field.Array({ ofType: 'string' })
+    class SubClass extends SuperClass {
+        @fieldType.Array({ ofType: 'string' })
         favoriteMovies: Array<string>
     }
 
@@ -48,14 +48,17 @@ describe("Feature : extends-model-class", function() {
             favoriteMovies: "A"
         } 
 
-        const bad_result_01 = cast(_SubClass, bad_input_01);
-        expect(bad_result_01.errors).to.be.a('array').of.length(1)
+        const bad_result_01 = cast(SubClass, bad_input_01);
+        expect(bad_result_01.errors).toBeDefined()
+        expect(bad_result_01.errors.length).toEqual(1)
 
-        const bad_result_02 = cast(_SubClass, bad_input_02);
-        expect(bad_result_02.errors).to.be.a('array').of.length(2)
+        const bad_result_02 = cast(SubClass, bad_input_02);
+        expect(bad_result_02.errors).toBeDefined()
+        expect(bad_result_02.errors.length).toEqual(2)
 
-        const bad_result_03 = cast(_SubClass, bad_input_03);
-        expect(bad_result_03.errors).to.be.a('array').of.length(2)
+        const bad_result_03 = cast(SubClass, bad_input_03);
+        expect(bad_result_03.errors).toBeDefined()
+        expect(bad_result_03.errors.length).toEqual(2)
 
 
 
@@ -68,10 +71,10 @@ describe("Feature : extends-model-class", function() {
             favoriteMovies: ["A", "B", "C"]
         } 
 
-        const good_result_01 = cast(_SubClass, good_input_01);
-        expect(good_result_01.errors).to.be.undefined
-        expect(good_result_01.value).to.be.a.instanceOf(_SubClass)
-        expect(good_result_01.value).to.be.of.a('object').eql(good_input_01)
+        const good_result_01 = cast(SubClass, good_input_01);
+        expect(good_result_01.errors).toBeUndefined()
+        expect(good_result_01.value).toBeInstanceOf(SubClass)
+        expect(good_result_01.value).toEqual(good_input_01)
 
     })
 
