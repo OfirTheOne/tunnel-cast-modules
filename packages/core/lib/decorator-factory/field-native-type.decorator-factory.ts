@@ -1,0 +1,20 @@
+import { BaseFieldOptions } from "../interfaces/field-options";
+import { embedMetadata } from "../utils/model-metadata/embed-metadata";
+import { FieldOptionProcessor } from "../field-option-processor";
+import { TypeRegistry } from '../type-registry'
+
+export function FieldNativeTypeDecoratorFactory<FP extends BaseFieldOptions>( 
+    options: FP,  typeHandlerId: string|symbol, ...args: Array<any>
+): PropertyDecorator {
+    return function(prototype: any, key: string) {
+        const optionProcessor: FieldOptionProcessor = TypeRegistry.getInstance().get(typeHandlerId).optionsProcessor
+        const processedOption = optionProcessor.process(options, key);
+        return embedMetadata(prototype, key,  { 
+            fieldKey: key, 
+            handlerArgs: args, 
+            options: processedOption,
+            typeHandlerId
+        });
+    };
+}
+
