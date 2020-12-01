@@ -1,0 +1,69 @@
+{
+  "name": "@tunnel-cast/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "url": "https://github.com/OfirTheOne/tunnel-cast",
+    "type": "GitHub"
+  },
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "pack": "sh ../../sh/build-pack.sh",
+    "prebuild": "rimraf dist",
+    "build": "npm run build:prod",
+    "build:prod": "tsc -p tsconfig.build.json",
+    "start": "ts-node ./src/index.ts",
+    "test:unit": "jest --config ./test/config/unit.config.json",
+    "test:e2e": "jest --config ./test/config/e2e.config.json",
+    "test": "jest --config ./test/config/all.config.json",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "author": "Ofir G.",
+  "license": "ISC",
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "@tunnel-cast/core": "file:../core/tunnel-cast-core-1.0.0.tgz"
+  },
+  "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.10.1",
+    "config": "^3.2.3",
+    "dotenv": "^8.1.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "ts-essentials": "^6.0.5",
+    "ts-jest": "^26.4.1",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3",
+    "utility-types": "^3.10.0"
+  },
+  "files": [
+    "/**"
+  ],
+  "keywords": [
+    "object-to-model",
+    "cast",
+    "casting",
+    "validation",
+    "parsing",
+    "model",
+    "typescript",
+    "decorators"
+  ]
+}
