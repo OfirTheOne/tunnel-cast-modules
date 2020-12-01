@@ -12,7 +12,8 @@
   },
   "types": "lib/index.d.ts",
   "scripts": {
-    "pack": "sh ./sh/build-pack.sh",
+    "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "pack": "sh ../../sh/build-pack.sh",
     "prebuild": "rimraf dist",
     "build": "npm run build:prod",
     "build:prod": "tsc -p tsconfig.build.json",
