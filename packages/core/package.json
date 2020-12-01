@@ -15,7 +15,7 @@
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
     "pack": "sh ../../sh/build-pack.sh",
     "prebuild": "rimraf dist",
-    "build": "npm run build:prod",
+    "build": "npm run format && npm run build:prod",
     "build:prod": "tsc -p tsconfig.build.json",
     "start": "ts-node ./src/index.ts",
     "test:unit": "jest --config ./test/config/unit.config.json",
