@@ -1,3 +1,4 @@
+set -e
 
 # echo "Clean current build"
 # rm -rf ./dist
