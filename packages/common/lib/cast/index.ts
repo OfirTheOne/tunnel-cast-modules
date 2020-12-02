@@ -1,18 +1,19 @@
 import "reflect-metadata";
 
-import { Class } from "@tunnel-cast/core/utils/type-helpers"; //"../../utils/model";
-
 import { globals } from "@tunnel-cast/core/globals";
-import { VerboseLevel } from "@tunnel-cast/core/utils/logger";
-
 import { FieldHandler } from "@tunnel-cast/core/field-handler";
 import { RegisteredTypeProvider, TypeRegistry } from "@tunnel-cast/core/type-registry";
+import {
+    FieldEmbeddedData,
+    TypeHandlerIdBaseFieldEmbeddedData,
+} from "@tunnel-cast/core/interfaces/field-embedded-data";
+import { Class } from "@tunnel-cast/core/utils/type-helpers"; //"../../utils/model";
+import { VerboseLevel } from "@tunnel-cast/core/utils/logger";
 import { extractRootRepo } from "@tunnel-cast/core/utils/model-metadata/extract-metadata";
 
-import { CastResolve } from "@tunnel-cast/core/interfaces/cast-resolve";
-import { CastOptions } from "@tunnel-cast/core/interfaces/cast-options";
-import { FieldEmbeddedData } from "@tunnel-cast/core/interfaces/field-embedded-data";
 import { NonTypeFieldHandler } from "../decorator/field-type/non-type";
+import { CastResolve } from "../interfaces/cast-resolve";
+import { CastOptions } from "../interfaces/cast-options";
 
 export function cast<T>(Model: Class<T>, target: Record<any, any>, options?: CastOptions): CastResolve<T> {
     const logger = globals["LOGGER"];
@@ -24,7 +25,7 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>, options?: Cas
     logger.log(`run cast on "${Model.name}" model, with ${fieldDefinitions.length} definitions`, VerboseLevel.Low);
 
     for (let def of fieldDefinitions) {
-        const typeProvider = getTypeProviderClass(def.typeHandlerId);
+        const typeProvider = "typeHandlerId" in def ? getTypeProviderClass(def.typeHandlerId) : def.provider;
         const handler: FieldHandler = new typeProvider.handlerClass(
             target,
             def.fieldKey,
@@ -57,7 +58,9 @@ function getFieldDefinitions(repo: Map<string, Array<FieldEmbeddedData>>) {
     return Array.from(repo.values());
 }
 
-function getTypeProviderClass(typeHandlerId: FieldEmbeddedData["typeHandlerId"]): RegisteredTypeProvider {
+function getTypeProviderClass(
+    typeHandlerId: TypeHandlerIdBaseFieldEmbeddedData["typeHandlerId"],
+): RegisteredTypeProvider {
     if (typeHandlerId) {
         return TypeRegistry.getInstance().get(typeHandlerId);
     } else {
