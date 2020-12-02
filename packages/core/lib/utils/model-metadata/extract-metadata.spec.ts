@@ -1,5 +1,3 @@
-
-
-test.todo('extractRootRepo')
-test.todo('extractRootRepoFromPrototype')
-test.todo('getFieldDefinitionFromPrototype')
+test.todo("extractRootRepo");
+test.todo("extractRootRepoFromPrototype");
+test.todo("getFieldDefinitionFromPrototype");

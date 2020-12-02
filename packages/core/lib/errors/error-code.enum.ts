@@ -1,5 +1,3 @@
-
-
 export enum ErrorCode {
     ModelMetadataRepoNotFoundError = 1,
     FieldRequiredError,
@@ -7,4 +5,4 @@ export enum ErrorCode {
     TypeConditionError,
     TypeValidationError,
     NativeValidationError,
-} 
+}

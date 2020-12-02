@@ -1,1 +1,1 @@
-export const RootMetadataRepoKey = Symbol("$$ROOT_METADATA_REPO") 
+export const RootMetadataRepoKey = Symbol("$$ROOT_METADATA_REPO");

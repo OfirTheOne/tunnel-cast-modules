@@ -1,2 +1,2 @@
-export * from './registered-type-provider';
-export * from './type-registry';
+export * from "./registered-type-provider";
+export * from "./type-registry";

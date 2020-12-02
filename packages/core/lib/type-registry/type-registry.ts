@@ -1,8 +1,6 @@
-
-import { RegisteredTypeProvider } from './registered-type-provider';
+import { RegisteredTypeProvider } from "./registered-type-provider";
 
 export class TypeRegistry {
-
     protected constructor() {}
 
     protected static instance: TypeRegistry;
@@ -10,23 +8,23 @@ export class TypeRegistry {
     protected registry: Map<string | symbol, RegisteredTypeProvider> = new Map();
 
     static getInstance(): TypeRegistry {
-        if(!TypeRegistry.instance) {
+        if (!TypeRegistry.instance) {
             TypeRegistry.instance = new TypeRegistry();
         }
         return TypeRegistry.instance;
     }
 
     public register(type: string | symbol, provider: RegisteredTypeProvider) {
-        this.registry.set(typeof type == 'symbol' ? String(type) : type, provider);
+        this.registry.set(typeof type == "symbol" ? String(type) : type, provider);
     }
 
     public get(key: string | symbol) {
-        const keyAsString = typeof key == 'symbol' ? String(key) : key;
+        const keyAsString = typeof key == "symbol" ? String(key) : key;
         try {
-            if(this.registry.has(keyAsString)) {
-                return this.registry.get(keyAsString)
-            } 
-            throw Error(`Provider for identifier ${keyAsString} was not register.`)
+            if (this.registry.has(keyAsString)) {
+                return this.registry.get(keyAsString);
+            }
+            throw Error(`Provider for identifier ${keyAsString} was not register.`);
         } catch (error) {
             throw error;
         }
