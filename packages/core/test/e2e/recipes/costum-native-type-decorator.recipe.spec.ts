@@ -25,8 +25,8 @@ const PermissionsLevelTypeName = "PermissionsLevel";
 class PermissionsLevelTypeHandler extends FieldHandler {
     public nativeValidations: NativeValidationDict<BaseFieldOptions> = {};
     public typeName = PermissionsLevelTypeName;
-    public typeCondition(value: any, options: BaseFieldOptions): boolean {
-        return typeof value == "string" && Object.keys(ePermissionsLevel).includes(value);
+    public typeCondition(): boolean {
+        return typeof this.originValue == "string" && Object.keys(ePermissionsLevel).includes(this.originValue);
     }
 }
 
