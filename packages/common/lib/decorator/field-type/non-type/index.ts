@@ -9,7 +9,7 @@ export const TypeName = "non-type";
 export class NonTypeFieldHandler extends FieldHandler {
     public nativeValidations: NativeValidationDict<BaseFieldOptions>;
     public typeName: string = TypeName;
-    public typeCondition(value: any, options: BaseFieldOptions): boolean {
-        throw new Error("Method not implemented.");
+    public typeCondition(): boolean {
+        return true;
     }
 }
