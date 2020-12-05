@@ -12,18 +12,30 @@ export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
     public typeName: string = TypeName;
 
     nativeValidations: NativeValidationDict<ArrayFieldOptions> = {
+        /**
+         * todo description
+         */
         maxLength: {
             condition: (value, maxLength) => value.length < maxLength,
             message: "maxLength failed",
         },
+        /**
+         * todo description
+         */
         minLength: {
             condition: (value, minLength) => value.length >= minLength,
             message: "minLength failed",
         },
+        /**
+         * todo description
+         */
         ofType: {
             condition: (value, ofType) => value.every((item) => typeof item == ofType),
             message: "ofType failed",
         },
+        /**
+         * todo description
+         */
         allowType: {
             condition: (value, allowType) =>
                 allowType.length == 0 || value.every((item) => allowType.includes(typeof item as any)),
