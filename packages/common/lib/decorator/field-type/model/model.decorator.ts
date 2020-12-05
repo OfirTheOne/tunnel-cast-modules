@@ -4,7 +4,6 @@ import { ModelFieldOptions } from "./i-model-options";
 import { ModelHandler, TypeHandlerId } from "./model.type-handler";
 import { ModelFieldOptionProcessor } from "./model.option-processor";
 
-
 export const model = (options?: ModelFieldOptions) => {
     return FieldModelTypeDecoratorFactory(
         {
@@ -12,7 +11,7 @@ export const model = (options?: ModelFieldOptions) => {
             optionsProcessor: new ModelFieldOptionProcessor(),
             typeHandlerId: TypeHandlerId,
             typeName: undefined,
-        }, 
-        options || {}
+        },
+        options || {},
     );
 };

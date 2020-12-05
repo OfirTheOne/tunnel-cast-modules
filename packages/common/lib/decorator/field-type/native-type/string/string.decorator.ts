@@ -4,15 +4,11 @@ import { StringFieldOptions } from "./i-string-options";
 import { StringHandler, TypeHandlerId, TypeName } from "./string.type-handler";
 import { StringFieldOptionProcessor } from "./string.option-processor";
 
-
 export const string = (options?: StringFieldOptions) => {
-    return FieldNativeTypeDecoratorFactory<StringFieldOptions>(
-        options || {}, 
-        {
-            handlerClass: StringHandler,
-            optionsProcessor: new StringFieldOptionProcessor(),
-            typeHandlerId: TypeHandlerId,
-            typeName: TypeName
-        }
-    );
+    return FieldNativeTypeDecoratorFactory<StringFieldOptions>(options || {}, {
+        handlerClass: StringHandler,
+        optionsProcessor: new StringFieldOptionProcessor(),
+        typeHandlerId: TypeHandlerId,
+        typeName: TypeName,
+    });
 };
