@@ -208,7 +208,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     // #region - apply provided logic
     protected runParsing(parsing: Array<Function>) {
-        let value = this.projectedValue;
+        let value = this.originValue;
         const parsedValue = parsing.length == 0 ? value : parsing.reduce((val, pFunc) => pFunc(val), value);
         return parsedValue;
     }
