@@ -30,16 +30,16 @@ export class ModelHandler extends FieldHandler<ModelFieldOptions> {
 
     // }
 
-    protected runParsing(value: any, parsing: Function[]) {
-        const castValue = cast(this.modelClass, value);
+    protected runParsing(parsing: Function[]) {
+        const castValue = cast(this.modelClass, this.originValue);
         if ("errors" in castValue) {
             throw castValue.errors;
         }
-        return super.runParsing(castValue.value, parsing);
+        return super.runParsing(parsing);
     }
 
-    typeCondition(value: any, options: ModelFieldOptions): boolean {
-        return typeof value == "object" && value != null;
+    typeCondition(): boolean {
+        return typeof this.originValue == "object" && this.originValue != null;
     }
 
     processOption(options: ModelFieldOptions): ModelFieldOptions {
