@@ -33,8 +33,8 @@
   "author": "Ofir G.",
   "license": "ISC",
   "dependencies": {
-    "reflect-metadata": "^0.1.13",
-    "@tunnel-cast/core": "file:../core/tunnel-cast-core-1.0.0.tgz"
+    "@tunnel-cast/core": "file:../core/tunnel-cast-core-1.0.0.tgz",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/config": "0.0.34",
