@@ -25,8 +25,8 @@ export class NumberHandler extends FieldHandler<NumberFieldOptions> {
         super(context, fieldName, projectedContext, parentModelRef);
     }
 
-    typeCondition(value: any, options: NumberFieldOptions): boolean {
-        return typeof value == "number";
+    typeCondition(): boolean {
+        return typeof this.originValue == "number";
     }
 
     processOption(options: NumberFieldOptions): NumberFieldOptions {

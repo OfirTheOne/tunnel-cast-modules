@@ -16,8 +16,8 @@ export class BooleanHandler extends FieldHandler<BooleanFieldOptions> {
         super(context, fieldName, projectedContext, parentModelRef);
     }
 
-    typeCondition(value: any, options: BooleanFieldOptions): boolean {
-        return typeof value == "boolean";
+    typeCondition(): boolean {
+        return typeof this.originValue == "boolean";
     }
 
     processOption(options: BooleanFieldOptions): BooleanFieldOptions {

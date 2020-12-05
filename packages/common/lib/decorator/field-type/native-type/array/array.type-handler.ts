@@ -35,8 +35,8 @@ export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
         super(context, fieldName, projectedContext, parentModelRef);
     }
 
-    typeCondition(value: any, options: ArrayFieldOptions): boolean {
-        return Array.isArray(value);
+    typeCondition(): boolean {
+        return Array.isArray(this.originValue);
     }
 
     processOption(options: ArrayFieldOptions): ArrayFieldOptions {

@@ -26,8 +26,8 @@ export class StringHandler extends FieldHandler<StringFieldOptions> {
         super(context, fieldName, projectedContext, parentModelRef);
     }
 
-    typeCondition(value: any, options: StringFieldOptions): boolean {
-        return typeof value == "string";
+    typeCondition(): boolean {
+        return typeof this.originValue == "string";
     }
 
     processOption(options: StringFieldOptions): StringFieldOptions {
