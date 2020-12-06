@@ -75,7 +75,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
                 // run validations
                 if (this.originValueExists) {
-                    this.projectedContext = this.parsedValue;
+                    this.projectedValue = this.parsedValue;
                     // run native validations
                     let nativeValidationPass = this.applyNativeValidation(ops);
                     if (Array.isArray(nativeValidationPass) && nativeValidationPass.length > 0) {
