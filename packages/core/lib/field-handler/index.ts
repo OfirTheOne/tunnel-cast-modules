@@ -24,6 +24,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
     protected processedOptions: any;
     protected originValue: any;
+    protected parsedValue: any;
     protected projectedValue: any;
     protected originValueExists: boolean;
 
@@ -63,7 +64,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                 this.logger.log(`pass assertion stage`, VerboseLevel.High);
 
                 // do parsing
-                this.projectedValue = this.runParsing(ops.parsing as Array<Function>);
+                this.parsedValue = this.runParsing(ops.parsing as Array<Function>);
                 this.logger.log(`pass parsing stage`, VerboseLevel.High);
 
                 if (!this.typeCondition()) {
@@ -74,6 +75,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
 
                 // run validations
                 if (this.originValueExists) {
+                    this.projectedContext = this.parsedValue;
                     // run native validations
                     let nativeValidationPass = this.applyNativeValidation(ops);
                     if (Array.isArray(nativeValidationPass) && nativeValidationPass.length > 0) {
