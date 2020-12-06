@@ -48,7 +48,7 @@ export class ArrayHandler extends FieldHandler<ArrayFieldOptions> {
     }
 
     typeCondition(): boolean {
-        return Array.isArray(this.originValue);
+        return Array.isArray(this.parsedValue);
     }
 
     processOption(options: ArrayFieldOptions): ArrayFieldOptions {

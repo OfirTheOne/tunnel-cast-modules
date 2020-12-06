@@ -26,23 +26,23 @@ describe("BooleanHandler", () => {
     it("should validate value type, using typeCondition.", () => {
         const booleanHandler = new BooleanHandler({}, "castKey", {}, ParentModel);
         const stagedHandler = {
-            originValue: undefined as any,
+            parsedValue: undefined as any,
             typeCondition: booleanHandler.typeCondition,
         };
 
-        stagedHandler.originValue = false;
+        stagedHandler.parsedValue = false;
         expect(stagedHandler.typeCondition()).toBeTruthy();
 
-        stagedHandler.originValue = true;
+        stagedHandler.parsedValue = true;
         expect(stagedHandler.typeCondition()).toBeTruthy();
 
-        stagedHandler.originValue = 20;
+        stagedHandler.parsedValue = 20;
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = undefined;
+        stagedHandler.parsedValue = undefined;
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = "false";
+        stagedHandler.parsedValue = "false";
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
 });

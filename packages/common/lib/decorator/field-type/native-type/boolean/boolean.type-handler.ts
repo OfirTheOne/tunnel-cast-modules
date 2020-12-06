@@ -17,7 +17,7 @@ export class BooleanHandler extends FieldHandler<BooleanFieldOptions> {
     }
 
     typeCondition(): boolean {
-        return typeof this.originValue == "boolean";
+        return typeof this.parsedValue == "boolean";
     }
 
     processOption(options: BooleanFieldOptions): BooleanFieldOptions {

@@ -27,7 +27,7 @@ export class StringHandler extends FieldHandler<StringFieldOptions> {
     }
 
     typeCondition(): boolean {
-        return typeof this.originValue == "string";
+        return typeof this.parsedValue == "string";
     }
 
     processOption(options: StringFieldOptions): StringFieldOptions {

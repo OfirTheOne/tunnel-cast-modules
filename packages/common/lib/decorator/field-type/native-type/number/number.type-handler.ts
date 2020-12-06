@@ -26,7 +26,7 @@ export class NumberHandler extends FieldHandler<NumberFieldOptions> {
     }
 
     typeCondition(): boolean {
-        return typeof this.originValue == "number";
+        return typeof this.parsedValue == "number";
     }
 
     processOption(options: NumberFieldOptions): NumberFieldOptions {

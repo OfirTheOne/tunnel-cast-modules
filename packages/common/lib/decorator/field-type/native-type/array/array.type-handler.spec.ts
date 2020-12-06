@@ -20,23 +20,23 @@ describe("ArrayHandler", () => {
     it("should validate value type, using typeCondition.", () => {
         const handler = new ArrayHandler({}, "castKey", {}, ParentModel);
         const stagedHandler = {
-            originValue: undefined as any,
+            parsedValue: undefined as any,
             typeCondition: handler.typeCondition,
         };
 
-        stagedHandler.originValue = [];
+        stagedHandler.parsedValue = [];
         expect(stagedHandler.typeCondition()).toBeTruthy();
 
-        stagedHandler.originValue = 20;
+        stagedHandler.parsedValue = 20;
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = undefined;
+        stagedHandler.parsedValue = undefined;
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = "[]";
+        stagedHandler.parsedValue = "[]";
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = "Bob";
+        stagedHandler.parsedValue = "Bob";
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
 

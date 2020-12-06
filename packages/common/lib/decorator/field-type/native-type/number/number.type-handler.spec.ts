@@ -21,20 +21,20 @@ describe("NumberHandler", () => {
     it("should validate value type, using typeCondition.", () => {
         const numberHandler = new NumberHandler({}, "castKey", {}, ParentModel);
         const stagedHandler = {
-            originValue: undefined as any,
+            parsedValue: undefined as any,
             typeCondition: numberHandler.typeCondition,
         };
 
-        stagedHandler.originValue = 20;
+        stagedHandler.parsedValue = 20;
         expect(stagedHandler.typeCondition()).toBeTruthy();
 
-        stagedHandler.originValue = "20";
+        stagedHandler.parsedValue = "20";
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = "bar";
+        stagedHandler.parsedValue = "bar";
         expect(stagedHandler.typeCondition()).toBeFalsy();
 
-        stagedHandler.originValue = undefined;
+        stagedHandler.parsedValue = undefined;
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
 
