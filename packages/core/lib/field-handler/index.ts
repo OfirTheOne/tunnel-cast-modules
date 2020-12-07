@@ -7,8 +7,8 @@ import {
     FieldRequiredError,
     AssertError,
     TypeConditionError,
-    NativeValidationError,
-    ProvidedValidationError,
+    TypeValidationError,
+    CustomValidationError,
 } from "../errors";
 import { Class } from "../utils/type-helpers";
 
@@ -79,7 +79,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                     // run native validations
                     let nativeValidationPass = this.applyNativeValidation(ops);
                     if (Array.isArray(nativeValidationPass) && nativeValidationPass.length > 0) {
-                        throw new NativeValidationError(nativeValidationPass);
+                        throw new TypeValidationError(nativeValidationPass);
                     }
                     this.logger.log(`pass native-validations stage`, VerboseLevel.High);
 
@@ -87,10 +87,10 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
                     try {
                         providedValidationPass = this.runValidations(ops.validations as Array<Function>);
                     } catch (error) {
-                        throw new ProvidedValidationError(error);
+                        throw new CustomValidationError(error);
                     }
                     if (!providedValidationPass) {
-                        throw new ProvidedValidationError(undefined);
+                        throw new CustomValidationError(undefined);
                     }
 
                     this.logger.log(`pass extra-validations stage`, VerboseLevel.High);

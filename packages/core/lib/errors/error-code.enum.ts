@@ -4,5 +4,5 @@ export enum ErrorCode {
     AssertError,
     TypeConditionError,
     TypeValidationError,
-    NativeValidationError,
+    CustomValidationError,
 }

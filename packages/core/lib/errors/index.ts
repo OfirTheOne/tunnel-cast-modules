@@ -40,7 +40,7 @@ export class TypeConditionError extends CastingError {
     }
 }
 
-export class NativeValidationError extends CastingError implements ErrorWrapper {
+export class TypeValidationError extends CastingError implements ErrorWrapper {
     constructor(public originError: any) {
         super(`native validation failed.`, ErrorCode.TypeValidationError, "");
     }
@@ -53,9 +53,9 @@ export class NativeValidationError extends CastingError implements ErrorWrapper 
     }
 }
 
-export class ProvidedValidationError extends CastingError implements ErrorWrapper {
+export class CustomValidationError extends CastingError implements ErrorWrapper {
     constructor(public originError: any) {
-        super(`provided validation failed.`, ErrorCode.TypeValidationError, "");
+        super(`custom validation failed.`, ErrorCode.CustomValidationError, "");
     }
 
     toJSON() {
