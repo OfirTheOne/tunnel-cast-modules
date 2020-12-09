@@ -1,5 +1,1 @@
-describe("", () => {
-    it("should", () => {});
-
-    it("should", () => {});
-});
+test.todo("AssertType Decorator");
