@@ -1,5 +1,5 @@
 import { BadRequestException, Type } from "@nestjs/common";
-import { cast } from "tunnel-cast/dist/lib/common";
+import { cast } from "@tunnel-cast/common/cast";
 import { InvalidCastException } from "../errors";
 import { CastModuleOptions } from "../interfaces";
 

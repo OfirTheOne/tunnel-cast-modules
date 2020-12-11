@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { CastModule } from '../cast.module';
 import { QueryTest02 } from '../../test/assets/models';
 import { CastQuery, CastParam, CastBody } from './common-cast-parameter-decorator';
-import { ErrorCode } from 'tunnel-cast/dist/lib/error/error-code.enum'
+import { ErrorCode } from '@tunnel-cast/core/enums/error-code.enum'
 import { HttpService } from '@nestjs/common/http/http.service';
 import { of } from 'rxjs';
 
