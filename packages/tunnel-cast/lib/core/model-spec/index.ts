@@ -1,1 +1,0 @@
-export { modelSpec, specToModel } from './model-spec'
