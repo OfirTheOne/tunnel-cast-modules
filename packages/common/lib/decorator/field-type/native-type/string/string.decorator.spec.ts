@@ -1,14 +1,13 @@
 import { ErrorCode } from '@tunnel-cast/core/errors/error-code.enum'
-
 import { cast } from '../../../../cast';
-import { string } from './string.decorator'
+import { String } from './index'
 
 describe('string Decorator', () => {
 
     it('should validate the target field value with no errors', () => {
         
         class TestClass {
-            @string()
+            @String()
             text: string
         }
 
@@ -23,7 +22,7 @@ describe('string Decorator', () => {
     it('should validate the target field value with TypeConditionError', () => {
         
         class TestClass {
-            @string()
+            @String()
             text: string
         }
 
