@@ -1,4 +1,4 @@
-import { ErrorCode } from '@tunnel-cast/core/errors/error-code.enum'
+import { ErrorCode } from '@tunnel-cast/core/enums/error-code.enum'
 
 import { cast } from '../../../../cast';
 import { number } from './number.decorator'

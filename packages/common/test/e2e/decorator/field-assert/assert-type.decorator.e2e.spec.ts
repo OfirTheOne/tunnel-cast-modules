@@ -3,7 +3,7 @@
 import * as fieldType from "../../../../lib/decorator/field-type";
 import { AssertType, Parsing } from "../../../../lib";
 import { cast } from "../../../../lib/cast";
-import { ErrorCode } from '@tunnel-cast/core/errors/error-code.enum';
+import { ErrorCode } from '@tunnel-cast/core/enums/error-code.enum';
 describe("@AssertType", function () {
     class TestClass01 {
         @AssertType("number")
