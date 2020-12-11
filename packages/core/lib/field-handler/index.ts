@@ -41,7 +41,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
     // - main driver
     public handle(options: OP) {
         try {
-            const ops = this.processOption(options) as OP;
+            const ops = this.processOption(this.options || options) as OP;
             this.processedOptions = ops;
             this.originValue = this.extractValue(ops);
             this.logger.log(`pass extraction stage`, VerboseLevel.High);
@@ -49,7 +49,7 @@ export abstract class FieldHandler<OP extends BaseFieldOptions = BaseFieldOption
             this.originValueExists = this.evaluateOriginValueExistent();
 
             if (!this.originValueExists && ops.required == true) {
-                throw new FieldRequiredError(this.fieldName, this.parentModelRef.name); //Error('required failed!');
+                throw new FieldRequiredError(this.fieldName, this.parentModelRef.name);
             }
             this.logger.log(`pass required-valuation stage`, VerboseLevel.High);
 
