@@ -3,11 +3,11 @@
 import * as fieldType from "../../../../lib/decorator/field-type";
 import { AssertType, Parsing } from "../../../../lib";
 import { cast } from "../../../../lib/cast";
-import { ErrorCode } from '@tunnel-cast/core/enums/error-code.enum';
+import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
 describe("@AssertType", function () {
     class TestClass01 {
         @AssertType("number")
-        @Parsing(val => global.String(val))
+        @Parsing((val) => global.String(val))
         @fieldType.String()
         someString: string;
     }
@@ -22,10 +22,9 @@ describe("@AssertType", function () {
         const bad_result_01 = cast(TestClass01, bad_input_01);
         expect(bad_result_01.errors).toBeDefined();
         expect(bad_result_01.errors.length).toEqual(1);
-        expect(bad_result_01.errors[0].fieldName).toEqual('someString');
+        expect(bad_result_01.errors[0].fieldName).toEqual("someString");
         expect((bad_result_01.errors[0].errors[0] as any).code).toEqual(ErrorCode.AssertError);
 
-        
         // ============ success case ============ //
 
         const good_input_01 = {

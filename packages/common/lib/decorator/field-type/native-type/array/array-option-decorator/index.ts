@@ -1,13 +1,11 @@
 import { FieldOptionSetterDecoratorFactory } from "@tunnel-cast/core/decorator-factory/field-option-setter.decorator-factory";
 
-
 /**
  * @description declare the type (primitive / class) of the origin field value, and assert it
  */
 export const MinLength = function (value) {
     return FieldOptionSetterDecoratorFactory("minLength", value);
 };
-
 
 /**
  * @description declare the type (primitive / class) of the origin field value, and assert it
@@ -30,10 +28,9 @@ export const AllowType = function (value) {
     return FieldOptionSetterDecoratorFactory("allowType", value);
 };
 
-
 export const arrayOptionDecorators = {
     MinLength,
     MaxLength,
     OfType,
-    AllowType
-}
+    AllowType,
+};

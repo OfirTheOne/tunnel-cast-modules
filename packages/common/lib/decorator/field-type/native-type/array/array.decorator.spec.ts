@@ -1,15 +1,13 @@
-import { ErrorCode } from '@tunnel-cast/core/enums/error-code.enum'
+import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
 
-import { cast } from '../../../../cast';
-import { array } from './array.decorator'
+import { cast } from "../../../../cast";
+import { array } from "./array.decorator";
 
-describe('Array Decorator', () => {
-
-    it('should validate the target field value with no errors', () => {
-        
+describe("Array Decorator", () => {
+    it("should validate the target field value with no errors", () => {
         class TestClass {
             @array()
-            list: Array<string>
+            list: Array<string>;
         }
 
         const value = { list: [] };
@@ -17,22 +15,19 @@ describe('Array Decorator', () => {
 
         expect(result.errors).toBeUndefined();
         expect(result.value).toEqual(value);
+    });
 
-    })
-
-    it('should validate the target field value with TypeConditionError', () => {
-        
+    it("should validate the target field value with TypeConditionError", () => {
         class TestClass {
             @array()
-            list: Array<string>
+            list: Array<string>;
         }
 
-        const value = { list: 'hello' };
+        const value = { list: "hello" };
         const result = cast(TestClass, value);
 
         expect(result.errors.length).toEqual(1);
-        expect(result.errors[0].fieldName).toEqual('list');
+        expect(result.errors[0].fieldName).toEqual("list");
         expect((result.errors[0].errors[0] as any).code).toEqual(ErrorCode.TypeConditionError);
-    })
-
-})
+    });
+});

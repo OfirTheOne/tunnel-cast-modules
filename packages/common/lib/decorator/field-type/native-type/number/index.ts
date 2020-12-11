@@ -1,5 +1,5 @@
 import { number } from "./number.decorator";
-import { numberOptionDecorators } from './number-option-decorator'
+import { numberOptionDecorators } from "./number-option-decorator";
 
 /**
  * @description declare a Number type

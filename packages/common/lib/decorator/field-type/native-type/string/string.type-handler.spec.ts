@@ -35,6 +35,5 @@ describe("StringHandler", () => {
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
 
-    it.todo("should validate target value correctly, using nativeValidations.<CONDITION>")
-
+    it.todo("should validate target value correctly, using nativeValidations.<CONDITION>");
 });

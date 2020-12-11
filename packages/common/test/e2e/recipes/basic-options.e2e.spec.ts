@@ -1,12 +1,11 @@
 import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
-import { String, Boolean, Array} from "../../../lib/decorator/field-type";
+import { String, Boolean, Array } from "../../../lib/decorator/field-type";
 import { Required, Default, Parsing, Validations, FallbackAttribute } from "../../../lib/decorator/field-options";
 import { cast } from "../../../lib/cast";
 
 describe("Recipe : Basic Options", function () {
-    
     class User {
-        @FallbackAttribute('name')
+        @FallbackAttribute("name")
         @String()
         username: string;
 
@@ -20,7 +19,7 @@ describe("Recipe : Basic Options", function () {
         @Boolean()
         notificationOn: number;
 
-        @Validations(value => value.length > 2 && value[1].startsWith("Rocky"))
+        @Validations((value) => value.length > 2 && value[1].startsWith("Rocky"))
         @Array({
             minLength: 1,
             maxLength: 15,
@@ -36,7 +35,6 @@ describe("Recipe : Basic Options", function () {
     }
 
     it("Cast User model - error case - inspect error ", function () {
-
         const bad_input_01 = {
             name: "Bob",
             email: "bob-gmail.com",
@@ -46,23 +44,22 @@ describe("Recipe : Basic Options", function () {
         };
         const bad_result_01 = cast(User, bad_input_01);
         const expectedErrors = [
-            { fieldName: 'email', errorCode: ErrorCode.TypeValidationError },
-            { fieldName: 'notificationOn', errorCode: ErrorCode.TypeConditionError },
-            { fieldName: 'favorites', errorCode: ErrorCode.CustomValidationError },
-            { fieldName: 'gender', errorCode: ErrorCode.TypeConditionError }  
+            { fieldName: "email", errorCode: ErrorCode.TypeValidationError },
+            { fieldName: "notificationOn", errorCode: ErrorCode.TypeConditionError },
+            { fieldName: "favorites", errorCode: ErrorCode.CustomValidationError },
+            { fieldName: "gender", errorCode: ErrorCode.TypeConditionError },
         ];
         const actualErrors = bad_result_01.errors;
-        
+
         expect(actualErrors).toBeDefined();
         expect(actualErrors.length).toEqual(expectedErrors.length);
-        expectedErrors.forEach(({fieldName, errorCode}, i) => {
-            expect(actualErrors[i].fieldName).toEqual(fieldName);  
+        expectedErrors.forEach(({ fieldName, errorCode }, i) => {
+            expect(actualErrors[i].fieldName).toEqual(fieldName);
             expect((actualErrors[i].errors[0] as any).code).toEqual(errorCode);
         });
-    })
+    });
 
     it("Cast User model - success case - inspect result ", function () {
-
         const good_input_01 = {
             name: "Bob",
             email: "bob@gmail.com",
@@ -74,7 +71,7 @@ describe("Recipe : Basic Options", function () {
 
         expect(good_result_01.errors).toBeUndefined();
 
-        expectedProperties.forEach(prop => expect(good_result_01.value).toHaveProperty(prop));
+        expectedProperties.forEach((prop) => expect(good_result_01.value).toHaveProperty(prop));
         expect(good_result_01.value).toBeInstanceOf(User);
 
         expect(good_result_01.value.username).toEqual(good_input_01.name);
@@ -83,5 +80,4 @@ describe("Recipe : Basic Options", function () {
         expect(good_result_01.value.favorites).toEqual(good_input_01.favorites);
         expect(good_result_01.value.gender).toEqual(good_input_01.gender.toLowerCase());
     });
-
 });

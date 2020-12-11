@@ -1,5 +1,5 @@
 import { array } from "./array.decorator";
-import { arrayOptionDecorators } from './array-option-decorator';
+import { arrayOptionDecorators } from "./array-option-decorator";
 
 /**
  * @description declare a Array type
