@@ -1,4 +1,4 @@
-import { ErrorCode } from "@tunnel-cast/core/errors/error-code.enum";
+import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
 import { String, Boolean, Array} from "../../../lib/decorator/field-type";
 import { Required, Default, Parsing, Validations, FallbackAttribute } from "../../../lib/decorator/field-options";
 import { cast } from "../../../lib/cast";
