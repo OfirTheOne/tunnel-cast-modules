@@ -1,1 +1,1 @@
-export { MetadataStorage } from './metadata-storage.service';
+export { MetadataStorage } from "./metadata-storage.service";

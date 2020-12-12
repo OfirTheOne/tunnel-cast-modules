@@ -1,33 +1,31 @@
-import { Number, String, Parsing } from '@tunnel-cast/common' 
-
+import { Number, String, Parsing } from "@tunnel-cast/common";
 
 export class QueryTest01 {
-    @Number()
-    skip: number;
+  @Number()
+  skip: number;
 
-    @Number()
-    limit: number;
+  @Number()
+  limit: number;
 
-    @String()
-    name: string;
+  @String()
+  name: string;
 }
 
-
 export class QueryTest02 {
-    @Parsing((value: string) => global.Number(value) )
-    @Number({
-        min: 0,
-        max: 50
-    })
-    skip: number;
-    
-    @Parsing((value: string) => global.Number(value) )
-    @Number({
-        min: 0,
-        max: 50
-    })
-    limit: number;
+  @Parsing((value: string) => global.Number(value))
+  @Number({
+    min: 0,
+    max: 50
+  })
+  skip: number;
 
-    @String()
-    name: string;
+  @Parsing((value: string) => global.Number(value))
+  @Number({
+    min: 0,
+    max: 50
+  })
+  limit: number;
+
+  @String()
+  name: string;
 }

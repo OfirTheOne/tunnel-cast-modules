@@ -1,5 +1,4 @@
 export interface CastPipeTransformValue<T = any> {
-    path: string, 
-    extractedValue: T
-  }
-  
+  path: string;
+  extractedValue: T;
+}

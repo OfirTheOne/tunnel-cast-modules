@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from "@nestjs/common";
 
 export class InvalidCastException extends HttpException {
   public originError: any;
@@ -9,4 +9,4 @@ export class InvalidCastException extends HttpException {
     );
     this.originError = error;
   }
-} 
+}

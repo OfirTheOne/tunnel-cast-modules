@@ -12,18 +12,13 @@ import { Type } from "@nestjs/common";
 //   inject?: any[];
 // }
 
-export interface AsyncModelFactory {
-    
-}
-
+export interface AsyncModelFactory {}
 
 export interface CastModuleFactoryParameters {
-
-    models: Array<{ name: string, model: Type<any> }>,
-    castError: Type<Error>,
-    transformError: Function,
+  models: Array<{ name: string; model: Type<any> }>;
+  castError: Type<Error>;
+  transformError: Function;
 }
 
-export interface CastModuleOptions extends Partial<Omit<CastModuleFactoryParameters, 'models'>> {
-
-}
+export interface CastModuleOptions
+  extends Partial<Omit<CastModuleFactoryParameters, "models">> {}
