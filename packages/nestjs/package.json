@@ -8,6 +8,7 @@
   "types": "index.d.ts",
   "main": "index.ts",
   "scripts": {
+    "pack": "sh ../../sh/build-pack.sh",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
@@ -18,6 +19,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "repository": {
+    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/core",
+    "type": "GitHub"
   },
   "dependencies": {
     "@tunnel-cast/common": "file:../common/tunnel-cast-common-1.0.0.tgz",
