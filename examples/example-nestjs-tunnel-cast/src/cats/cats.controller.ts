@@ -1,13 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { CastQueryInfer } from 'nestjs-tunnel-cast/dist/parameter-decorators/common-cast-parameter-decorator'
+import { CastQuery } from '@tunnel-cast/nestjs/parameter-decorators/common-cast-parameter-decorator'
 
-import { GetAllCats } from './cast-models'
+import { GetAllCats } from './cast'
 
 @Controller('cats')
 export class CatsController {
 
     @Get()
-    getCats(@CastQueryInfer query: GetAllCats.Query ) {
+    getCats(@CastQuery() query: GetAllCats.Query ) {
         return {query}
     }
 }

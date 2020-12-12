@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CatsController } from './cats/cats.controller';
-import { CastModule } from 'nestjs-tunnel-cast/dist/cast.module'
+import { CastModule } from '@tunnel-cast/nestjs/cast.module'
 
 @Module({
   imports: [
     CastModule.forFeature({})
   ],
-  controllers: [AppController, CatsController],
-  providers: [AppService],
+  controllers: [CatsController],
+  providers: [],
 })
 export class AppModule {}
