@@ -10,7 +10,7 @@ import {
 import { Request as eRequest } from 'express'
 import { Observable } from 'rxjs';
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from '../constants';
-import { InvalidCastException } from './../errors';
+import { InvalidCastException } from '../errors';
 
 import { cast } from '@tunnel-cast/common/cast';
 import { MetadataStorage } from '../storage';

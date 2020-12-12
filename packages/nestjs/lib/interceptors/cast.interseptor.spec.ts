@@ -3,7 +3,7 @@ import { CastQueryInterceptor } from './common-cast-interceptor';
 import { QueryTest01 } from '../../test/assets/models'
 import { HttpArgumentsHost, NestInterceptor } from '@nestjs/common/interfaces';
 
-import { defaultOptions } from './../cast-module-default-options'
+import { defaultOptions } from '../cast-module-default-options'
 import { MetadataStorage } from '../storage';
 
 describe('CastQueryInterceptor', () => {
