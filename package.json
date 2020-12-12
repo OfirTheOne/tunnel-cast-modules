@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "test": "lerna run test",
+    "format": "lerna run format",
     "build": "lerna run build"
   },
   "devDependencies": {
