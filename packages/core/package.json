@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "repository": {
-    "url": "https://github.com/OfirTheOne/tunnel-cast",
+    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/core",
     "type": "GitHub"
   },
   "types": "lib/index.d.ts",
