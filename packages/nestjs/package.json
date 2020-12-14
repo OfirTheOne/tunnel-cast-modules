@@ -8,7 +8,10 @@
   "types": "index.d.ts",
   "main": "index.ts",
   "scripts": {
-    "pack": "sh ../../sh/build-pack.sh",
+    "single-pack": "sh ../../sh/prepack-build.sh && npm pack ./dist",
+    "prepack": "echo 'Pack start'",
+    "single-publish": "sh ../../sh/prepack-build.sh && npm publish ./dist",
+    "prepublishOnly": "echo 'Publish start'",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
