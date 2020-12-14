@@ -1,13 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { CastQuery } from '@tunnel-cast/nestjs/parameter-decorators/common-cast-parameter-decorator'
+import { CastQuery, CastParam } from '@tunnel-cast/nestjs/parameter-decorators/common-cast-parameter-decorator'
 
-import { GetAllCats } from './cast'
+import { GetAllCats, GetCatsByType} from './cast'
 
 @Controller('cats')
 export class CatsController {
-
     @Get()
-    getCats(@CastQuery() query: GetAllCats.Query ) {
+    getCats(@CastQuery() query: GetAllCats.Query) {
         return {query}
+    }
+    
+    @Get(':type')
+    getCatsByType(@CastParam() params: GetCatsByType.Params) {
+        return {params}
     }
 }
