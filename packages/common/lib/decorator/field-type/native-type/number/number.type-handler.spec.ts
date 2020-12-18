@@ -38,19 +38,5 @@ describe("NumberHandler", () => {
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
 
-    it("should validate target value correctly, using nativeValidations.maxLength", () => {
-        const { max } = (handler as NumberHandler).nativeValidations;
-        expect(max.condition(4, 2, {})).toBeFalsy();
-        expect(max.condition(0, 0, {})).toBeFalsy();
-        expect(max.condition(4, 5, {})).toBeTruthy();
-        expect(max.condition(-3, 0, {})).toBeTruthy();
-    });
 
-    it("should validate target value correctly, using nativeValidations.minLength", () => {
-        const { min } = (handler as NumberHandler).nativeValidations;
-        expect(min.condition(4, 2, {})).toBeTruthy();
-        expect(min.condition(0, 0, {})).toBeTruthy();
-        expect(min.condition(4, 5, {})).toBeFalsy();
-        expect(min.condition(-3, 0, {})).toBeFalsy();
-    });
 });
