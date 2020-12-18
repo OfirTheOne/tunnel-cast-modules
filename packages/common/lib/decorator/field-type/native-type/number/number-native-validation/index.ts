@@ -1,1 +1,1 @@
-export * from './number-native-validation'
+export * from "./number-native-validation";

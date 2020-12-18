@@ -1,6 +1,5 @@
 import { FieldOptionSetterDecoratorFactory } from "@tunnel-cast/core/decorator-factory/field-option-setter.decorator-factory";
 
-
 export const Format = function (value) {
     return FieldOptionSetterDecoratorFactory("format", value);
 };
@@ -28,11 +27,6 @@ export const EndsWith = function (value) {
 export const NotIn = function (value) {
     return FieldOptionSetterDecoratorFactory("notIn", value);
 };
-
-
-
-
-
 
 export const stringOptionDecorators = {
     Format,

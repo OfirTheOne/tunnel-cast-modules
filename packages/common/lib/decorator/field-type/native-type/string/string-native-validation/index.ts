@@ -1,1 +1,1 @@
-export * from './string-native-validation'
+export * from "./string-native-validation";

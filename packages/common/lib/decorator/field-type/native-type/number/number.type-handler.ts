@@ -2,7 +2,7 @@ import { FieldHandler } from "@tunnel-cast/core/field-handler";
 import { NativeValidationDict } from "@tunnel-cast/core/interfaces/native-validation-dict";
 import { NumberFieldOptions } from "./i-number-options";
 import { Class } from "@tunnel-cast/core/utils/type-helpers";
-import { nativeValidations } from './number-native-validation';
+import { nativeValidations } from "./number-native-validation";
 
 export const TypeHandlerId = Symbol("NUMBER");
 

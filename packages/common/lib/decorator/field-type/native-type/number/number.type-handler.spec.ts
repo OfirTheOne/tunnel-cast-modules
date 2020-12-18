@@ -37,6 +37,4 @@ describe("NumberHandler", () => {
         stagedHandler.parsedValue = undefined;
         expect(stagedHandler.typeCondition()).toBeFalsy();
     });
-
-
 });
