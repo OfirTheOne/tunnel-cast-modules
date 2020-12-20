@@ -1,7 +1,4 @@
-import { expect } from "chai";
-
 import * as fieldType from "../../../../lib/decorator/field-type";
-import { AssertType, Parsing } from "../../../../lib";
 import { cast } from "../../../../lib/cast";
 
 describe("Feature : @fieldType.Boolean", function () {
@@ -18,7 +15,8 @@ describe("Feature : @fieldType.Boolean", function () {
         };
 
         const bad_result_01 = cast(_TestClass01, bad_input_01);
-        expect(bad_result_01.errors).to.be.a("array").of.length(1);
+        expect(Array.isArray(bad_result_01.errors)).toBeTruthy();
+        expect(bad_result_01.errors.length).toEqual(1);
 
         // ============ success case ============ //
 
@@ -27,10 +25,10 @@ describe("Feature : @fieldType.Boolean", function () {
         };
 
         const good_result_01 = cast(_TestClass01, good_input_01);
-        expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.have.key("someBoolean");
-        expect(good_result_01.value).to.be.a.instanceOf(_TestClass01);
-        expect(good_result_01.value.someBoolean).to.be.of.a("boolean").eqls(good_input_01.someBoolean);
+        expect(good_result_01.errors).toBeUndefined();
+        expect(good_result_01.value).toHaveProperty("someBoolean");
+        expect(good_result_01.value).toBeInstanceOf(_TestClass01);
+        expect(good_result_01.value.someBoolean).toEqual(good_input_01.someBoolean);
     });
 
     class _TestClass02 {
@@ -49,8 +47,8 @@ describe("Feature : @fieldType.Boolean", function () {
         };
 
         const bad_result_01 = cast(_TestClass02, bad_input_01);
-        expect(bad_result_01.errors).to.be.a("array").of.length(1);
-
+        expect(Array.isArray(bad_result_01.errors)).toBeTruthy();
+        expect(bad_result_01.errors.length).toEqual(1);
         // ============ success case ============ //
 
         const good_input_01 = {
@@ -58,19 +56,19 @@ describe("Feature : @fieldType.Boolean", function () {
         };
 
         const good_result_01 = cast(_TestClass02, good_input_01);
-        expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.have.key("someBoolean");
-        expect(good_result_01.value).to.be.a.instanceOf(_TestClass02);
-        expect(good_result_01.value.someBoolean).to.be.of.a("boolean").eqls(good_input_01.someBoolean);
+        expect(good_result_01.errors).toBeUndefined();
+        expect(good_result_01.value).toHaveProperty("someBoolean");
+        expect(good_result_01.value).toBeInstanceOf(_TestClass02);
+        expect(good_result_01.value.someBoolean).toEqual(good_input_01.someBoolean);
 
         const good_input_02 = {
             someBoolean: undefined,
         };
 
         const good_result_02 = cast(_TestClass02, good_input_02);
-        expect(good_result_02.errors).to.be.undefined;
-        expect(good_result_02.value).to.have.key("someBoolean");
-        expect(good_result_02.value).to.be.a.instanceOf(_TestClass02);
-        expect(good_result_02.value.someBoolean).to.be.of.a("boolean").eqls(false);
+        expect(good_result_02.errors).toBeUndefined();
+        expect(good_result_02.value).toHaveProperty("someBoolean");
+        expect(good_result_02.value).toBeInstanceOf(_TestClass02);
+        expect(good_result_02.value.someBoolean).toEqual(false);
     });
 });

@@ -1,5 +1,3 @@
-// import { expect } from 'chai';
-
 import * as fieldType from "../../../../lib/decorator/field-type";
 import { AssertType, Parsing } from "../../../../lib";
 import { cast } from "../../../../lib/cast";

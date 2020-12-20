@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as field from "../../../../lib/decorator/field-type";
 import { cast } from "../../../../lib/cast";
 
@@ -47,14 +45,16 @@ describe("Feature : @field.Model", function () {
         };
 
         const bad_result_01 = cast(_TestClass01, bad_input_01);
-        expect(bad_result_01.errors).to.be.a("array").of.length(1);
+        expect(Array.isArray(bad_result_01.errors)).toBeTruthy();
+        expect(bad_result_01.errors.length).toEqual(1);
 
         const bad_result_02 = cast(_TestClass01, bad_input_02);
-        expect(bad_result_02.errors).to.be.a("array").of.length(1);
+        expect(Array.isArray(bad_result_02.errors)).toBeTruthy();
+        expect(bad_result_02.errors.length).toEqual(1);
 
         const bad_result_03 = cast(_TestClass01, bad_input_03);
-        expect(bad_result_03.errors).to.be.a("array").of.length(2);
-
+        expect(Array.isArray(bad_result_03.errors)).toBeTruthy();
+        expect(bad_result_03.errors.length).toEqual(2);
         // ============ success case ============ //
 
         const good_input_01 = {
@@ -66,8 +66,8 @@ describe("Feature : @field.Model", function () {
         };
 
         const good_result_01 = cast(_TestClass01, good_input_01);
-        expect(good_result_01.errors).to.be.undefined;
-        expect(good_result_01.value).to.be.a.instanceOf(_TestClass01);
-        expect(good_result_01.value).to.be.of.a("object").eql(good_input_01);
+        expect(good_result_01.errors).toBeUndefined();
+        expect(good_result_01.value).toBeInstanceOf(_TestClass01);
+        expect(good_result_01.value).toEqual(good_input_01);
     });
 });

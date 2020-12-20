@@ -1,5 +1,3 @@
-// import { expect } from 'chai';
-
 import * as field from "../../../../lib/decorator/field-type";
 import { cast } from "../../../../lib/cast";
 
