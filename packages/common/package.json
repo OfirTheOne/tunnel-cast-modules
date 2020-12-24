@@ -2,7 +2,7 @@
   "name": "@tunnel-cast/common",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "directories": {
     "lib": "lib"
   },
@@ -10,7 +10,7 @@
     "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/common",
     "type": "GitHub"
   },
-  "types": "dist/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
     "single-pack": "sh ../../sh/prepack-build.sh && npm pack ./dist",
