@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatsController } from './cats.controller';
-import { CastModule } from 'nestjs-tunnel-cast/lib/cast.module'
+import { CastModule } from '@tunnel-cast/nestjs/cast.module'
 describe('CatsController', () => {
   let controller: CatsController;
 
