@@ -10,9 +10,13 @@ export function castValue<T>(
 ) {
   const result = cast(model, value);
   if (result.errors) {
-    throw new options.castError(
-      JSON.stringify(options.transformError(result.errors), undefined, 2)
+    // throw new options.castError(
+    //   JSON.stringify(options.transformError(result.errors), undefined, 2)
+    // );
+    throw new InvalidCastException(
+      options.transformError(result.errors)
     );
+
   }
 
   return result.value;
