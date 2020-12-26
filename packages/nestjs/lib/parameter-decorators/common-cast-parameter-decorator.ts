@@ -3,3 +3,4 @@ import { CastParameterDecoratorFactory } from "./cast.parameter-decorator.factor
 export const CastQuery = CastParameterDecoratorFactory("req.query");
 export const CastParam = CastParameterDecoratorFactory("req.params");
 export const CastBody = CastParameterDecoratorFactory("req.body");
+export const CastHeaders = CastParameterDecoratorFactory("req.headers");
