@@ -1,10 +1,11 @@
 import { ExecutionContext } from "@nestjs/common";
-import { CastQueryInterceptor } from "./common-cast-interceptor";
-import { QueryTest01 } from "../../test/assets/models";
 import { HttpArgumentsHost, NestInterceptor } from "@nestjs/common/interfaces";
+import { CastQueryInterceptor, CastParamInterceptor } from "./common-cast-interceptor";
+import { QueryTest01 } from "../../test/assets/models";
 
 import { defaultOptions } from "../cast-module-default-options";
 import { MetadataStorage } from "../storage";
+
 
 describe("CastQueryInterceptor", () => {
   const interceptor = new (CastQueryInterceptor(QueryTest01))();
@@ -18,9 +19,10 @@ describe("CastQueryInterceptor", () => {
     expect(interceptor).toBeDefined();
   });
 
-  it("should execute intercept and **pass** cast model", async () => {
+  it("should execute intercept on query and **pass** cast model", async () => {
     await testInterceptor(
       interceptor,
+      'query',
       {
         request: {
           query: { skip: 10, limit: 20, name: "bob" }
@@ -36,9 +38,10 @@ describe("CastQueryInterceptor", () => {
     );
   });
 
-  it("should execute intercept and **fail** cast model", async () => {
+  it("should execute intercept on query and **fail** cast model", async () => {
     await testInterceptor(
       interceptor,
+      'query',
       {
         request: {
           query: { skip: 10, limit: "hello", name: "bob" }
@@ -60,10 +63,77 @@ describe("CastQueryInterceptor", () => {
       }
     );
   });
+
 });
+
+
+
+describe("CastParamInterceptor", () => {
+  const interceptor = new (CastParamInterceptor(QueryTest01))();
+
+  beforeEach(() => {
+    interceptor["storage"] = new MetadataStorage();
+    interceptor["options"] = defaultOptions;
+  });
+
+  it("should be defined", () => {
+    expect(interceptor).toBeDefined();
+  });
+
+  it("should execute intercept on param and **pass** cast model", async () => {
+    await testInterceptor(
+      interceptor,
+      'params',
+      {
+        request: {
+          params: { skip: 10, limit: 20, name: "bob" }
+        },
+        next: undefined
+      },
+      {
+        request: {
+          params: { skip: 10, limit: 20, name: "bob" }
+        },
+        next: undefined
+      }
+    );
+  });
+
+  it("should execute intercept on param and **fail** cast model", async () => {
+    await testInterceptor(
+      interceptor,
+      'params',
+      {
+        request: {
+          params: { skip: 10, limit: "hello", name: "bob" }
+        },
+        next: undefined,
+        error: [
+          {
+            fieldName: "limit",
+            errors: [{ code: 4 }]
+          }
+        ]
+      },
+      {
+        request: {
+          params: { skip: 10, limit: 20, name: "bob" }
+        },
+        next: undefined,
+        errorTransform: undefined
+      }
+    );
+  });
+
+
+});
+
+
+
 
 async function testInterceptor(
   interceptor: NestInterceptor<any, any>,
+  assertionKey: string,
   mock: { request: any; next: any; error?: any },
   expected: { request: any; next: any; errorTransform?: (e: any) => any }
 ) {
@@ -92,8 +162,8 @@ async function testInterceptor(
       callHandler
     );
     expect(actualValue).toBe(mock.next);
-    expect(executionContext.switchToHttp().getRequest().query).toEqual(
-      expected.request.query
+    expect(executionContext.switchToHttp().getRequest()[assertionKey]).toEqual(
+      expected.request[assertionKey]
     );
     expect(callHandler.handle).toBeCalledTimes(1);
   } catch (error) {
