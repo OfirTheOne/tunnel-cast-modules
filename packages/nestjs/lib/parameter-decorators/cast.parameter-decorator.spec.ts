@@ -1,7 +1,7 @@
 import { Controller, Get, BadRequestException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { CastModule } from "../cast.module";
-import { QueryTest02 } from "../../test/assets/models";
+import { SampleModelB } from "../../test/assets/models";
 import {
   CastQuery,
   CastParam,
@@ -13,20 +13,28 @@ import { of } from "rxjs";
 
 // import Axios from 'axios';
 import * as request from "supertest";
-import { AxiosResponse } from "axios";
 import { NestApplication } from "@nestjs/core";
 
 @Controller("test")
 class ControllerTest01 {
-  @Get()
-  requestHandler(@CastQuery() query: QueryTest02) {
-    return query;
+  @Get('query-test')
+  requestHandlerCastQuery(@CastQuery() query: SampleModelB) {
+    return { query };
+  }
+
+  @Get('param-test/:limit/:skip/:name')
+  requestHandlerCastParam(@CastParam() param: SampleModelB) {
+    return { param };
+  }
+
+  @Get('body-test')
+  requestHandlerCastBody(@CastBody() body: SampleModelB) {
+    return { body };
   }
 }
 
 describe("Common Cast Decorators", () => {
-  // let control: ControllerTest01;
-  let httpService: HttpService;
+
   let app: NestApplication;
 
   beforeAll(async () => {
@@ -42,15 +50,59 @@ describe("Common Cast Decorators", () => {
     // control = moduleRef.get<ControllerTest01>(ControllerTest01);
   });
 
-  it("should return an array of cats", async done => {
+  it("should test request query and return an error for missing name", async done => {
     testController(
       app,
       {
-        url: "/test",
-        query: {
+        url: "/test/query-test",
+        received: {
           limit: 30,
           skip: 10
         },
+        assertionKey: 'query',
+        status: 400,
+        errors: [
+          {
+            fieldName: "name",
+            errors: [{ code: ErrorCode.FieldRequiredError }]
+          }
+        ]
+      },
+      done
+    );
+  });
+
+
+  it("should test request params and return an error", async done => {
+    testController(
+      app,
+      {
+        url: "/test/param-test/10/15/something",
+        received: undefined,
+        assertionKey: 'params',
+        status: 400,
+        errors: [
+          {
+            fieldName: "name",
+            errors: [{ code: ErrorCode.TypeValidationError }]
+          }
+        ]
+      },
+      done
+    );
+  });
+
+
+  it("should test request body and return an error for missing name", async done => {
+    testController(
+      app,
+      {
+        url: "/test/body-test",
+        received: {
+          limit: 30,
+          skip: 10
+        },
+        assertionKey: 'body',
         status: 400,
         errors: [
           {
@@ -71,9 +123,9 @@ describe("Common Cast Decorators", () => {
 function testController(
   app: NestApplication,
   options: {
+    received: any;
+    assertionKey: string;
     url: string;
-    query?: any;
-    body?: any;
     status: number;
     errors?: Array<any>;
   },
@@ -83,17 +135,34 @@ function testController(
     .get(options.url)
     .expect(options.status);
 
-  testRequest = options.query ? testRequest.query(options.query) : testRequest;
-  testRequest = options.body ? testRequest.send(options.body) : testRequest;
+
+  testRequest = insertRequestData(testRequest, options.received, options.assertionKey);
 
   testRequest.end((err, req) => {
     if (options.errors) {
       const { body } = req;
       expect(body).toBeDefined();
-      const { message } = body;
-      const errors: Array<any> = JSON.parse(message);
+      const errors = body;
       expect(errors).toEqual(options.errors);
     }
     done();
   });
+}
+
+
+
+function insertRequestData(reqTest: request.Test, received: any, assertionKey: string) {
+
+  switch(assertionKey) {
+    case 'body': 
+      return reqTest.send(received);
+
+    case 'query': 
+      return reqTest.query(received);
+
+    default: 
+      return reqTest;
+    
+  }
+
 }
