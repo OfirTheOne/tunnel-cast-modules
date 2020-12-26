@@ -11,7 +11,7 @@ export class QueryTest01 {
   name: string;
 }
 
-export class QueryTest02 {
+export class SampleModelB {
   @Parsing((value: string) => global.Number(value))
   @Number({
     min: 0,
@@ -26,6 +26,7 @@ export class QueryTest02 {
   })
   limit: number;
 
+  @String.MaxLength(5)
   @String()
   name: string;
 }
