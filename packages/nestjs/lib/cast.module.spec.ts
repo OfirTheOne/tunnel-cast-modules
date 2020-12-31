@@ -1,27 +1,52 @@
-test.todo("TODO");
 
-// import { Test } from '@nestjs/testing';
-// import { CastModule } from './cast.module';
-// import { MetadataStorage } from './storage/metadata-storage.service';
+import { Get } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { CastModule } from './cast.module';
 
-// describe('CastModule', () => {
-//   let catsController: CatsController;
-//   let catsService: CatsService;
+import { String, Required } from '@tunnel-cast/common';
+import { CastParam } from './parameter-decorators';
 
-//   beforeEach(async () => {
-//     const moduleRef = await Test.createTestingModule({
-//         imports: [
-//             CastModule.forFeature({
+class GetByIdParams {
+    @Required(true)
+    @String.Format(/\d/)
+    @String()
+    id: string
+}
 
-//             })
-//         ]
-//         controllers: [CatsController],
-//         providers: [CatsService],
-//       }).compile();
+class ExampleEntityController {
+    @Get(':id')
+    getById(@CastParam() id: GetByIdParams) {
+        return { id };
+    }
+}
 
-//     catsService = moduleRef.get<CatsService>(CatsService);
-//     catsController = moduleRef.get<CatsController>(CatsController);
-//   });
+
+
+describe('CastModule', () => {
+    it('should compile successfully', async () => {
+        const moduleRef = await Test.createTestingModule({
+            imports: [
+                CastModule.forFeature({})
+            ],
+            controllers: [ExampleEntityController],
+        }).compile();
+
+        expect(moduleRef).toBeDefined();
+    });
+
+
+    it('should throw an error on compiling', async () => {
+
+        expect(async () => {
+            const moduleRef = await Test.createTestingModule({
+                imports: [],
+                controllers: [ExampleEntityController],
+            }).compile();
+
+        }).toThrowError
+    });
+
+})
 
 //   describe('findAll', () => {
 //     it('should return an array of cats', async () => {
