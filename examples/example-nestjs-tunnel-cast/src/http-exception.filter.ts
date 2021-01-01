@@ -11,6 +11,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     response
       .status(status)
-      .send(JSON.parse(exception.getResponse() as string));
+      .send(exception.getResponse());
   }
 }
