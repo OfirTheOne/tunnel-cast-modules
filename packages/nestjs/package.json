@@ -11,6 +11,8 @@
     "single-pack": "sh ../../sh/prepack-build.sh && npm pack ./dist",
     "prepack": "echo 'Pack start'",
     "single-publish": "sh ../../sh/prepack-build.sh && npm publish ./dist",
+    "single-publish:beta": "sh ../../sh/prepack-build.sh && npm publish ./dist --tag beta",
+    "postpublish" : "git tag v$npm_package_version && git push --tags",
     "prepublishOnly": "echo 'Publish start'",
     "prebuild": "rimraf dist",
     "build": "nest build",
