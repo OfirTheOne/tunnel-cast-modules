@@ -80,7 +80,7 @@ describe('BirdsController - /birds (e2e)', () => {
   });
 
 
-  it('/:type (GET), valid values - should return body correctly.', (done) => {
+  it('/:type (GET), valid values - should return body correctly.', () => {
     const typeValue = 'flying_cow'
     return request(app.getHttpServer())
       .get(`/birds/${typeValue}`)
