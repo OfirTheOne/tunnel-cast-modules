@@ -37,20 +37,16 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha All",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "env": {"NODE_ENV": "testing"},
-            "args": [
-                "-r",
-                "ts-node/register",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/tests/**/**/*.test.ts",
-            ],
+            "name": "Jest e2e",
+            "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "--runInBand", "--coverage", "false", "--config", "${workspaceRoot}/test/config/e2e.config.json"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "protocol": "inspector"
+            "skipFiles": [
+                "<node_internals>/**/*.js",
+                "node_modules",
+            ],
+            "sourceMaps": true,
+
         }
     ]
 }

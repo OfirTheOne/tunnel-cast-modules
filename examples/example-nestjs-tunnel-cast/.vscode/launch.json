@@ -20,6 +20,21 @@
             "cwd": "${workspaceRoot}",
             "console": "integratedTerminal",
             "protocol": "inspector"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest e2e",
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "args": ["--runInBand", "--config=test/config/unit.config.json"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "skipFiles": [
+                "<node_internals>/**/*.js",
+                "node_modules",
+            ],
+            "sourceMaps": true,
+
         }
     ]
-  }
+}
