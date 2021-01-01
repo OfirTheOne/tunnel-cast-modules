@@ -11,7 +11,7 @@
     "prepack": "echo 'Pack start'",
     "single-publish": "sh ../../sh/prepack-build.sh && npm publish ./dist",
     "single-publish:beta": "sh ../../sh/prepack-build.sh && npm publish ./dist --tag beta",
-    "postpublish" : "git tag v$npm_package_version && git push --tags",
+    "postpublish" : "git tag v$npm_package_version",
     "prepublishOnly": "echo 'Publish start'",
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -25,7 +25,7 @@
     "test:e2e": "jest --config ./test/config/e2e.config.json"
   },
   "repository": {
-    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/core",
+    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/nestjs",
     "type": "GitHub"
   },
   "dependencies": {
