@@ -17,11 +17,11 @@
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
     "start:prod": "node dist/main",
     "lint": "eslint \"{lib,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --config ./test/config/all.config.json",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/config/e2e.config.json"
   },
   "repository": {
     "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/core",
