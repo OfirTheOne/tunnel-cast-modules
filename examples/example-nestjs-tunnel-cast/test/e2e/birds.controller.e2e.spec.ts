@@ -84,18 +84,12 @@ describe('BirdsController - /birds (e2e)', () => {
     const typeValue = 'flying_cow'
     return request(app.getHttpServer())
       .get(`/birds/${typeValue}`)
-      .end((e, r) => {
-        
-        console.log(e, r.body, r.text)
-        done(e)
-
-      })
-      // .expect(200)
-      // .expect({
-      //   params: {
-      //     type: typeValue
-      //   }
-      // });
+      .expect(200)
+      .expect({
+        params: {
+          type: typeValue
+        }
+      });
   });
 
 
@@ -107,7 +101,6 @@ describe('BirdsController - /birds (e2e)', () => {
       .end((err, req) => {
         expect(req.error).toBeDefined();
         let actualError = JSON.parse(req.error['text']);
-        actualError = JSON.parse(actualError.message);
         const { fieldName, errors } = actualError[0];
         expect(fieldName).toEqual('type');
         expect(errors[0].code).toEqual(ErrorCode.TypeValidationError);

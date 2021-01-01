@@ -40,7 +40,6 @@ describe('CatController - /cats (e2e)', () => {
       .end((err, req) => {
         expect(req.error).toBeDefined();
         let actualError = JSON.parse(req.error['text']);
-        actualError = JSON.parse(actualError.message);
         const { fieldName, errors } = actualError[0];
         expect(fieldName).toEqual('limit');
         expect(errors[0].code).toEqual(ErrorCode.TypeValidationError);
@@ -89,7 +88,6 @@ describe('CatController - /cats (e2e)', () => {
       .end((err, req) => {
         expect(req.error).toBeDefined();
         let actualError = JSON.parse(req.error['text']);
-        actualError = JSON.parse(actualError.message);
         const { fieldName, errors } = actualError[0];
         expect(fieldName).toEqual('type');
         expect(errors[0].code).toEqual(ErrorCode.TypeValidationError);
