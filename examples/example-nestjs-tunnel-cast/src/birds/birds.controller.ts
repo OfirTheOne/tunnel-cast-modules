@@ -1,6 +1,5 @@
 import { Controller, Get, Query, Param, UseInterceptors } from '@nestjs/common';
-import { CastQueryInterceptor, CastParamInterceptor } from '@tunnel-cast/nestjs/interceptors/common-cast-interceptor'
-import { CastParam } from '@tunnel-cast/nestjs/parameter-decorators/common-cast-parameter-decorator'
+import { CastQueryInterceptor, CastParamInterceptor } from '@tunnel-cast/nestjs/interceptors'
 
 import { SearchBirds, GetBirdsByType} from './cast'
 
@@ -15,11 +14,11 @@ export class BirdsController {
         return { query }
     }
     
-    // @UseInterceptors(
-    //     CastParamInterceptor(GetBirdsByType.Params),
-    // )
+    @UseInterceptors(
+        CastParamInterceptor(GetBirdsByType.Params),
+    )
     @Get(':type')
-    getBirdsByType(@CastParam() params: GetBirdsByType.Params) {
+    getBirdsByType(@Param() params: GetBirdsByType.Params) {
         return { params }
     }
 }
