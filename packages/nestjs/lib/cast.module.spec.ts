@@ -1,5 +1,5 @@
 
-import { Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CastModule } from './cast.module';
 
@@ -13,6 +13,7 @@ class GetByIdParams {
     id: string
 }
 
+@Controller('entity')
 class ExampleEntityController {
     @Get(':id')
     getById(@CastParam() id: GetByIdParams) {
