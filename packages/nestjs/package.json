@@ -2,10 +2,19 @@
   "name": "@tunnel-cast/nestjs",
   "version": "0.0.2",
   "description": "",
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "Ofir G.",
+  "license": "MIT",
   "types": "index.d.ts",
   "main": "index.ts",
+  "keywords": [
+    "tunnel-cast", 
+    "nestjs-integration", 
+    "nestjs",
+    "cast", 
+    "casting",
+    "validation",
+    "typescript"
+  ],
   "scripts": {
     "single-pack": "sh ../../sh/prepack-build.sh && npm pack ./dist",
     "prepack": "echo 'Pack start'",
