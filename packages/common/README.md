@@ -4,7 +4,7 @@
 Object-To-Model library, lets the user construct a strict model definition using ES6 class and Typescript Decorators api, the model class will wrapped the parsing validation and transforming processes, just like a tunnel were in one side a raw object enters and exit in the other side after passes the "casting" process.   
 <br>
 
-![casting process](/docs/casting-process-lean.png)
+![casting process](/packages/common/docs/casting-process-lean.png)
 
 <br>
 
@@ -37,15 +37,15 @@ npm install @tunnel-cast/common
 
 ## See Documentation
 
-* #### [The general flow of the `cast` process](/docs/general-flow.md) 
+* #### [The general flow of the `cast` process](/packages/common/docs/general-flow.md) 
 
-* #### [Decorators](/docs/api-documentation/decorators.md)
+* #### [Decorators](/packages/common/docs/api-documentation/decorators.md)
 
-* #### [Models](/docs/api-documentation/models.md)
+* #### [Models](/packages/common/docs/api-documentation/models.md)
 
-* #### [Methods](/docs/api-documentation/methods.md)
+* #### [Methods](/packages/common/docs/api-documentation/methods.md)
 
-* #### [Errors](/docs/api-documentation/errors.md)
+* #### [Errors](/packages/common/docs/api-documentation/errors.md)
 
 <br>
 
