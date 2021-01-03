@@ -1,7 +1,7 @@
 # Tunnel Cast - NestJS 
 
 ## About 
-This is a Tunnel-Cast <---> NestJS integration package, wrap the `cast` application into the `NestJS` building blocks.
+This is a Tunnel-Cast - NestJS integration package, wrap the `cast` application into the `NestJS` building blocks.
 
 
 <br>
@@ -89,13 +89,13 @@ import { GetAllCats, GetCatsByType} from './cast-models'
 @Controller('cats')
 export class CatsController {
     @Get()
-    getCats(@CastQuery() query: GetAllCats.Query) {
+    getCats(@CastQuery() query: GetAllCats_Query) {
         // "cast" process passed successfully
         // ...
     }
     
     @Get(':type')
-    getCatsByType(@CastParam() params: GetCatsByType.Params) {
+    getCatsByType(@CastParam() params: GetCatsByType_Params) {
         // "cast" process passed successfully
         // ...
     }
