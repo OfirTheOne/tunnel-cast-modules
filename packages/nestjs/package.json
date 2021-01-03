@@ -1,6 +1,6 @@
 {
   "name": "@tunnel-cast/nestjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "author": "",
   "license": "UNLICENSED",
@@ -11,7 +11,7 @@
     "prepack": "echo 'Pack start'",
     "single-publish": "sh ../../sh/prepack-build.sh && npm publish ./dist",
     "single-publish:beta": "sh ../../sh/prepack-build.sh && npm publish ./dist --tag beta",
-    "postpublish" : "git tag v$npm_package_version",
+    "postpublish": "git tag v$npm_package_version",
     "prepublishOnly": "echo 'Publish start'",
     "prebuild": "rimraf dist",
     "build": "nest build",
