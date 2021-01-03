@@ -1,16 +1,16 @@
 {
   "name": "@tunnel-cast/nestjs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "author": "Ofir G.",
   "license": "MIT",
   "types": "index.d.ts",
   "main": "index.ts",
   "keywords": [
-    "tunnel-cast", 
-    "nestjs-integration", 
+    "tunnel-cast",
+    "nestjs-integration",
     "nestjs",
-    "cast", 
+    "cast",
     "casting",
     "validation",
     "typescript"
