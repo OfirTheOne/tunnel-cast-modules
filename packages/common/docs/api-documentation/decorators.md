@@ -1,15 +1,15 @@
 
 
-### **Decorators**
+## **Decorators**
 
 
-#### `@field.<TYPE>`
+### `Field Type Decorators`
 Define the field type.
 
 <br>
 
 
-`@field.Number(options?: NumberFieldOptions) `
+`@Number(options?: NumberFieldOptions) `
 
 > Description : <br>
 Defines an attribute as a `number` type, with additional requirements.
@@ -17,7 +17,7 @@ Defines an attribute as a `number` type, with additional requirements.
 > Example :
 ```ts
 class MyModel {
-    @fields.Number({
+    @Number({
         min: 10
     })
     myNumber: number;
@@ -27,7 +27,7 @@ class MyModel {
 <br>
 <br>
 
-`@field.String(options?: StringFieldOptions) `
+`@String(options?: StringFieldOptions) `
 
 > Description : <br>
 Defines an attribute as a `string` type, with additional requirements.
@@ -35,18 +35,18 @@ Defines an attribute as a `string` type, with additional requirements.
 > Example :
 ```ts
 class User {
-    @field.String()
+    @String()
     id: string;
 
-    @field.String({ format: /^ ... $/ })
+    @String({ format: / ... / })
     email: string;
 }
-```
+```  
 
 <br>
 <br>
 
-`@field.Boolean(options?: BooleanFieldOptions) `
+`@Boolean(options?: BooleanFieldOptions) `
 
 > Description : <br>
 Defines an attribute as a `boolean` type, with additional requirements.
@@ -54,7 +54,7 @@ Defines an attribute as a `boolean` type, with additional requirements.
 > Example :
 ```ts
 class MyModel {
-    @fields.Boolean({
+    @Boolean({
         required: false,
         default: true
     })
@@ -65,7 +65,7 @@ class MyModel {
 <br>
 <br>
 
-`@field.Array(options?: ArrayFieldOptions) `
+`@Array(options?: ArrayFieldOptions) `
 
 > Description : <br>
 Defines an attribute as a `array` type, with additional requirements.
@@ -73,7 +73,7 @@ Defines an attribute as a `array` type, with additional requirements.
 > Example :
 ```ts
 class ImageData {    
-    @field.Array()
+    @Array()
     imageTensor: Array<Array<number>>;
 }
 const { value } = cast(ImageData, { 
@@ -84,7 +84,7 @@ const { value } = cast(ImageData, {
 <br>
 <br>
 
-`@field.Model(options?: ModelFieldOptions) `
+`@Model(options?: ModelFieldOptions) `
 
 > Description : <br>
 Defines an attribute as a `Model` type, with additional requirements. 
@@ -92,10 +92,10 @@ Defines an attribute as a `Model` type, with additional requirements.
 > Example :
 ```ts
 class User {
-    @field.String()
+    @String()
     id: string;
 
-    @field.String({ format: /^ ... $/ })
+    @String({ format: /^ ... $/ })
     email: string;
 }
 
@@ -108,27 +108,67 @@ class MyModel {
 <br>
 <br>
 
-
-#### `@field.Assert(<TYPE>)`
-Define the original (untouched) attribute type.
+> *Note* : <br>
+> The type decorator define the layout for any additional definitions that follows, there for it must come first in the decoration order.
 
 <br>
+<br>
+<hr>
+<br>
+<br>
 
-`@field.Assert(type?: PrimitiveType | Class | [PrimitiveType] | [Class])`
+
+
+### `Field Option Decorators`
+
+All type decorator option interfaces extends from `BaseFieldOptions`, setting the fields inherited from `BaseFieldOptions` can be done by using the option object passed as the decorator argument, or by using field option decorators, all field in the interface `BaseFieldOptions` have a decorator representation - <br> 
+`BaseFieldOptions.<fieldName>` ---> `@FieldName`
+
+<br>
+<br>
+
+`@Required(value: boolean)` <br>
 
 > Description : <br>
-Define the original (untouched) attribute type, an alternative for using `options.assert`.
+Set the field's required restriction. <br>
+
+> Example :
+
+```ts
+import { String, Required } from "@tunnel-cast/core/decorator";
+
+class Result {    
+
+    @Required(true)
+    @String()
+    name: string;
+}
+```
+
+An alternative usage to `BaseFieldOptions.required`.
+
+<br>
+<br>
+
+
+`@Assert(type?: PrimitiveType | Class | [PrimitiveType] | [Class])`
+
+> Description : <br>
+Define the original (untouched) attribute type. <br>
+The Assertion comes before the parsing stage and any other procedure in the casting flow.
 
 > Example :
 ```ts
+import { Array, Assert } from "@tunnel-cast/core/decorator";
+
 class Result {    
 
-    @field.Assert(['string'])
-    @field.Array({ 
+    @Assert(['string'])
+    @Array({ 
         parsing: [(value) => value.map(s => Number(s))]
         ofType: 'number',
     })
-    age_range: : string
+    age_range: string[];
 }
 const { value } = cast(Result, { 
     age_rage: ["13","30"], 
@@ -137,17 +177,25 @@ const { value } = cast(Result, {
 // value :  [13, 30]
 ```
 
+An alternative usage to `BaseFieldOptions.assert`.
+
+
+<br>
+<br>
+<hr>
 <br>
 <br>
 
 
-#### `@parsing.<PARSER>`
-Define (append to) the field's (pre-validation) parsing process. <br> 
-The `parsing` object is a collection of commonly used parsing functions, simply for reducing duplication.
+
+### `Field Parsing Decorators`
+Collection of commonly used parsing action wrapped as a field option decorator. <br>
+Each parsing decorator append an action to the field's (pre-validation) parsing process. <br> 
 
 <br>
+<br>
 
-`@parsing.JsonStringify`
+`@JsonStringify`
 
 > Description : <br>
 Add (the native) JSON.stringify function to the parsing function list.
@@ -155,7 +203,7 @@ Add (the native) JSON.stringify function to the parsing function list.
 > Example :
 ```ts
 class RequestQs {    
-    @parsing.JsonStringify
+    @JsonStringify
     @field.String()
     age_range: : string
 }
@@ -170,7 +218,7 @@ const { value } = cast(RequestQs, {
 <br>
 <br>
 
-`@parsing.JsonParse`
+`@JsonParse`
 
 > Description : <br>
 Add (the native) JSON.parse function to the parsing function list.
@@ -178,7 +226,7 @@ Add (the native) JSON.parse function to the parsing function list.
 > Example :
 ```ts
 class ImageData {    
-    @parsing.JsonParse
+    @JsonParse
     @field.Array()
     imageTensor: Array<Array<number>>;
 }
@@ -192,5 +240,7 @@ const { value } = cast(ImageData, {
 
 
 <br>
+<br>
+<hr>
 <br>
 <br>

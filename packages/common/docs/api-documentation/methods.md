@@ -7,16 +7,18 @@ Preform the casting process of a model on an object, it applies the model defini
 
 > Example : <br>
 ```ts
+import { cast } from "@tunnel-cast/common/cast";
+
 class User {
-    @field.String({ 
+    @String({ 
         fallbackAttribute: "email"
     })
     username: string;
 
-    @field.String()
+    @String()
     email: string;
 
-    @field.Boolean({ required: false })
+    @Boolean({ required: false })
     notificationOn: number;
 }
 
