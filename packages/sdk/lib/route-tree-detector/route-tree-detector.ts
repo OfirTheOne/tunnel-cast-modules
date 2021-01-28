@@ -1,7 +1,6 @@
 
 import { INestApplication, RequestMethod, Type } from '@nestjs/common';
 import { METHOD_METADATA, MODULE_PATH, PATH_METADATA } from '@nestjs/common/constants';
-import { Controller } from '@nestjs/common/interfaces';
 import { NestContainer } from '@nestjs/core/injector/container';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
@@ -30,14 +29,16 @@ interface ApplicationInspectionData {
 function reflectModulePath(metatype: Type<any>) {
     return Reflect.getMetadata(MODULE_PATH, metatype)
 }
-
 function reflectControllerPath(metatype: Type<unknown>): string {
     return Reflect.getMetadata(PATH_METADATA, metatype);
 }
-
 function reflectMethodRoute(method: Function): string {
     return Reflect.getMetadata(PATH_METADATA, method);
 }
+function reflectRequestMethod(method: Function): RequestMethod {
+    return Reflect.getMetadata(METHOD_METADATA,method);
+}
+
 
 function extractAppGlobalPrefix(app: INestApplication): string {
     const { config } = app as any;
@@ -51,10 +52,7 @@ function extractControllerRequestHandlers /* paths & methods*/(
     if (routePath == undefined) { // if undefined the method is not a request handler
         return undefined;
     }
-    const requestMethod = Reflect.getMetadata(
-        METHOD_METADATA,
-        method
-    ) as RequestMethod;
+    const requestMethod = reflectRequestMethod(method)
 
     // const fullPath = routePath; //this.validateRoutePath(routePath);
     return {
@@ -82,7 +80,6 @@ function extractModuleControllers(module: Module, containerRef: NestContainer): 
 
 function scanModuleRoutes(
     controllersWrapperMap: Map<string, InstanceWrapper>,
-    modulePath?: string,
 ) {
 
     const controllersMetadataMap = new Map<string, ControllerInspectionData>();
@@ -121,33 +118,22 @@ function scanModuleRoutes(
 
 
 export function scanApplication(app: INestApplication): ApplicationInspectionData {
-
-
     const container: NestContainer = (app as any).container;
     const globalPrefix = extractAppGlobalPrefix(app);
     const modules: Module[] = [...container.getModules().values()];
 
     const collectiveRoutes = modules.map((module) => {
         const allRoutes = extractModuleControllers(module, container)
-
-        const { metatype } = module;
-        const path = metatype? reflectModulePath(metatype): '';
-
-        return scanModuleRoutes(
-            allRoutes,
-            path
-        );
-    }
-    );
+        // const { metatype } = module;
+        // const path = metatype? reflectModulePath(metatype): '';
+        return scanModuleRoutes(allRoutes);
+    });
 
     const uniqueCollectiveRoutes = collectiveRoutes
-        .reduce(
-            (uniqueMap, routeMap) =>
-                Array.from(routeMap.entries())
-                    .reduce(
-                        (map, [k, v]) => map.has(k) ? map : map.set(k, v),
-                        uniqueMap
-                    ),
+        .reduce((uniqueMap, routeMap) =>
+            Array
+                .from(routeMap.entries())
+                .reduce((map, [k, v]) => map.has(k) ? map : map.set(k, v), uniqueMap),
             new Map<string, ControllerInspectionData>()
         );
 
@@ -158,7 +144,7 @@ export function scanApplication(app: INestApplication): ApplicationInspectionDat
 
 }
 
-export function routesDataToJson({ routes , globalPrefix}: ApplicationInspectionData) {
+export function routesDataToJson({ routes , globalPrefix }: ApplicationInspectionData) {
 
     const routesAsList = Array.from(routes.entries())
         .map(([ctrlName, ctrlData]) => ({
