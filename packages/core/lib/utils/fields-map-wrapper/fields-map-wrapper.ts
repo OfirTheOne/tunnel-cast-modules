@@ -7,7 +7,10 @@ export class FieldsMapWrapper {
         this.map = new Map();
     }
 
-    getField(key: string, fillEmptyEntry: boolean) {
+    public getMapValues() {
+        return Array.from(this.map.values());
+    }
+    public getField(key: string, fillEmptyEntry: boolean) {
         return this.map.has(key)
             ? this.map.get(key)
             : !fillEmptyEntry
@@ -15,7 +18,7 @@ export class FieldsMapWrapper {
             : this.map.set(key, [{ fieldKey: key, options: {}, typeHandlerId: undefined }]).get(key);
     }
 
-    addField(key: string, entry: FieldEmbeddedData): void {
+    public addField(key: string, entry: FieldEmbeddedData): void {
         this.map.has(key) ? this.map.get(key).push(entry) : this.map.set(key, [entry]);
     }
 }
