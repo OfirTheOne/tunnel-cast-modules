@@ -9,6 +9,7 @@ import { FieldModelTypeDecoratorFactory } from "./field-model-type.decorator-fac
 import { extractModelFieldsMap } from "../utils/model-metadata/extract-metadata";
 import { ModelMetadataRepoNotFoundError } from "../errors";
 import { assignModelFieldsMapIfNotExist } from "../utils/model-metadata/embed-metadata";
+import { FieldsMapWrapper } from "../utils/fields-map-wrapper";
 
 describe("FieldModelTypeDecoratorFactory", () => {
     class ExampleModel {
@@ -17,7 +18,7 @@ describe("FieldModelTypeDecoratorFactory", () => {
     }
 
     beforeAll(() => {
-        assignModelFieldsMapIfNotExist(ExampleModel.prototype, new Map()); // add metadata repository
+        assignModelFieldsMapIfNotExist(ExampleModel.prototype, new FieldsMapWrapper()); // add metadata repository
     });
 
     afterEach(() => {
@@ -41,8 +42,8 @@ describe("FieldModelTypeDecoratorFactory", () => {
             [fieldName]: any;
         }
 
-        const fieldsMap = extractModelFieldsMap(ExampleClass);
-        const [fieldEmbeddedData] = fieldsMap.get(fieldName);
+        const mapWrapper = extractModelFieldsMap(ExampleClass);
+        const [fieldEmbeddedData] = mapWrapper.getField(fieldName, false);
 
         expect(mockTypeRegistry.getInstance).toBeCalledTimes(1);
         expect(fieldEmbeddedData.fieldKey).toEqual(fieldName);
@@ -67,8 +68,8 @@ describe("FieldModelTypeDecoratorFactory", () => {
             [fieldName]: ExampleModel;
         }
 
-        const fieldsMap = extractModelFieldsMap(ExampleClass);
-        const [fieldEmbeddedData] = fieldsMap.get(fieldName);
+        const mapWrapper = extractModelFieldsMap(ExampleClass);
+        const [fieldEmbeddedData] = mapWrapper.getField(fieldName, false);
 
         expect(mockTypeRegistry.getInstance).toBeCalledTimes(1);
         expect(fieldEmbeddedData.fieldKey).toEqual(fieldName);
