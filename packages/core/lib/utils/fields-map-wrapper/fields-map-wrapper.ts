@@ -2,7 +2,7 @@ import { FieldEmbeddedData } from "../../interfaces/field-embedded-data";
 
 export class FieldsMapWrapper {
 
-    private map: Map<string, any>;
+    private map: Map<string, [FieldEmbeddedData]>;
 
     constructor() {
         this.map = new Map();
