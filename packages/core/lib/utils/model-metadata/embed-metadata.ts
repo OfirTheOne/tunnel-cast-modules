@@ -1,35 +1,20 @@
-import { RootMetadataRepoKey } from "../../constants";
+import "reflect-metadata";
+import { MODEL_FIELDS_MAP } from "../../constants/model-fields-map";
 import { FieldEmbeddedData } from "../../interfaces/field-embedded-data";
+import { FieldsMapWrapper } from "./../fields-map-wrapper"
 
-export function assignRootRepo(prototype: any, metaMap: Map<string, any>) {
-    prototype[RootMetadataRepoKey] = metaMap;
-}
-
-function assignNewRootRepo(prototype: any) {
-    prototype[RootMetadataRepoKey] =
-        prototype[RootMetadataRepoKey] == undefined ? new Map() : prototype[RootMetadataRepoKey];
-}
-
-function addFieldDefinitionToScheme(prototype: any, key: string, metadataEntry: FieldEmbeddedData) {
-    const map = prototype[RootMetadataRepoKey] as Map<string, [FieldEmbeddedData]>;
-    map.has(key) ? map.get(key).push(metadataEntry) : map.set(key, [metadataEntry]);
-}
-
-export function embedMetadata(prototype: any, key: string, metadataEntry: FieldEmbeddedData) {
-    assignNewRootRepo(prototype);
-    addFieldDefinitionToScheme(prototype, key, metadataEntry);
-}
-
-/*
-export function embedMetadataOptions(prototype: any, key: string, optionKey: string, optionValue: any) {
-    assignRootRepo(prototype);
-    const fieldDef = getFieldDefinitionFromScheme(prototype, optionKey);
-    if(fieldDef) {
-        const fieldOptionValue = fieldDef[0].options[optionKey];
-        Array.isArray(fieldOptionValue) ? 
-            fieldOptionValue.push(optionValue) : 
-            (fieldDef[0].options[optionKey] = optionValue)
+export function assignModelFieldsMapIfNotExist(prototype: any, mapWrapper: FieldsMapWrapper = new FieldsMapWrapper()) {
+    if(!Reflect.hasMetadata(MODEL_FIELDS_MAP, prototype)) {
+        Reflect.defineMetadata(MODEL_FIELDS_MAP, mapWrapper, prototype) 
     }
 }
 
-*/
+function defineFieldDefinition(prototype: any, key: string, metadataEntry: FieldEmbeddedData): void {
+    const mapWrapper = Reflect.getMetadata(MODEL_FIELDS_MAP, prototype) as FieldsMapWrapper;// Map<string, [FieldEmbeddedData]>;
+    mapWrapper.addField(key, metadataEntry) // map.has(key) ? map.get(key).push(metadataEntry) : map.set(key, [metadataEntry]);
+}
+
+export function insertFieldDefinition(prototype: any, key: string, metadataEntry: FieldEmbeddedData): void {
+    assignModelFieldsMapIfNotExist(prototype);
+    defineFieldDefinition(prototype, key, metadataEntry);
+}

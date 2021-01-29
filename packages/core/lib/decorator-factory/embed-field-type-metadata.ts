@@ -2,7 +2,7 @@ import { FieldOptionProcessor } from "../field-option-processor";
 import { FieldEmbeddedData } from "../interfaces/field-embedded-data";
 import { BaseFieldOptions } from "../interfaces/field-options";
 import { RegisteredTypeProvider, TypeRegistry } from "../type-registry";
-import { embedMetadata } from "../utils/model-metadata/embed-metadata";
+import { insertFieldDefinition } from "../utils/model-metadata/embed-metadata";
 
 export function embedFieldTypeMetadata(
     prototype: any,
@@ -33,5 +33,5 @@ export function embedFieldTypeMetadata(
         };
     }
 
-    return embedMetadata(prototype, key, fieldData);
+    return insertFieldDefinition(prototype, key, fieldData);
 }

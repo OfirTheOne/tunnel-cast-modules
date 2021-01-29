@@ -1,6 +1,6 @@
 import { FieldOptionSetterDecoratorFactory } from "./field-option-setter.decorator-factory";
-import { extractRootRepo } from "../utils/model-metadata/extract-metadata";
-import { assignRootRepo } from "../utils/model-metadata/embed-metadata";
+import { extractModelFieldsMap } from "../utils/model-metadata/extract-metadata";
+import { assignModelFieldsMapIfNotExist } from "../utils/model-metadata/embed-metadata";
 import { ModelMetadataRepoNotFoundError } from "../errors";
 
 describe("FieldOptionSetterDecoratorFactory", () => {
@@ -17,11 +17,11 @@ describe("FieldOptionSetterDecoratorFactory", () => {
         class ExampleClass {
             [fieldName]: any;
         }
-        assignRootRepo(ExampleClass.prototype, new Map()); // add metadata repository
+        assignModelFieldsMapIfNotExist(ExampleClass.prototype, new Map()); // add metadata repository
         FieldOptionDecorator(ExampleClass.prototype, fieldName);
 
-        const rootRepo = extractRootRepo(ExampleClass);
-        const [fieldEmbeddedData] = rootRepo.get(fieldName);
+        const fieldsMap = extractModelFieldsMap(ExampleClass);
+        const [fieldEmbeddedData] = fieldsMap.get(fieldName);
 
         expect(fieldEmbeddedData.fieldKey).toEqual(fieldName);
         expect(fieldEmbeddedData.options).toBeDefined();

@@ -6,9 +6,9 @@ jest.mock("../type-registry/type-registry", () => {
 });
 
 import { FieldModelTypeDecoratorFactory } from "./field-model-type.decorator-factory";
-import { extractRootRepo } from "../utils/model-metadata/extract-metadata";
-import { assignRootRepo } from "../utils/model-metadata/embed-metadata";
+import { extractModelFieldsMap } from "../utils/model-metadata/extract-metadata";
 import { ModelMetadataRepoNotFoundError } from "../errors";
+import { assignModelFieldsMapIfNotExist } from "../utils/model-metadata/embed-metadata";
 
 describe("FieldModelTypeDecoratorFactory", () => {
     class ExampleModel {
@@ -17,7 +17,7 @@ describe("FieldModelTypeDecoratorFactory", () => {
     }
 
     beforeAll(() => {
-        assignRootRepo(ExampleModel.prototype, new Map()); // add metadata repository
+        assignModelFieldsMapIfNotExist(ExampleModel.prototype, new Map()); // add metadata repository
     });
 
     afterEach(() => {
@@ -41,8 +41,8 @@ describe("FieldModelTypeDecoratorFactory", () => {
             [fieldName]: any;
         }
 
-        const rootRepo = extractRootRepo(ExampleClass);
-        const [fieldEmbeddedData] = rootRepo.get(fieldName);
+        const fieldsMap = extractModelFieldsMap(ExampleClass);
+        const [fieldEmbeddedData] = fieldsMap.get(fieldName);
 
         expect(mockTypeRegistry.getInstance).toBeCalledTimes(1);
         expect(fieldEmbeddedData.fieldKey).toEqual(fieldName);
@@ -67,8 +67,8 @@ describe("FieldModelTypeDecoratorFactory", () => {
             [fieldName]: ExampleModel;
         }
 
-        const rootRepo = extractRootRepo(ExampleClass);
-        const [fieldEmbeddedData] = rootRepo.get(fieldName);
+        const fieldsMap = extractModelFieldsMap(ExampleClass);
+        const [fieldEmbeddedData] = fieldsMap.get(fieldName);
 
         expect(mockTypeRegistry.getInstance).toBeCalledTimes(1);
         expect(fieldEmbeddedData.fieldKey).toEqual(fieldName);
