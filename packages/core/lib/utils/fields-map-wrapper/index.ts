@@ -1,1 +1,1 @@
-export { FieldsMapWrapper } from "./fields-map-wrapper"
+export { FieldsMapWrapper } from "./fields-map-wrapper";
