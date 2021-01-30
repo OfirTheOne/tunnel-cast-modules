@@ -92,8 +92,10 @@ function scanModuleRoutes(
         const ctrlPath = reflectControllerPath(metatype as Type<any>)
         const controllerRoutes = classMethodNameList
             .filter(classMethodName => classMethodName != 'constructor')
-            .map(classMethodName => {
+            .map<ControllerRoutesInspectionData>(classMethodName => {
                 const classMethod = prototype[classMethodName];
+                const paramsTest =  Reflect.getMetadata('design:paramtypes', classMethod)
+
                 const reqHandlerMetadata = extractControllerRequestHandlers(classMethod);
                 if (reqHandlerMetadata) {
                     const { method: httpMethod, path } = reqHandlerMetadata;
