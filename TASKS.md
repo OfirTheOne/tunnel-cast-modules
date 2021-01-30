@@ -1,5 +1,10 @@
 ## TODO
 
+Nestjs
+
+Bugs 
+* add default true to Required 
+* export CastModule from dist/index
 
 ### Important !
 
