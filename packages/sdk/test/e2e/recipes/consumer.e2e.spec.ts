@@ -1,17 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Controller, Get, INestApplication, Param, UseInterceptors } from '@nestjs/common';
 import * as request from 'supertest';
-
+import { String, Required } from "@tunnel-cast/common/decorator"
+import { CastParam } from "@tunnel-cast/nestjs"
 
 class GetByIdParams {
-
+    @Required(true)
+    @String()
     id: string
 }
 
 @Controller('entity')
 class ExampleEntityController {
     @Get(':id')
-    getById(@Param() params: GetByIdParams) {
+    getById(@CastParam() params: GetByIdParams) {
         return { params };
     }
 }
