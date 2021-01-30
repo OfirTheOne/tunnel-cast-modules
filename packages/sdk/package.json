@@ -36,11 +36,13 @@
   "author": "Ofir G.",
   "license": "ISC",
   "dependencies": {
+    "@tunnel-cast/common": "^1.0.2",
     "@types/ejs": "^3.0.5",
     "ejs": "^3.1.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@tunnel-cast/nestjs": "0.0.3",
     "@nestjs/common": "^6.0.0 || ^7.0.0",
     "@nestjs/core": "^6.0.0 || ^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
