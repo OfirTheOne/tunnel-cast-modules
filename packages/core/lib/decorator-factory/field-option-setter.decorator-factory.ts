@@ -7,7 +7,6 @@ export function FieldOptionSetterDecoratorFactory(
 ): PropertyDecorator {
     return function (prototype: any, key: string) {
         const embedData = getFieldDefinitionFromPrototype(prototype, key);
-
         if (embedData) {
             if (handlerAsArray) {
                 Array.isArray(embedData[0].options[optionKey])

@@ -9,7 +9,7 @@ import {
 } from "@tunnel-cast/core/interfaces/field-embedded-data";
 import { Class } from "@tunnel-cast/core/utils/type-helpers"; //"../../utils/model";
 import { VerboseLevel } from "@tunnel-cast/core/utils/logger";
-import { extractRootRepo } from "@tunnel-cast/core/utils/model-metadata/extract-metadata";
+import { extractModelFieldsMap } from "@tunnel-cast/core/utils/model-metadata/extract-metadata";
 
 import { NonTypeFieldHandler } from "../decorator/field-type/non-type";
 import { CastResolve } from "../interfaces/cast-resolve";
@@ -17,8 +17,8 @@ import { CastOptions } from "../interfaces/cast-options";
 
 export function cast<T>(Model: Class<T>, target: Record<any, any>, options?: CastOptions): CastResolve<T> {
     const logger = globals["LOGGER"];
-    const repo: Map<string, Array<FieldEmbeddedData>> = extractRootRepo(Model);
-    const fieldDefinitions = getFieldDefinitions(repo).map((entry) => entry[0]);
+    const fieldsMap = extractModelFieldsMap(Model);
+    const fieldDefinitions = fieldsMap.getMapValues().map((entry) => entry[0]);
     const projectedContext = {};
     const errors = [];
 
@@ -52,10 +52,6 @@ export function cast<T>(Model: Class<T>, target: Record<any, any>, options?: Cas
     }
 
     return { originValue: target, value: Object.assign(new Model(), projectedContext) as T };
-}
-
-function getFieldDefinitions(repo: Map<string, Array<FieldEmbeddedData>>) {
-    return Array.from(repo.values());
 }
 
 function getTypeProviderClass(

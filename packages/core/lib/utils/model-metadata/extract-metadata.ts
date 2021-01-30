@@ -1,30 +1,26 @@
-import { Class } from "../type-helpers";
-import { RootMetadataRepoKey } from "../../constants";
+import "reflect-metadata";
 import { ModelMetadataRepoNotFoundError } from "../../errors";
-import { FieldEmbeddedData } from "../../interfaces/field-embedded-data";
+import { MODEL_FIELDS_MAP } from "../../constants/model-fields-map";
+import { FieldsMapWrapper } from "../fields-map-wrapper";
 
-export function extractRootRepo(modelClass: any): Map<string, [FieldEmbeddedData]> {
-    return extractRootRepoFromPrototype(modelClass.prototype);
+export function extractModelFieldsMap(modelClass: any): FieldsMapWrapper {
+    return extractModelFieldsMapFromPrototype(modelClass.prototype);
 }
 
-export function extractRootRepoFromPrototype(prototype: Class<any>): Map<string, [FieldEmbeddedData]> {
-    const rootRepo = prototype[RootMetadataRepoKey];
+export function extractModelFieldsMapFromPrototype(prototype: any): FieldsMapWrapper {
+    const mapWrapper = Reflect.getMetadata(MODEL_FIELDS_MAP, prototype);
+
     try {
-        if (!rootRepo) {
+        if (!mapWrapper) {
             throw new ModelMetadataRepoNotFoundError(prototype?.["constructor"].name);
         }
-        return rootRepo;
+        return mapWrapper;
     } catch (error) {
         throw error;
     }
 }
 
 export function getFieldDefinitionFromPrototype(prototype: any, key: string, fillEmptyEntry: boolean = true) {
-    const map = extractRootRepoFromPrototype(prototype);
-
-    return map.has(key)
-        ? map.get(key)
-        : !fillEmptyEntry
-        ? undefined
-        : map.set(key, [{ fieldKey: key, options: {}, typeHandlerId: undefined }]).get(key);
+    const mapWrapper = extractModelFieldsMapFromPrototype(prototype);
+    return mapWrapper.getField(key, fillEmptyEntry);
 }

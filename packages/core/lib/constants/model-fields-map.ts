@@ -1,0 +1,1 @@
+export const MODEL_FIELDS_MAP = "MODEL_FIELDS_MAP";

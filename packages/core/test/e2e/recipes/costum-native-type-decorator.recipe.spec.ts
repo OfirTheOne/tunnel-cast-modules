@@ -4,7 +4,7 @@ import { FieldOptionProcessor } from "./../../../lib/field-option-processor";
 import { BaseFieldOptions } from "./../../../lib/interfaces/field-options";
 import { NativeValidationDict } from "./../../../lib/interfaces/native-validation-dict";
 import { TypeProviderBaseFieldEmbeddedData } from "./../../../lib/interfaces/field-embedded-data";
-import { extractRootRepo } from "./../../../lib/utils/model-metadata/extract-metadata";
+import { extractModelFieldsMap } from "./../../../lib/utils/model-metadata/extract-metadata";
 
 enum ePermissionsLevel {
     MANAGER = "MANAGER",
@@ -50,10 +50,10 @@ class MyStructureModel {
 
 describe(`Custom Native Type Decorator - Recipe`, () => {
     it("should embed all relevant data using PermissionsLevel Decorator.", () => {
-        const repo = extractRootRepo(MyStructureModel);
+        const mapWrapper = extractModelFieldsMap(MyStructureModel);
 
         const permKey = "perm";
-        const permValue = repo.get(permKey);
+        const permValue = mapWrapper.getField(permKey, false);
 
         const embeddedData = permValue[0] as TypeProviderBaseFieldEmbeddedData;
         const { handlerClass, typeHandlerId, typeName, optionsProcessor } = embeddedData.provider;
