@@ -1,11 +1,28 @@
 import { NestContainer, NestFactory } from '@nestjs/core';
-
 import { Controller, Delete, Get, Module, Post } from '@nestjs/common';
+
+import { String, Required } from "@tunnel-cast/common/decorator"
+import { CastParam } from "@tunnel-cast/nestjs"
+import { CastModule } from "@tunnel-cast/nestjs/cast.module"
+
 import { scanApplication, routesDataToJson } from './route-tree-detector';
+
+
+class GetByIdParams {
+  @Required(true)
+  @String()
+  id: string
+}
 
 
 @Controller('dogs')
 export class DogsController {
+
+  @Get('/:id')
+  getById(@CastParam() id: GetByIdParams): string {
+    return 'This action returns dog by id';
+  }
+
   @Get('/all')
   findAll(): string {
     return 'This action returns all dogs';
@@ -19,6 +36,9 @@ export class DogsController {
 
 @Module({
   controllers: [DogsController],
+  imports: [
+    CastModule.forFeature()
+  ],
 })
 export class DogsModule {}
 
@@ -42,7 +62,9 @@ export class CatsController {
 export class CatsModule {}
 
 @Module({
-  imports: [CatsModule],
+  imports: [
+    CatsModule
+  ],
 })
 export class AppModule {}
 
