@@ -1,6 +1,6 @@
 import { ExecutionContext } from "@nestjs/common";
 import { HttpArgumentsHost, NestInterceptor } from "@nestjs/common/interfaces";
-import { CastQueryInterceptor, CastParamInterceptor } from "./common-cast-interceptor";
+import { CastQueryInterceptor, CastParamInterceptor } from "./cast-interceptor";
 import { QueryTest01 } from "../../test/assets/models";
 
 import { defaultOptions } from "../cast-module-default-options";
