@@ -1,19 +1,16 @@
 import { Controller, Get, BadRequestException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { CastModule } from "../cast.module";
-import { SampleModelB } from "../../test/assets/models";
-import {
-  CastQuery,
-  CastParam,
-  CastBody
-} from "./common-cast-parameter-decorator";
-import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
-import { HttpService } from "@nestjs/common/http/http.service";
-import { of } from "rxjs";
-
-// import Axios from 'axios';
-import * as request from "supertest";
 import { NestApplication } from "@nestjs/core";
+import * as request from "supertest";
+import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
+
+import { CastModule } from "../cast.module";
+import { CastQuery, CastParam, CastBody } from "./cast-parameter-decorator";
+import { CAST_HTTP_PAYLOAD_TYPE_LIST } from "../constants"
+import { HttpPayloadType } from "../enums";
+import { HttpPayloadArgumentMetadata } from "../interfaces/http-payload-argument-metadata";
+import { SampleModelB } from "../../test/assets/models";
+
 
 @Controller("test")
 class ControllerTest01 {
@@ -45,10 +42,26 @@ describe("Common Cast Decorators", () => {
 
     app = moduleRef.createNestApplication();
     await app.init();
-
-    // request  = supertest(httpService) as supertest.SuperAgentTest;
-    // control = moduleRef.get<ControllerTest01>(ControllerTest01);
   });
+
+
+  it('should extract from ControllerTest01 the argument metadata as expected', () => {
+    const ctrl = app.get(ControllerTest01);
+    const ctrlPrototype = Object.getPrototypeOf(ctrl);
+
+    const expectedList = [
+      [ "requestHandlerCastQuery",  [ HttpPayloadType.QUERY ] ],
+      [ "requestHandlerCastParam",  [ HttpPayloadType.PARAMS ] ],
+      [ "requestHandlerCastBody",   [ HttpPayloadType.BODY ] ],
+    ]
+
+    expectedList.forEach(([methodName, payloadTypeList]) => {
+      const actual: Array<HttpPayloadArgumentMetadata> = 
+        Reflect.getMetadata(CAST_HTTP_PAYLOAD_TYPE_LIST, ctrlPrototype, methodName as string);
+      expect(actual).toBeDefined();
+      expect(actual.map(({payloadType}) => payloadType)).toEqual(payloadTypeList);
+    })
+  })
 
   it("should test request query and return an error for missing name", async done => {
     testController(

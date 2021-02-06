@@ -1,6 +1,6 @@
 {
   "name": "@tunnel-cast/nestjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "author": "Ofir G.",
   "license": "MIT",
@@ -38,8 +38,8 @@
     "type": "GitHub"
   },
   "dependencies": {
-    "@tunnel-cast/common": "1.0.2",
-    "@tunnel-cast/core": "1.0.1"
+    "@tunnel-cast/common": "^1.0.5",
+    "@tunnel-cast/core": "^1.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@tunnel-cast/common",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -39,7 +39,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@tunnel-cast/core": "^1.0.1-beta.2",
+    "@tunnel-cast/core": "^1.0.2",
     "@types/config": "0.0.34",
     "@types/dotenv": "^6.1.1",
     "@types/jest": "^26.0.14",
