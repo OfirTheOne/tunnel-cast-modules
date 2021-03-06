@@ -40,7 +40,7 @@ export class DogsController {
     CastModule.forFeature()
   ],
 })
-export class DogsModule {}
+export class DogsModule { }
 
 @Controller('cats')
 export class CatsController {
@@ -59,33 +59,51 @@ export class CatsController {
   controllers: [CatsController],
   imports: [DogsModule]
 })
-export class CatsModule {}
+export class CatsModule { }
 
 @Module({
   imports: [
     CatsModule
   ],
 })
-export class AppModule {}
+export class AppModule { }
 
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api/v2')
-  // const container: NestContainer = (app as any).container;
-
-  const result = scanApplication(app)
-  const resultAsJson = routesDataToJson(result);
-  // const modules = container.getModules();
-  
-  console.log(JSON.stringify(resultAsJson, undefined, 2));
-
-}
 
 describe('route-tree', () => {
 
-  it('boot', async () => {
+  it('should run scanApplication on the cats & dogs application and return app data correctly.', async () => {
 
-    await bootstrap()
+    const globalPrefix = 'api/v2';
+    const app = await NestFactory.create(AppModule);
+    app.setGlobalPrefix(globalPrefix);
+
+    const result = scanApplication(app);
+    const resultAsJson = routesDataToJson(result);
+
+    expect(resultAsJson.globalPrefix).toEqual(globalPrefix);
+    expect(resultAsJson.routes.length).toEqual(2);
+    expect(resultAsJson.routes[0].name).toEqual(CatsController.name);
+    expect(resultAsJson.routes[0].path).toEqual('cats');
+    expect(resultAsJson.routes[0].endpoints.length).toEqual(2);
+    expect(resultAsJson.routes[0].endpoints[0]).toEqual({
+      "name": "findAll", "path": "/", "method": "get", "payload": []
+    });
+    expect(resultAsJson.routes[0].endpoints[1]).toEqual(    {
+      "name": "uploadStuff", "path": "/upload", "method": "post", "payload": []
+    });
+    expect(resultAsJson.routes[1].name).toEqual(DogsController.name);
+    expect(resultAsJson.routes[1].path).toEqual('dogs');
+    expect(resultAsJson.routes[1].endpoints.length).toEqual(3);
+    expect(resultAsJson.routes[1].endpoints[0]).toEqual({
+      "name": "getById", "path": "/:id", "method": "get",
+      "payload": [{ "type": "params", "schemeName": "GetByIdParams" }]
+    });
+    expect(resultAsJson.routes[1].endpoints[1]).toEqual({
+      "name": "findAll", "path": "/all", "method": "get", "payload": []
+    });
+    expect(resultAsJson.routes[1].endpoints[2]).toEqual({
+      "name": "deleteStuff", "path": "/remove", "method": "delete", "payload": []
+    });
+
   })
 })
