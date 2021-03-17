@@ -4,7 +4,7 @@ import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-c
 import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 import { EmptyIdentifierFn } from "../../models/interfaces/empty-identifier-fn";
 
-export class FieldDefaultAssignmentProcedure<A extends Array<any> = Array<any>> implements FieldProcedure {
+export class FieldDefaultAssignmentProcedure<A = any> implements FieldProcedure {
     public readonly fieldProcedureType: FieldProcedureType = FieldProcedureType.DefaultAssignment;
     public fieldName: string;
     public contextRef: any;
