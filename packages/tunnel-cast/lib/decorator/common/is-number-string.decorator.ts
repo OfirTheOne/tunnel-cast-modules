@@ -9,7 +9,7 @@ export function IsStringNumber(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_STRING_NUMBER,
         options,
-        [],
+        {},
         ({ fieldValue }) => typeof fieldValue == 'string' && /^\d+/.test(fieldValue),
         ({ fieldName }) => `The field ${fieldName} is not a string number`
     );

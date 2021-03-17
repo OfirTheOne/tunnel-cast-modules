@@ -10,8 +10,8 @@ export function IsMatch(pattern: RegExp, options?: FieldConstraintProcedureOptio
     const adaptee = new FieldConstraintProcedure(
         IS_MATCH,
         options,
-        [pattern],
-        ({ fieldValue, args }) => typeof fieldValue == 'string' && args[0].test(fieldValue),
+        {pattern},
+        ({ fieldValue, args }) => typeof fieldValue == 'string' && args.pattern.test(fieldValue),
         ({ fieldName }) => `The field ${fieldName} is match the pattern provided`
     );
     return decoratorAdapter(adaptee);

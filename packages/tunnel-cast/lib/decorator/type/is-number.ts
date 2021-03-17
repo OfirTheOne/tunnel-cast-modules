@@ -11,7 +11,7 @@ export function IsNumber(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_NUMBER,
         options,
-        [],
+        {},
         isNumber,
         ({ fieldName }) => `The field ${fieldName} is not of type number`
     );

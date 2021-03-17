@@ -11,7 +11,7 @@ export function IsArray(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_ARRAY,
         options,
-        [],
+        {},
         isArray,
         ({ fieldName }) => `The field ${fieldName} is not an array`
     );

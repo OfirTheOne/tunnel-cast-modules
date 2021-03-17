@@ -11,7 +11,7 @@ export function Required() {
     const adaptee = new FieldConstraintProcedure(
         REQUIRED,
         {},
-        [],
+        {},
         required,
         ({ fieldName }) => `The field ${fieldName} is required.`
 

@@ -11,7 +11,7 @@ export function IsBoolean(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_BOOLEAN,
         options,
-        [],
+        {},
         isBoolean,
         ({ fieldName }) => `The field ${fieldName} is not of type boolean`
     );

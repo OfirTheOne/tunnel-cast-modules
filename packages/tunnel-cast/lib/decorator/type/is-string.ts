@@ -11,7 +11,7 @@ export function IsString(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_STRING,
         options,
-        [],
+        {},
         isString,
         ({ fieldName }) => `The field ${fieldName} is not of type string`
     );

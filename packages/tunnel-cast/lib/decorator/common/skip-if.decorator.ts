@@ -9,8 +9,8 @@ export function SkipIf(cond: ((value, name, context) => boolean)) {
     const adaptee = new FieldConditionalHandlingProcedure(
         SKIP_IF,
         {},
-        [cond],
-        ({ fieldValue, fieldName ,args, context }) => args[0](fieldValue, fieldName, context)
+        {cond},
+        ({ fieldValue, fieldName ,args, context }) => args.cond(fieldValue, fieldName, context)
     );
     return decoratorAdapter(adaptee);
 }
