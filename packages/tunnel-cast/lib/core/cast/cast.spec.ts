@@ -17,7 +17,6 @@ describe("cast high level expected behavior.", () => {
         @Required()
         emptyField: any;
 
-        @SkipIf(({fieldValue}) => fieldValue == "32")
         @IsNumber()
         myAge: number;
     
@@ -31,7 +30,6 @@ describe("cast high level expected behavior.", () => {
         @Required()
         blah: string;
 
-        // @Required()
         @Required({ iterate: true })
         listOfStuff: Array<any>;
     }
