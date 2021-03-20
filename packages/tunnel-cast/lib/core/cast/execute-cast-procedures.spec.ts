@@ -38,10 +38,10 @@ describe("executeCastProcedures", () => {
         const result = executeCastProcedures(fieldName, procedures, target, projectedContext, options);
 
         expect(isStringSpy).toBeCalledTimes(1);
-        expect(isStringSpy).toBeCalledWith({ args: {}, fieldValue: fieldValue, fieldName: fieldName, path: fieldName });
+        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(isStringMessageBuilderSpy).toBeCalledTimes(0);
         expect(requiredSpy).toBeCalledTimes(1);
-        expect(requiredSpy).toBeCalledWith({ args: {}, fieldValue: fieldValue, fieldName: fieldName, path: fieldName });
+        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(requiredMessageBuilderSpy).toBeCalledTimes(0);
 
         expect(
@@ -80,11 +80,11 @@ describe("executeCastProcedures", () => {
         expect(resultMessages.length).toEqual(1);
         expect(resultMessages).toContain(isStringMessageBuilderSpy.mock.results[0].value);
         expect(isStringSpy).toBeCalledTimes(1);
-        expect(isStringSpy).toBeCalledWith({ args: {}, fieldValue: fieldValue, fieldName: fieldName, path: fieldName });
+        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(isStringMessageBuilderSpy).toBeCalledTimes(1);
-        expect(isStringMessageBuilderSpy).toBeCalledWith({ args: {}, fieldValue: fieldValue, fieldName: fieldName, path: fieldName });
+        expect(isStringMessageBuilderSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(requiredSpy).toBeCalledTimes(1);
-        expect(requiredSpy).toBeCalledWith({ args: {}, fieldValue: fieldValue, fieldName: fieldName, path: fieldName });
+        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(requiredMessageBuilderSpy).toBeCalledTimes(0);
     })
 
@@ -126,7 +126,7 @@ describe("executeCastProcedures", () => {
 
         expect(resultMessages.length).toEqual(0);
         expect(fstDefaultWithSpy).toBeCalledTimes(1);
-        expect(fstDefaultWithSpy).toBeCalledWith({ args: { valueOrFactory: expectedDefaultValue }, fieldValue: fieldValue, fieldName: fieldName, path: fieldName,});
+        expect(fstDefaultWithSpy).toBeCalledWith({ args: { valueOrFactory: expectedDefaultValue }, fieldValue, fieldName, path: fieldName,});
         expect(SecDefaultWithSpy).toBeCalledTimes(0);
         expect(isStringSpy).toBeCalledTimes(0);
         expect(isStringMessageBuilderSpy).toBeCalledTimes(0);
