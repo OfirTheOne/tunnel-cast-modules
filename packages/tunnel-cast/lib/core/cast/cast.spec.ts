@@ -6,11 +6,17 @@ import { IsNumber } from "../../decorator/type/is-number";
 
 import { SkipIf } from "../../decorator/common/skip-if.decorator";
 import { Required, requiredMessageBuilder } from "../../decorator/common/required.decorator";
-
+import { IsEmail } from "../../decorator/common/is-email.decorator";
+import { Nullable } from "../../decorator/common/nullable.decorator";
 
 describe("cast high level expected behavior.", () => {
     
     class ExampleDTO01 {
+
+        @Nullable()
+        @Required()
+        emptyField: any;
+
         @SkipIf(({fieldValue}) => fieldValue == "32")
         @IsNumber()
         myAge: number;
@@ -19,6 +25,9 @@ describe("cast high level expected behavior.", () => {
         @IsString()
         myId: string;
     
+        @IsEmail({ domains: ['gmail.com'] })
+        myEmail: string;
+
         @Required()
         blah: string;
 
@@ -37,6 +46,7 @@ describe("cast high level expected behavior.", () => {
         const { messages, resolvedValue } = cast(
             ExampleDTO01, 
             { 
+                myEmail: "autor@gmail.com",
                 myAge: 30, 
                 myId: "12312332", 
                 listOfStuff: [1, undefined, "123"] 
