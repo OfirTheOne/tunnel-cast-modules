@@ -2,16 +2,17 @@ import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-c
 import { decoratorAdapter } from "../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 
+export const IS_NUMBER_STRING = "is_string_number";
+export const isNumberString = ({ fieldValue }) => typeof fieldValue == 'string' && /^\d+/.test(fieldValue);
+export const isNumberStringMessageBuilder = ({ fieldName }) => `The field ${fieldName} is not a string number`;
 
-const IS_STRING_NUMBER = "is_string_number";
-
-export function IsStringNumber(options?: FieldConstraintProcedureOptions) {
+export function IsNumberString(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
-        IS_STRING_NUMBER,
+        IS_NUMBER_STRING,
         options,
         {},
-        ({ fieldValue }) => typeof fieldValue == 'string' && /^\d+/.test(fieldValue),
-        ({ fieldName }) => `The field ${fieldName} is not a string number`
+        isNumberString,
+        isNumberStringMessageBuilder
     );
     return decoratorAdapter(adaptee);
 }

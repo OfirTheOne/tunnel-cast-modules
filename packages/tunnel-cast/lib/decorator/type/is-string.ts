@@ -3,9 +3,9 @@ import { decoratorAdapter } from "../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 
 
-const IS_STRING = "is_string";
-
-const isString = ({ fieldValue }) => typeof fieldValue == 'string';
+export const IS_STRING = "is_string";
+export const isString = ({ fieldValue }) => typeof fieldValue == 'string';
+export const isStringMessageBuilder = ({ fieldName }) => `The field ${fieldName} is not of type string`;
 
 export function IsString(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -13,7 +13,7 @@ export function IsString(options?: FieldConstraintProcedureOptions) {
         options,
         {},
         isString,
-        ({ fieldName }) => `The field ${fieldName} is not of type string`
+        isStringMessageBuilder
     );
     return decoratorAdapter(adaptee);
 }

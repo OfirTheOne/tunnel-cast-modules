@@ -14,7 +14,7 @@ export function IsTypeof(typeofString: string, options?: FieldConstraintProcedur
         options,
         {typeofString},
         isTypeof,
-        ({ fieldName, args }) => `The value ${args[0]} is not equals to 'typeof' the field ${fieldName} is `
+        ({ fieldName, args }) => `The value ${args.typeofString} is not equals to 'typeof' the field ${fieldName} is `
     );
     return decoratorAdapter(adaptee);
 }
