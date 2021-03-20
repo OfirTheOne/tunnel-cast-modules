@@ -98,33 +98,48 @@ function executeFieldConditionalHandling(fieldConditionalHandling: FieldConditio
 
 function executeFieldConstraint(fieldConstraint: FieldConstraintProcedure) {
     const fieldValue = fieldConstraint?.contextRef[fieldConstraint.fieldName];
-    const constraintPass = fieldConstraint.constraint({
-        args: fieldConstraint.args,
-        fieldValue,
-        fieldName: fieldConstraint.fieldName,
-        path: fieldConstraint.fieldName,
-    });
+    const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldConstraint;
+    let constraintPass: boolean = undefined, msgValue = fieldValue, msgPath = fieldName;
+
+    if(options?.iterate == true) {
+        // TODO : print warning on non iterable types.
+        /**
+         * run over each items in values array and stop on the first item that fail the constraint. 
+         * store it's value and path for messageBuilder.
+         */
+        const valueIteratableValues = Object.values(fieldValue);
+        for (let index = 0; index < valueIteratableValues.length; index++) {
+            const currValue = valueIteratableValues[index];
+            const currPath = `${fieldName}[${index}]`;
+            const currConstraintPass = fieldConstraint.constraint({
+                args: fieldConstraint.args, fieldValue: currValue, fieldName: fieldConstraint.fieldName, path: currPath, options,
+            });
+            if(currConstraintPass == false) {
+                msgPath = currPath;
+                msgValue = currValue;
+                constraintPass = currConstraintPass;
+                break;
+            }
+        }
+        constraintPass = constraintPass != false;
+    } else {
+        constraintPass = fieldConstraint.constraint({args: fieldConstraint.args, fieldValue, fieldName, path: fieldName, options});
+    }
 
     let message: string;
     if(!constraintPass) {
         message = typeof fieldConstraint.messageBuilder == 'string' ? 
             fieldConstraint.messageBuilder : 
             fieldConstraint.messageBuilder({
-                    args: fieldConstraint.args,
-                    fieldValue,
-                    fieldName: fieldConstraint.fieldName,
-                    path: fieldConstraint.fieldName,
-                }
-            )
+                args: fieldConstraint.args, fieldValue: msgValue, fieldName, path: msgPath, options
+            });
     }
-    const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldConstraint;
     return {
         message,
         constraintPass,
-        info: {
-            procedure: fieldConstraint, fieldName, procedureId, fieldProcedureType, options, contextRef 
-        }
-    }
+        info: { procedure: fieldConstraint, fieldName, procedureId, fieldProcedureType, options, contextRef }
+    };
 
 }
+
 
