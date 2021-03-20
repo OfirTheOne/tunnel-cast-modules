@@ -20,7 +20,7 @@ CustomTransformer = 'CUSTOM_TRANSFORMER',
 
 
 
-export function executeCastProcedures(field: string, procedures: Record<FieldProcedureType, FieldProcedure[]>, target: any, projectedContext: any, options?: any) {
+export function executeCastProcedures(field: string, procedures: Partial<Record<FieldProcedureType, FieldProcedure[]>>, target: any, projectedContext: any, options?: any) {
     const fieldValue = target[field]
 
     const conditionalHandling = procedures[FieldProcedureType.ConditionalHandling]||[];
@@ -57,7 +57,7 @@ function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAss
             procedureId, fieldProcedureType, options, contextRef
     } = emptyIdentifierProcedure;
     
-    const isEmpty = !emptyIdentifier ? globalSetting.defaultEmptyIdentifier(fieldValue) : (
+    const isEmpty = !emptyIdentifier ? globalSetting.defaultEmptyIdentifier({args, fieldValue, fieldName, path: fieldName}) : (
         typeof emptyIdentifier == 'function' ? 
             emptyIdentifier({ args, fieldValue, fieldName, path: fieldName}) : 
             emptyIdentifier.includes(fieldValue)
@@ -72,7 +72,7 @@ function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAss
         info: {
             procedure: emptyIdentifierProcedure, fieldName, procedureId, fieldProcedureType, options, contextRef 
         }
-    }
+    };
 
 }
 
