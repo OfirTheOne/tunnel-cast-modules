@@ -8,31 +8,45 @@ import { SkipIf } from "../../decorator/common/skip-if.decorator";
 import { Required, requiredMessageBuilder } from "../../decorator/common/required.decorator";
 
 
-describe("cast", () => {
+describe("cast high level expected behavior.", () => {
     
-    class Demo {
+    class ExampleDTO01 {
         @SkipIf(({fieldValue}) => fieldValue == "32")
         @IsNumber()
         myAge: number;
     
-        @IsMatch(/Bob-\d{2}/)
+        @IsMatch(/\d/, { iterate: true })
         @IsString()
-        myName: string
+        myId: string;
     
         @Required()
-        blah: string
+        blah: string;
+
+        // @Required()
+        @Required({ iterate: true })
+        listOfStuff: Array<any>;
     }
 
-    it("try", () => {
+    it("ExampleDTO01 general usage testing, focus on constraint 'iterate'", () => {
 
-        const expectedErrMessage = requiredMessageBuilder({fieldName: 'blah'});
+        const expectedErrMessages = [
+            requiredMessageBuilder({fieldName: 'listOfStuff', options: { iterate: true } } as any),
+            requiredMessageBuilder({fieldName: 'blah', options: {} } as any),
+        ]
 
-        const { messages, resolvedValue } = cast(Demo, { myName: "Bob-3", myAge: "32" });
+        const { messages, resolvedValue } = cast(
+            ExampleDTO01, 
+            { 
+                myAge: 30, 
+                myId: "12312332", 
+                listOfStuff: [1, undefined, "123"] 
+            }
+        );
         
-        expect(resolvedValue).toBeUndefined()
-        expect(messages).toBeDefined()
-        expect(messages.length).toEqual(1)
-        expect(messages).toContain(expectedErrMessage);
+        expect(resolvedValue).toBeUndefined();
+        expect(messages).toBeDefined();
+        expect(messages.length).toEqual(2);
+        expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
     })
 
 })
