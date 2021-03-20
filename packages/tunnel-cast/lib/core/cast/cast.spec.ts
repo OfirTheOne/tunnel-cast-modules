@@ -9,6 +9,11 @@ import { Required, requiredMessageBuilder } from "../../decorator/common/require
 import { IsEmail } from "../../decorator/common/is-email.decorator";
 import { Nullable } from "../../decorator/common/nullable.decorator";
 
+
+test.todo("cast test on SkipIf & Nullable");
+test.todo("cast test on Default");
+test.todo("cast test on common application usage");
+
 describe("cast high level expected behavior.", () => {
     
     class ExampleDTO01 {
