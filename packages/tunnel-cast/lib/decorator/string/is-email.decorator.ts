@@ -17,6 +17,12 @@ const buildDomainSpecificEmailRegex = (domains: Array<string>) => new RegExp(
     domains.map(dom => `(${escapeRegex(dom)})`).join('|') +
     ")?$");
 
+
+/**
+ * @decorator_type **FieldConstraintProcedure**
+ * 
+ * @param param0 
+ */
 export const isEmail: FieldConstraintFn<{isEmailOps?: {domains?: Array<string>}}> = 
     ({ fieldValue, args }) => {
         let usedEmailRegex = emailRegex;

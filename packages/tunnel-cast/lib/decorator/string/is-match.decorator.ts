@@ -6,6 +6,13 @@ export const IS_MATCH = "is_match";
 export const isMatch = ({ fieldValue, args }) => typeof fieldValue == 'string' && args.pattern.test(fieldValue);
 export const isMatchMessageBuilder = ({ fieldName }) => `The field ${fieldName} is match the pattern provided`;
 
+
+/**
+ * @decorator_type **FieldConstraintProcedure**
+ * 
+ * @param pattern 
+ * @param options 
+ */
 export function IsMatch(pattern: RegExp, options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         IS_MATCH,

@@ -11,6 +11,12 @@ export const requiredMessageBuilder: MessageBuilderFn = ({ fieldName, options })
     `Each value in the field ${fieldName} is required.` :
     `The field ${fieldName} is required.`;
 
+
+/**
+ * @decorator_type **FieldConstraintProcedure**
+ * 
+ * @param options 
+ */
 export function Required(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
         REQUIRED,
