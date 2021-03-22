@@ -1,11 +1,7 @@
 import "reflect-metadata"
 
-
-
 import { CAST_FIELD_METADATA, CAST_DECORATED_FIELDS_LIST } from "../../constants";
 import { FieldProcedure } from "../../models/interfaces/field-procedure";
-
-
 import { decoratorAdapter } from "./decorator-adapter";
 
 describe("decoratorAdapter", () => {
