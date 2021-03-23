@@ -2,6 +2,7 @@ import { FieldConstraintProcedure } from "../field-decorator-procedure/field-con
 import { FieldConditionalHandlingProcedure } from "../field-decorator-procedure/field-conditional-handling.procedure";
 import { FieldProcedureType } from "../../models/enums/field-procedure-type.enum";
 import { FieldProcedure } from "../../models/interfaces/field-procedure";
+import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 import { FieldDefaultAssignmentProcedure } from "../field-decorator-procedure/field-default-assignment.procedure";
 import { globalSetting } from "../globals/globals";
 
@@ -64,7 +65,7 @@ function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAss
     );
     const defaultValue = !isEmpty ? undefined : (
         typeof defaultWith == 'function' ?  
-            defaultWith({ args, fieldValue, fieldName, path: fieldName }) : defaultWith
+            (defaultWith as DefaultWithFn)({ args, fieldValue, fieldName, path: fieldName, context: contextRef }) : defaultWith
     );
     return {
         isEmpty,
