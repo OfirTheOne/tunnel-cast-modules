@@ -5,10 +5,10 @@ import { FieldConstraintFn } from "../../models/interfaces/field-constraint-fn";
 
 export const LENGTH = "length";
 export const length: FieldConstraintFn<{len: number, min: number, max: number}> = ({ fieldValue, args }) => {
-    return ('length' in fieldValue && typeof fieldValue.length == 'number') ?
+    return (typeof fieldValue?.length == 'number') ?
         ( args.len != undefined ?
-            args.len == fieldValue :
-            ((args.max == undefined || args.min <= fieldValue) && (args.max == undefined || args.max >= fieldValue))
+            args.len == fieldValue.length :
+            ((args.min == undefined || args.min <= fieldValue.length) && (args.max == undefined || args.max >= fieldValue.length))
         ) : false;
 };
 export const lengthMessageBuilder = ({ fieldName }) => `The length of the field ${fieldName} dose not match the length constraint.`;
