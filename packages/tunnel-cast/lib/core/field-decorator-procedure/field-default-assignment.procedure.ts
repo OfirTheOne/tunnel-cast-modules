@@ -1,6 +1,6 @@
 import { FieldProcedure } from "../../models/interfaces/field-procedure";
 import { FieldProcedureType } from "../../models/enums/field-procedure-type.enum";
-import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-constraint-procedure-options";
+import { FieldDefaultAssignmentProcedureOptions } from "../../models/interfaces/field-default-assignment-procedure-options";
 import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 import { EmptyIdentifierFn } from "../../models/interfaces/empty-identifier-fn";
 
@@ -11,7 +11,7 @@ export class FieldDefaultAssignmentProcedure<A = any> implements FieldProcedure 
 
     constructor(
         public readonly procedureId: string,
-        public options: FieldConstraintProcedureOptions,
+        public options: FieldDefaultAssignmentProcedureOptions = {},
         public args: A,
         public readonly defaultWith: DefaultWithFn<A> | unknown,
         public readonly emptyIdentifier?: EmptyIdentifierFn<A> | Array<any>,
