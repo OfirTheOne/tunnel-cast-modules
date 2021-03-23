@@ -8,6 +8,8 @@ import { Required, requiredMessageBuilder } from "../../decorator/common/require
 import { IsEmail, isEmailMessageBuilder } from "../../decorator/string/is-email.decorator";
 import { Nullable } from "../../decorator/common/nullable.decorator";
 import { Length } from "../../decorator/common/length.decorator";
+import { Default } from "../../decorator/common/default.decorator";
+import { IsBoolean } from "../../decorator/type/is-boolean";
 
 test.todo("cast test on SkipIf & Nullable");
 test.todo("cast test on Default");
@@ -140,6 +142,41 @@ describe("cast high level expected behavior.", () => {
         expect(messages).toBeDefined();
         expect(messages.length).toEqual(1);
         expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
+    })
+
+    class ExampleDTO03 {
+        @Default( ({context}) => context.name )
+        nickname: string;
+
+        @Required()
+        @Length(5, 10)
+        name: any;
+
+        @Default(true)
+        @IsBoolean() 
+        notifications: boolean;
+
+    }
+
+
+    it("ExampleDTO03 general usage testing, focus on Default behavior, casting pass.", () => {
+
+        const providedValue = { 
+            name: "JohnSmith"
+        }
+        const expectedValue = {
+            nickname: providedValue.name,
+            name: providedValue.name,
+            notifications: true
+        } 
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO03, 
+            providedValue
+        );
+        
+        expect(messages.length).toEqual(0);
+        expect(resolvedValue).toEqual(expectedValue);
     })
 
 })
