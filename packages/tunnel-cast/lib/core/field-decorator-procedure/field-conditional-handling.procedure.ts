@@ -9,7 +9,7 @@ export class FieldConditionalHandlingProcedure<A = any> implements FieldProcedur
 
     constructor(
         public readonly procedureId: string,
-        public options: FieldConditionalHandlingProcedureOptions,
+        public options: FieldConditionalHandlingProcedureOptions = {},
         public args: A,
         public readonly condition: ((conditionFnParams: { args: A, fieldValue: any, fieldName: string, path: string, context: any}) => boolean),
     ) {
