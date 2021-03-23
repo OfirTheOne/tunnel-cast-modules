@@ -16,7 +16,7 @@ export const defaultAssigner: DefaultWithFn = (fnArgs) => typeof fnArgs.args.val
  * @param emptyIdentifier 
  * @param options 
  */
-export function Default(valueOrFactory: Function | unknown, emptyIdentifier?: EmptyIdentifierFn|Array<any> , options?: FieldConstraintProcedureOptions) {
+export function Default(valueOrFactory: DefaultWithFn | unknown, emptyIdentifier?: EmptyIdentifierFn|Array<any> , options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldDefaultAssignmentProcedure(
         DEFAULT,
         options,
