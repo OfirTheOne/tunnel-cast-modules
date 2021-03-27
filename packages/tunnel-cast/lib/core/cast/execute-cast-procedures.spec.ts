@@ -4,7 +4,7 @@ import { executeCastProcedures } from "./execute-cast-procedures";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 import { FieldDefaultAssignmentProcedure } from "../../core/field-decorator-procedure/field-default-assignment.procedure";
 
-import * as IsStringModule from "../../decorator/type/is-string";
+import * as isStringModule from "../../decorator/type/is-string";
 import * as requiredModule from "../../decorator/common/required.decorator";
 import * as defaultModule from "../../decorator/common/default.decorator";
 
@@ -19,7 +19,7 @@ describe("executeCastProcedures", () => {
         const options: any = {};
 
         const constraintProcedureList = [
-            new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
+            new FieldConstraintProcedure(isStringModule.IS_STRING, {}, {}, isStringModule.isString, isStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
         constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
@@ -58,7 +58,7 @@ describe("executeCastProcedures", () => {
         const options: any = {};
 
         const constraintProcedureList = [
-            new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
+            new FieldConstraintProcedure(isStringModule.IS_STRING, {}, {}, isStringModule.isString, isStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
         constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
@@ -98,7 +98,7 @@ describe("executeCastProcedures", () => {
         const options: any = {};
 
         const constraintProcedureList = [
-            new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
+            new FieldConstraintProcedure(isStringModule.IS_STRING, {}, {}, isStringModule.isString, isStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
         constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
