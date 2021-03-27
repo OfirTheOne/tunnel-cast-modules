@@ -9,6 +9,7 @@ export interface FieldConstraintFn<Args> {
         fieldValue: any, 
         fieldName: string, 
         path: string, 
+        context: any
         options: FieldConstraintProcedureOptions
     }) : boolean
 }

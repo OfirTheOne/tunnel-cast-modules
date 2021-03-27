@@ -22,7 +22,7 @@ describe("executeCastProcedures", () => {
             new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
-        constraintProcedureList.forEach(cons => { cons.contextRef = target; cons.fieldName = fieldName; });
+        constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
 
         const isStringSpy = jest.spyOn(constraintProcedureList[0], 'constraint');
         const isStringMessageBuilderSpy = jest.spyOn(constraintProcedureList[0], 'messageBuilder' as any);
@@ -38,10 +38,10 @@ describe("executeCastProcedures", () => {
         const result = executeCastProcedures(fieldName, procedures, target, projectedContext, options);
 
         expect(isStringSpy).toBeCalledTimes(1);
-        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
+        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName, context: target });
         expect(isStringMessageBuilderSpy).toBeCalledTimes(0);
         expect(requiredSpy).toBeCalledTimes(1);
-        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
+        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName, context: target });
         expect(requiredMessageBuilderSpy).toBeCalledTimes(0);
 
         expect(
@@ -61,7 +61,7 @@ describe("executeCastProcedures", () => {
             new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
-        constraintProcedureList.forEach(cons => { cons.contextRef = target; cons.fieldName = fieldName; });
+        constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
 
         const isStringSpy = jest.spyOn(constraintProcedureList[0], 'constraint');
         const isStringMessageBuilderSpy = jest.spyOn(constraintProcedureList[0], 'messageBuilder' as any);
@@ -80,11 +80,11 @@ describe("executeCastProcedures", () => {
         expect(resultMessages.length).toEqual(1);
         expect(resultMessages).toContain(isStringMessageBuilderSpy.mock.results[0].value);
         expect(isStringSpy).toBeCalledTimes(1);
-        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
+        expect(isStringSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName, context: target });
         expect(isStringMessageBuilderSpy).toBeCalledTimes(1);
         expect(isStringMessageBuilderSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
         expect(requiredSpy).toBeCalledTimes(1);
-        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName });
+        expect(requiredSpy).toBeCalledWith({ args: {}, options: {}, fieldValue, fieldName, path: fieldName, context: target });
         expect(requiredMessageBuilderSpy).toBeCalledTimes(0);
     })
 
@@ -101,19 +101,19 @@ describe("executeCastProcedures", () => {
             new FieldConstraintProcedure(IsStringModule.IS_STRING, {}, {}, IsStringModule.isString, IsStringModule.isStringMessageBuilder),
             new FieldConstraintProcedure(requiredModule.REQUIRED, {}, {}, requiredModule.required, requiredModule.requiredMessageBuilder),
         ];
-        constraintProcedureList.forEach(cons => { cons.contextRef = target; cons.fieldName = fieldName; });
+        constraintProcedureList.forEach(cons => { cons.fieldName = fieldName; });
         const defaultAssignmentProcedure = [
             new FieldDefaultAssignmentProcedure(defaultModule.DEFAULT, {}, { valueOrFactory: expectedDefaultValue }, defaultModule.defaultAssigner),
             new FieldDefaultAssignmentProcedure(defaultModule.DEFAULT, {}, { valueOrFactory: 123 }, defaultModule.defaultAssigner)
         ];
-        defaultAssignmentProcedure.forEach(cons => { cons.contextRef = target; cons.fieldName = fieldName; });
+        defaultAssignmentProcedure.forEach(cons => { cons.fieldName = fieldName; });
 
         const isStringSpy = jest.spyOn(constraintProcedureList[0], 'constraint');
         const isStringMessageBuilderSpy = jest.spyOn(constraintProcedureList[0], 'messageBuilder' as any);
         const requiredSpy = jest.spyOn(constraintProcedureList[1], 'constraint');
         const requiredMessageBuilderSpy = jest.spyOn(constraintProcedureList[1], 'messageBuilder' as any);
-        const fstDefaultWithSpy = jest.spyOn(defaultAssignmentProcedure[0], 'defaultWith' as any);
-        const SecDefaultWithSpy = jest.spyOn(defaultAssignmentProcedure[1], 'defaultWith' as any);
+        const fstDefaultWithSpy = jest.spyOn(defaultAssignmentProcedure[0] as any, 'defaultWith');
+        const SecDefaultWithSpy = jest.spyOn(defaultAssignmentProcedure[1] as any, 'defaultWith');
 
         const procedures: Partial<Record<FieldProcedureType, FieldProcedure[]>> = {
             [FieldProcedureType.ConditionalHandling]: [],

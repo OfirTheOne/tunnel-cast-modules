@@ -6,7 +6,7 @@ import { FieldParserFn } from "../../models/interfaces/field-parser-fn";
 export class FieldParserProcedure<A = any> implements FieldProcedure {
     public readonly fieldProcedureType: FieldProcedureType = FieldProcedureType.Parser;
     public fieldName: string;
-    public contextRef: any;
+    // public contextRef: any;
 
     constructor(
         public readonly procedureId: string,

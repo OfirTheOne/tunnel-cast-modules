@@ -7,7 +7,7 @@ import { MessageBuilderFn } from "../../models/interfaces/message-builder-fn";
 export class FieldConstraintProcedure<A = any> implements FieldProcedure {
     public readonly fieldProcedureType: FieldProcedureType = FieldProcedureType.Constraint;
     public fieldName: string;
-    public contextRef: any;
+    // public contextRef: any;
 
     constructor(
         public readonly procedureId: string,

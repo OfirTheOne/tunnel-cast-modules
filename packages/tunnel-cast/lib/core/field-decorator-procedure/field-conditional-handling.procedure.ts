@@ -5,7 +5,7 @@ import { FieldConditionalHandlingProcedureOptions } from "../../models/interface
 export class FieldConditionalHandlingProcedure<A = any> implements FieldProcedure {
     public readonly fieldProcedureType: FieldProcedureType = FieldProcedureType.ConditionalHandling;
     public fieldName: string;
-    public contextRef: any;
+    // public contextRef: any;
 
     constructor(
         public readonly procedureId: string,

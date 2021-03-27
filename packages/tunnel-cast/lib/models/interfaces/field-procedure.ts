@@ -7,6 +7,6 @@ export abstract class FieldProcedure {
     public abstract procedureId: string;
 
     public abstract fieldName: string;
-    public abstract contextRef: any;
+    // public abstract contextRef: any;
   
 }

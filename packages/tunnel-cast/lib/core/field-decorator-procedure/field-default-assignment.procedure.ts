@@ -7,7 +7,7 @@ import { EmptyIdentifierFn } from "../../models/interfaces/empty-identifier-fn";
 export class FieldDefaultAssignmentProcedure<A = any> implements FieldProcedure {
     public readonly fieldProcedureType: FieldProcedureType = FieldProcedureType.DefaultAssignment;
     public fieldName: string;
-    public contextRef: any;
+    // public contextRef: any;
 
     constructor(
         public readonly procedureId: string,

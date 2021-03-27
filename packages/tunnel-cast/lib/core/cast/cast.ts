@@ -18,7 +18,7 @@ export function cast<T>(model: (new (...args: any[]) => T), target: any, options
     const castProceduresListEntries: Array<[string, FieldProcedure[]]> = orderedDecoratedFields
         .map(field => {
             const faList: Array<FieldProcedure> = Reflect.getMetadata(CAST_FIELD_METADATA, modelPrototype, field);
-            faList.forEach(fa => fa.contextRef = target);
+            // faList.forEach(fa => fa.contextRef = target);
             return [field, faList];
         })
 

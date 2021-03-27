@@ -21,7 +21,7 @@ CustomTransformer = 'CUSTOM_TRANSFORMER',
 */
 
 interface ExecuteFieldProcedureFn<Res, Info = any> {
-    (fieldProcedure: FieldProcedure, processedValue: any, executionInfoCollectionRef: any): Res & { info: Info }
+    (fieldProcedure: FieldProcedure, processedValue: any, target: any, executionInfoCollectionRef: any): Res & { info: Info }
 }
 
 export function executeCastProcedures(field: string, procedures: Partial<Record<FieldProcedureType, FieldProcedure[]>>, target: any, projectedContext: any, options?: any) {
@@ -29,7 +29,7 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
     const executionInfoCollection: any = {};
 
     const conditionalHandling = procedures[FieldProcedureType.ConditionalHandling] || [];
-    const conditionalHandlingResult = conditionalHandling.map((cond: FieldConditionalHandlingProcedure) => executeFieldConditionalHandling(cond, fieldValue, executionInfoCollection));
+    const conditionalHandlingResult = conditionalHandling.map((cond: FieldConditionalHandlingProcedure) => executeFieldConditionalHandling(cond, fieldValue, target, executionInfoCollection));
     const skipHandling = conditionalHandlingResult.some(cond => cond.conditionPass == false);
     if (skipHandling) {
         projectedContext[field] = fieldValue;
@@ -38,7 +38,7 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
 
     // the first defaultAssignment procedure take in to account.
     const [defaultAssignment,] = (procedures[FieldProcedureType.DefaultAssignment] || []) as FieldDefaultAssignmentProcedure[];
-    const { isEmpty, defaultValue } = executeFieldDefaultAssignment(defaultAssignment, fieldValue, executionInfoCollection);
+    const { isEmpty, defaultValue } = executeFieldDefaultAssignment(defaultAssignment, fieldValue, target, executionInfoCollection);
     if (isEmpty) {
         projectedContext[field] = defaultValue;
         return [];
@@ -47,11 +47,11 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
     const parsers = procedures[FieldProcedureType.Parser] || [];
     const parsedFieldValue = parsers
         .reduce((accParseValue, parser: FieldParserProcedure) => 
-        executeFieldParser(parser, accParseValue, executionInfoCollection).parseValue, fieldValue);
+        executeFieldParser(parser, accParseValue, target, executionInfoCollection).parseValue, fieldValue);
 
     const constraints = procedures[FieldProcedureType.Constraint] || [];
     const constraintsResult = constraints
-        .map((cons: FieldConstraintProcedure) => executeFieldConstraint(cons, parsedFieldValue, executionInfoCollection))
+        .map((cons: FieldConstraintProcedure) => executeFieldConstraint(cons, parsedFieldValue, target, executionInfoCollection))
         .filter(({ message }) => message != undefined);
     if (constraintsResult.length == 0) {
         projectedContext[field] = parsedFieldValue;
@@ -61,11 +61,11 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
 }
 
 const executeFieldDefaultAssignment: ExecuteFieldProcedureFn<{ isEmpty?: boolean, defaultValue?: any }>
-    = (emptyIdentifierProcedure: FieldDefaultAssignmentProcedure, processedValue: any) => {
+    = (emptyIdentifierProcedure: FieldDefaultAssignmentProcedure, processedValue: any, context: any, executionInfoCollection: any) => {
         if (!emptyIdentifierProcedure) { return { info: {} }; }
         const fieldValue = processedValue; // emptyIdentifierProcedure?.contextRef[emptyIdentifierProcedure.fieldName]
         const { emptyIdentifier, args, fieldName, defaultWith,
-            procedureId, fieldProcedureType, options, contextRef
+            procedureId, fieldProcedureType, options,
         } = emptyIdentifierProcedure;
 
         const isEmpty = !emptyIdentifier ? globalSetting.defaultEmptyIdentifier({ args, fieldValue, fieldName, path: fieldName }) : (
@@ -75,43 +75,43 @@ const executeFieldDefaultAssignment: ExecuteFieldProcedureFn<{ isEmpty?: boolean
         );
         const defaultValue = !isEmpty ? undefined : (
             typeof defaultWith == 'function' ?
-                (defaultWith as DefaultWithFn)({ args, fieldValue, fieldName, path: fieldName, context: contextRef }) : defaultWith
+                (defaultWith as DefaultWithFn)({ args, fieldValue, fieldName, path: fieldName, context }) : defaultWith
         );
         return {
             isEmpty,
             defaultValue,
             info: {
-                procedure: emptyIdentifierProcedure, fieldName, procedureId, fieldProcedureType, options, contextRef
+                procedure: emptyIdentifierProcedure, fieldName, procedureId, fieldProcedureType, options, context
             }
         };
 
     }
 
 const executeFieldConditionalHandling: ExecuteFieldProcedureFn<{ conditionPass: boolean }>
-    = (fieldConditionalHandling: FieldConditionalHandlingProcedure, processedValue: any) => {
+    = (fieldConditionalHandling: FieldConditionalHandlingProcedure, processedValue: any, context: any, executionInfoCollection: any) => {
         const fieldValue = processedValue; // fieldConditionalHandling?.contextRef[fieldConditionalHandling.fieldName]
         const conditionPass = fieldConditionalHandling.condition({
             args: fieldConditionalHandling.args,
             fieldValue,
             fieldName: fieldConditionalHandling.fieldName,
             path: fieldConditionalHandling.fieldName,
-            context: fieldConditionalHandling.contextRef
+            context
         });
 
-        const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldConditionalHandling;
+        const { procedureId, fieldProcedureType, options, fieldName } = fieldConditionalHandling;
         return {
             conditionPass,
             info: {
-                procedure: fieldConditionalHandling, fieldName, procedureId, fieldProcedureType, options, contextRef
+                procedure: fieldConditionalHandling, fieldName, procedureId, fieldProcedureType, options, context
             }
         }
 
     }
 
 const executeFieldConstraint: ExecuteFieldProcedureFn<{ message: string, constraintPass: boolean }>
-    = (fieldConstraint: FieldConstraintProcedure, processedValue: any) => {
+    = (fieldConstraint: FieldConstraintProcedure, processedValue: any, context: any, executionInfoCollection: any) => {
         const fieldValue = processedValue; //fieldConstraint?.contextRef[fieldConstraint.fieldName];
-        const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldConstraint;
+        const { procedureId, fieldProcedureType, options, fieldName } = fieldConstraint;
         let constraintPass: boolean = undefined, msgValue = fieldValue, msgPath = fieldName;
 
         if (options?.iterate == true) {
@@ -125,7 +125,7 @@ const executeFieldConstraint: ExecuteFieldProcedureFn<{ message: string, constra
                 const currValue = valueIteratableValues[index];
                 const currPath = `${fieldName}[${index}]`;
                 const currConstraintPass = fieldConstraint.constraint({
-                    args: fieldConstraint.args, fieldValue: currValue, fieldName: fieldConstraint.fieldName, path: currPath, options,
+                    args: fieldConstraint.args, fieldValue: currValue, fieldName, path: currPath, options, context
                 });
                 if (currConstraintPass == false) {
                     msgPath = currPath;
@@ -136,7 +136,7 @@ const executeFieldConstraint: ExecuteFieldProcedureFn<{ message: string, constra
             }
             constraintPass = constraintPass != false;
         } else {
-            constraintPass = fieldConstraint.constraint({ args: fieldConstraint.args, fieldValue, fieldName, path: fieldName, options });
+            constraintPass = fieldConstraint.constraint({ args: fieldConstraint.args, fieldValue, fieldName, path: fieldName, options, context });
         }
 
         let message: string;
@@ -150,19 +150,19 @@ const executeFieldConstraint: ExecuteFieldProcedureFn<{ message: string, constra
         return {
             message,
             constraintPass,
-            info: { procedure: fieldConstraint, fieldName, procedureId, fieldProcedureType, options, contextRef }
+            info: { procedure: fieldConstraint, fieldName, procedureId, fieldProcedureType, options, context }
         };
 
     }
 
 const executeFieldParser: ExecuteFieldProcedureFn<{ parseValue: any }>
-    = (fieldParser: FieldParserProcedure, processedValue: any) => {
+    = (fieldParser: FieldParserProcedure, processedValue: any, context: any, executionInfoCollection: any) => {
         const fieldValue = processedValue//fieldParser?.contextRef[fieldParser.fieldName];
-        const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldParser;
-        const parseValue = fieldParser.parse({ args: fieldParser.args, fieldValue, fieldName, path: fieldName, options, context: contextRef });
+        const { procedureId, fieldProcedureType, options, fieldName } = fieldParser;
+        const parseValue = fieldParser.parse({ args: fieldParser.args, fieldValue, fieldName, path: fieldName, options, context });
         return {
             parseValue,
-            info: { procedure: fieldParser, fieldName, procedureId, fieldProcedureType, options, contextRef }
+            info: { procedure: fieldParser, fieldName, procedureId, fieldProcedureType, options, context }
         };
 
     }
