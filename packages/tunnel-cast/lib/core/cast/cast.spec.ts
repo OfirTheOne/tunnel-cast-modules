@@ -12,7 +12,7 @@ import { Default } from "../../decorator/common/default.decorator";
 import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean";
 import { Map } from "../../decorator/common/map.decorator";
 
-describe("cast high level expected behavior.", () => {
+describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate' behavior.", () => {
     
     class ExampleDTO01 {
 
@@ -37,7 +37,7 @@ describe("cast high level expected behavior.", () => {
         listOfStuff: Array<any>;
     }
 
-    it("ExampleDTO01 general usage testing, focus on constraint 'iterate' behavior, casting pass.", () => {
+    it("casting pass.", () => {
         const providedValue = { 
             myEmail: "autor@gmail.com",
             myAge: 30, 
@@ -56,7 +56,7 @@ describe("cast high level expected behavior.", () => {
     })
 
 
-    it("ExampleDTO01 general usage testing, focus on constraint 'iterate' behavior, casting fail.", () => {
+    it("casting fail.", () => {
 
         const expectedErrMessages = [
             isEmailMessageBuilder({fieldName: 'myEmail', options: {} } as any),
@@ -80,7 +80,10 @@ describe("cast high level expected behavior.", () => {
         expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
     })
 
+})
 
+describe("[ExampleDTO02] cast high level behavior, focus on Required & Nullable behavior.", () => {
+ 
     class ExampleDTO02 {
         @Required()
         importantMessage: string;
@@ -99,7 +102,7 @@ describe("cast high level expected behavior.", () => {
 
     }
 
-    it("ExampleDTO02 general usage testing, focus on Required & Nullable behavior, casting pass.", () => {
+    it("casting pass.", () => {
 
         const providedValue = { 
             importantMessage: "cast can make things easier",
@@ -118,7 +121,7 @@ describe("cast high level expected behavior.", () => {
         expect(resolvedValue).toEqual(expectedValue);
     })
 
-    it("ExampleDTO02 general usage testing, focus on Required & Nullable behavior, casting fail.", () => {
+    it("casting fail.", () => {
         const expectedErrMessages = [
             isStringMessageBuilder({fieldName: 'lastName', options: {} } as any),
         ];
@@ -141,7 +144,10 @@ describe("cast high level expected behavior.", () => {
         expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
     })
 
+})
 
+describe("[ExampleDTO03] cast high level behavior, focus on Default behavior.", () => {
+ 
     class ExampleDTO03 {
         @Default( ({context}) => context.name )
         nickname: string;
@@ -156,7 +162,7 @@ describe("cast high level expected behavior.", () => {
 
     }
 
-    it("ExampleDTO03 general usage testing, focus on Default behavior, casting pass.", () => {
+    it("missing values, casting pass.", () => {
 
         const providedValue = { 
             name: "JohnSmith"
@@ -176,7 +182,7 @@ describe("cast high level expected behavior.", () => {
         expect(resolvedValue).toEqual(expectedValue);
     })
 
-    it("ExampleDTO03 general usage testing, focus on Default behavior, providing values, casting pass.", () => {
+    it("providing values, casting pass.", () => {
 
         const providedValue = { 
             name: "JohnSmith",
@@ -194,7 +200,7 @@ describe("cast high level expected behavior.", () => {
         expect(resolvedValue).toEqual(expectedValue);
     })
 
-    it("ExampleDTO03 general usage testing, focus on Default behavior, casting fail.", () => {
+    it("casting fail.", () => {
         const expectedErrMessages = [
             lengthMessageBuilder({fieldName: 'name', options: {} } as any),
             isBooleanMessageBuilder({fieldName: 'notifications', options: {} } as any)
@@ -218,13 +224,17 @@ describe("cast high level expected behavior.", () => {
     })
 
 
+})
+
+describe("[ExampleDTO04] cast high level behavior, focus on Parsing.", () => {
+ 
     class ExampleDTO04 {
         @Map((v) => `${v}_mapped`)
         @Required()
         list: Array<string>;
     }
 
-    it("ExampleDTO04 general usage testing, focus on Parsing, casting pass.", () => {
+    it("casting pass.", () => {
 
         const providedValue = { 
             list: ["a", "b"]
@@ -241,5 +251,5 @@ describe("cast high level expected behavior.", () => {
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
     })
-})
 
+})
