@@ -5,6 +5,7 @@ import { FieldProcedure } from "../../models/interfaces/field-procedure";
 import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 import { FieldDefaultAssignmentProcedure } from "../field-decorator-procedure/field-default-assignment.procedure";
 import { globalSetting } from "../globals/globals";
+import { FieldParserProcedure } from "../field-decorator-procedure/field-parser.procedure";
 
 
 /*
@@ -25,7 +26,7 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
     const fieldValue = target[field]
 
     const conditionalHandling = procedures[FieldProcedureType.ConditionalHandling]||[];
-    const conditionalHandlingResult = conditionalHandling.map((cond: FieldConditionalHandlingProcedure) => executeFieldConditionalHandling(cond));
+    const conditionalHandlingResult = conditionalHandling.map((cond: FieldConditionalHandlingProcedure) => executeFieldConditionalHandling(cond, fieldValue));
     const skipHandling = conditionalHandlingResult.some(cond => cond.conditionPass == false);
     if(skipHandling) {
         projectedContext[field] = fieldValue;
@@ -34,26 +35,30 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
 
     // the first defaultAssignment procedure take in to account.
     const [defaultAssignment, ] = (procedures[FieldProcedureType.DefaultAssignment]||[]) as FieldDefaultAssignmentProcedure[];
-    const { isEmpty, defaultValue } = executeFieldDefaultAssignment(defaultAssignment)
+    const { isEmpty, defaultValue } = executeFieldDefaultAssignment(defaultAssignment, fieldValue)
     if(isEmpty) {
         projectedContext[field] = defaultValue;
         return [];
     }
 
+    const parsers = procedures[FieldProcedureType.Parser]||[];
+    const parsedFieldValue = parsers
+        .reduce((accParseValue, parser: FieldParserProcedure) => executeFieldParser(parser, accParseValue).parseValue, fieldValue)
+
     const constraints = procedures[FieldProcedureType.Constraint]||[];
     const constraintsResult = constraints
-        .map((cons: FieldConstraintProcedure) => executeFieldConstraint(cons))
+        .map((cons: FieldConstraintProcedure) => executeFieldConstraint(cons, parsedFieldValue))
         .filter(({message}) => message != undefined );
     if(constraintsResult.length == 0) {
-        projectedContext[field] = fieldValue;
+        projectedContext[field] = parsedFieldValue;
     }
 
     return constraintsResult;
 }
 
-function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAssignmentProcedure) {
+function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAssignmentProcedure, processedValue: any) {
     if(!emptyIdentifierProcedure) { return  {}; }
-    const fieldValue = emptyIdentifierProcedure?.contextRef[emptyIdentifierProcedure.fieldName]
+    const fieldValue = processedValue; // emptyIdentifierProcedure?.contextRef[emptyIdentifierProcedure.fieldName]
     const { emptyIdentifier, args, fieldName, defaultWith,
             procedureId, fieldProcedureType, options, contextRef
     } = emptyIdentifierProcedure;
@@ -77,8 +82,8 @@ function executeFieldDefaultAssignment(emptyIdentifierProcedure: FieldDefaultAss
 
 }
 
-function executeFieldConditionalHandling(fieldConditionalHandling: FieldConditionalHandlingProcedure) {
-    const fieldValue = fieldConditionalHandling?.contextRef[fieldConditionalHandling.fieldName]
+function executeFieldConditionalHandling(fieldConditionalHandling: FieldConditionalHandlingProcedure, processedValue: any) {
+    const fieldValue = processedValue; // fieldConditionalHandling?.contextRef[fieldConditionalHandling.fieldName]
     const conditionPass = fieldConditionalHandling.condition({
         args: fieldConditionalHandling.args,
         fieldValue,
@@ -97,8 +102,8 @@ function executeFieldConditionalHandling(fieldConditionalHandling: FieldConditio
 
 }
 
-function executeFieldConstraint(fieldConstraint: FieldConstraintProcedure) {
-    const fieldValue = fieldConstraint?.contextRef[fieldConstraint.fieldName];
+function executeFieldConstraint(fieldConstraint: FieldConstraintProcedure, processedValue: any) {
+    const fieldValue = processedValue; //fieldConstraint?.contextRef[fieldConstraint.fieldName];
     const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldConstraint;
     let constraintPass: boolean = undefined, msgValue = fieldValue, msgPath = fieldName;
 
@@ -143,4 +148,14 @@ function executeFieldConstraint(fieldConstraint: FieldConstraintProcedure) {
 
 }
 
+function executeFieldParser(fieldParser: FieldParserProcedure, processedValue: any) {
+    const fieldValue = processedValue//fieldParser?.contextRef[fieldParser.fieldName];
+    const { procedureId, fieldProcedureType, options, contextRef, fieldName } = fieldParser;
+    const parseValue = fieldParser.parse({args: fieldParser.args, fieldValue, fieldName, path: fieldName, options, context: contextRef});
+    return {
+        parseValue,
+        info: { procedure: fieldParser, fieldName, procedureId, fieldProcedureType, options, contextRef }
+    };
+
+}
 
