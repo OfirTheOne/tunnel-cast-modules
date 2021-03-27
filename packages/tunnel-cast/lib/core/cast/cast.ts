@@ -4,8 +4,9 @@ import { FieldProcedure } from "../../models/interfaces/field-procedure";
 import { FieldProcedureType } from "../../models/enums/field-procedure-type.enum";
 import { CastResult } from "../../models/interfaces/cast-result";
 import { executeCastProcedures } from "./execute-cast-procedures";
+import { CastOptions } from "../../models/interfaces/cast-options";
 
-export function cast<T>(model: (new (...args: any[]) => T), target: any, options?: any): CastResult<T> {
+export function cast<T>(model: (new (...args: any[]) => T), target: any, options: CastOptions = {}): CastResult<T> {
 
     const modelPrototype = model.prototype;
     const projectedContext = {};
@@ -29,7 +30,7 @@ export function cast<T>(model: (new (...args: any[]) => T), target: any, options
     return { resolvedValue, messages };
 }
 
-export function castEngine(castProceduresListEntries: Array<[string, FieldProcedure[]]>, target: any, projectedContext: any, options?: any) {
+export function castEngine(castProceduresListEntries: Array<[string, FieldProcedure[]]>, target: any, projectedContext: any, options: CastOptions) {
     const messagesLists = castProceduresListEntries.map(([field, proceduresList]) => {
         const proceduresListGroups = proceduresList
             .reduce((gr, procedure) => {

@@ -1,4 +1,5 @@
-interface CastOptions {
+export interface CastOptions {
+    tags?: Array<string>
     /**
      * 
      */

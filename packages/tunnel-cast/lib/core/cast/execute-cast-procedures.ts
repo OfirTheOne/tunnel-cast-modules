@@ -6,6 +6,7 @@ import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 import { FieldDefaultAssignmentProcedure } from "../field-decorator-procedure/field-default-assignment.procedure";
 import { globalSetting } from "../globals/globals";
 import { FieldParserProcedure } from "../field-decorator-procedure/field-parser.procedure";
+import { CastOptions } from "../../models/interfaces/cast-options";
 
 
 /*
@@ -24,11 +25,20 @@ interface ExecuteFieldProcedureFn<Res, Info = any> {
     (fieldProcedure: FieldProcedure, processedValue: any, target: any, executionInfoCollectionRef: any): Res & { info: Info }
 }
 
-export function executeCastProcedures(field: string, procedures: Partial<Record<FieldProcedureType, FieldProcedure[]>>, target: any, projectedContext: any, options?: any) {
+
+const returnProceduresWithTags = (procedures: Array<FieldProcedure>, tags: Array<string>) => 
+    !(tags && tags.length) ? procedures : procedures
+        .filter(procedure => tags
+            .some( tag => procedure.options.tags
+                .includes(tag) ) );
+
+
+
+export function executeCastProcedures(field: string, procedures: Partial<Record<FieldProcedureType, FieldProcedure[]>>, target: any, projectedContext: any, options: CastOptions) {
     const fieldValue = target[field]
     const executionInfoCollection: any = {};
 
-    const conditionalHandling = procedures[FieldProcedureType.ConditionalHandling] || [];
+    const conditionalHandling = returnProceduresWithTags(procedures[FieldProcedureType.ConditionalHandling] || [], options.tags);
     const conditionalHandlingResult = conditionalHandling.map((cond: FieldConditionalHandlingProcedure) => executeFieldConditionalHandling(cond, fieldValue, target, executionInfoCollection));
     const skipHandling = conditionalHandlingResult.some(cond => cond.conditionPass == false);
     if (skipHandling) {
@@ -37,19 +47,19 @@ export function executeCastProcedures(field: string, procedures: Partial<Record<
     }
 
     // the first defaultAssignment procedure take in to account.
-    const [defaultAssignment,] = (procedures[FieldProcedureType.DefaultAssignment] || []) as FieldDefaultAssignmentProcedure[];
+    const [defaultAssignment,] = (returnProceduresWithTags(procedures[FieldProcedureType.DefaultAssignment] || [], options.tags)) as FieldDefaultAssignmentProcedure[];
     const { isEmpty, defaultValue } = executeFieldDefaultAssignment(defaultAssignment, fieldValue, target, executionInfoCollection);
     if (isEmpty) {
         projectedContext[field] = defaultValue;
         return [];
     }
 
-    const parsers = procedures[FieldProcedureType.Parser] || [];
+    const parsers = returnProceduresWithTags(procedures[FieldProcedureType.Parser] || [], options.tags);;
     const parsedFieldValue = parsers
         .reduce((accParseValue, parser: FieldParserProcedure) => 
         executeFieldParser(parser, accParseValue, target, executionInfoCollection).parseValue, fieldValue);
 
-    const constraints = procedures[FieldProcedureType.Constraint] || [];
+    const constraints = returnProceduresWithTags(procedures[FieldProcedureType.Constraint] || [], options.tags);
     const constraintsResult = constraints
         .map((cons: FieldConstraintProcedure) => executeFieldConstraint(cons, parsedFieldValue, target, executionInfoCollection))
         .filter(({ message }) => message != undefined);
@@ -166,8 +176,6 @@ const executeFieldParser: ExecuteFieldProcedureFn<{ parseValue: any }>
         };
 
     }
-
-
 
 
 
