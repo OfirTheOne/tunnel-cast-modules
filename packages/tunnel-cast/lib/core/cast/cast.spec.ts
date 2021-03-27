@@ -7,13 +7,10 @@ import { SkipIf } from "../../decorator/common/skip-if.decorator";
 import { Required, requiredMessageBuilder } from "../../decorator/common/required.decorator";
 import { IsEmail, isEmailMessageBuilder } from "../../decorator/string/is-email.decorator";
 import { Nullable } from "../../decorator/common/nullable.decorator";
-import { Length } from "../../decorator/common/length.decorator";
+import { Length, lengthMessageBuilder } from "../../decorator/common/length.decorator";
 import { Default } from "../../decorator/common/default.decorator";
-import { IsBoolean } from "../../decorator/type/is-boolean";
-
-test.todo("cast test on SkipIf & Nullable");
-test.todo("cast test on Default");
-test.todo("cast test on common application usage");
+import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean";
+import { Map } from "../../decorator/common/map.decorator";
 
 describe("cast high level expected behavior.", () => {
     
@@ -144,6 +141,7 @@ describe("cast high level expected behavior.", () => {
         expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
     })
 
+
     class ExampleDTO03 {
         @Default( ({context}) => context.name )
         nickname: string;
@@ -157,7 +155,6 @@ describe("cast high level expected behavior.", () => {
         notifications: boolean;
 
     }
-
 
     it("ExampleDTO03 general usage testing, focus on Default behavior, casting pass.", () => {
 
@@ -179,5 +176,70 @@ describe("cast high level expected behavior.", () => {
         expect(resolvedValue).toEqual(expectedValue);
     })
 
+    it("ExampleDTO03 general usage testing, focus on Default behavior, providing values, casting pass.", () => {
+
+        const providedValue = { 
+            name: "JohnSmith",
+            nickname: "Johny",
+            notifications : false     
+        }
+        const expectedValue = providedValue;
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO03, 
+            providedValue
+        );
+        
+        expect(messages.length).toEqual(0);
+        expect(resolvedValue).toEqual(expectedValue);
+    })
+
+    it("ExampleDTO03 general usage testing, focus on Default behavior, casting fail.", () => {
+        const expectedErrMessages = [
+            lengthMessageBuilder({fieldName: 'name', options: {} } as any),
+            isBooleanMessageBuilder({fieldName: 'notifications', options: {} } as any)
+        ];
+
+        const providedValue = { 
+            name: "bob",
+            nickname: "Johny",
+            notifications : 10     
+        }
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO03, 
+            providedValue
+        );
+        
+        expect(resolvedValue).toBeUndefined();
+        expect(messages).toBeDefined();
+        expect(messages.length).toEqual(2);
+        expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
+    })
+
+
+    class ExampleDTO04 {
+        @Map((v) => `${v}_mapped`)
+        @Required()
+        list: Array<string>;
+    }
+
+    it("ExampleDTO04 general usage testing, focus on Parsing, casting pass.", () => {
+
+        const providedValue = { 
+            list: ["a", "b"]
+        }
+        const expectedValue = {
+            list: ["a_mapped", "b_mapped"]
+        } 
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO04, 
+            providedValue
+        );
+        
+        expect(messages.length).toEqual(0);
+        expect(resolvedValue).toEqual(expectedValue);
+    })
 })
 
