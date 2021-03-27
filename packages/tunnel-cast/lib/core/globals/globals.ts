@@ -5,7 +5,7 @@ export class GlobalSetting {
     defaultEmptyIdentifier: EmptyIdentifierFn = ({fieldValue}) => 
         fieldValue == undefined || 
         fieldValue == null || 
-        fieldValue == '';
+        fieldValue === '';
 
 }
 
