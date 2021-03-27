@@ -2,10 +2,9 @@ import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-c
 import { decoratorAdapter } from "../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 
-
-const IS_BOOLEAN = "is_boolean";
-
-const isBoolean = ({ fieldValue }) => typeof fieldValue == 'boolean';
+export const IS_BOOLEAN = "is_boolean";
+export const isBoolean = ({ fieldValue }) => typeof fieldValue == 'boolean';
+export const isBooleanMessageBuilder = ({ fieldName }) => `The field ${fieldName} is not of type boolean`;
 
 export function IsBoolean(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -13,7 +12,7 @@ export function IsBoolean(options?: FieldConstraintProcedureOptions) {
         options,
         {},
         isBoolean,
-        ({ fieldName }) => `The field ${fieldName} is not of type boolean`
+        isBooleanMessageBuilder
     );
     return decoratorAdapter(adaptee);
 }
