@@ -1,4 +1,5 @@
-export interface FieldDefaultAssignmentProcedureOptions {
-    tags?: Array<string>,
+import { FieldProcedureOptions } from "./field-procedure-options";
+
+export interface FieldDefaultAssignmentProcedureOptions extends FieldProcedureOptions {
     // iterate?: boolean,
 }

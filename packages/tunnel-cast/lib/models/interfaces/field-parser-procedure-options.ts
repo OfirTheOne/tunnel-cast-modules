@@ -1,5 +1,6 @@
-export interface FieldParserProcedureOptions {
+import { FieldProcedureOptions } from "./field-procedure-options";
+
+export interface FieldParserProcedureOptions extends FieldProcedureOptions {
     if?: (value: any, context: any) => boolean,
-    tags?: Array<string>,
     skipIfEmpty?: boolean
 }

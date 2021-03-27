@@ -1,6 +1,7 @@
-export interface FieldConstraintProcedureOptions {
+import { FieldProcedureOptions } from "./field-procedure-options";
+
+export interface FieldConstraintProcedureOptions extends FieldProcedureOptions {
     if?: (value: any, context: any) => boolean,
-    tags?: Array<string>,
     message?: string,
     iterate?: boolean,
     skipIfEmpty?: boolean
