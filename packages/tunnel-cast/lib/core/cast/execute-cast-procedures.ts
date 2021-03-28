@@ -28,7 +28,7 @@ interface ExecuteFieldProcedureFn<Res, Info = any> {
 
 const returnProceduresWithTags = (procedures: Array<FieldProcedure>, tags: Array<string>) => 
     !(tags && tags.length) ? procedures : procedures
-        .filter(procedure => tags
+        .filter(procedure => (procedure.options?.tags == undefined) || tags
             .some( tag => procedure.options.tags
                 .includes(tag) ) );
 
