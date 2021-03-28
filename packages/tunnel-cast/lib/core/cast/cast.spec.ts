@@ -272,7 +272,7 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
         permission: PermissionsEnum;
     }
 
-    it("casting pass.", () => {
+    it("casting pass, using admin tag.", () => {
 
         const providedValue = { 
             email: "someadmin@gmail.com",
@@ -288,6 +288,24 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
         
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
+    })
+
+    it("casting fail, using admin tag.", () => {
+
+        const providedValue = { 
+            email: "someadmin@gmail.com",
+            permission: PermissionsEnum.USER
+        }
+        // const expectedValue = providedValue;
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO05, 
+            providedValue,
+            { tags: ["admin"]}
+        );
+        
+        expect(messages.length).toEqual(1);
+        expect(resolvedValue).toBeUndefined();
     })
 
 })
