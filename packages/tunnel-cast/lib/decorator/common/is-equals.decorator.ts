@@ -33,10 +33,10 @@ export function IsEquals(value: any, options?: FieldConstraintProcedureOptions):
 export function IsEquals(value: any, strictOrOptions: (boolean | FieldConstraintProcedureOptions), options?: FieldConstraintProcedureOptions) {
     
     const strict = typeof strictOrOptions == 'boolean' ? strictOrOptions : true;
-    
+    const actualOptions = typeof strictOrOptions == 'boolean' ? options : strictOrOptions  
     const adaptee = new FieldConstraintProcedure(
         IS_EQUALS,
-        options||{},
+        actualOptions||{},
         { value, strict },
         isEquals,
         isEqualsMessageBuilder
