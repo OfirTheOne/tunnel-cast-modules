@@ -11,6 +11,7 @@ import { Length, lengthMessageBuilder } from "../../decorator/common/length.deco
 import { Default } from "../../decorator/common/default.decorator";
 import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean";
 import { Map } from "../../decorator/common/map.decorator";
+import { IsEquals } from "../../decorator/common/is-equals.decorator";
 
 describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate' behavior.", () => {
     
@@ -246,6 +247,43 @@ describe("[ExampleDTO04] cast high level behavior, focus on Parsing.", () => {
         const { messages, resolvedValue } = cast(
             ExampleDTO04, 
             providedValue
+        );
+        
+        expect(messages.length).toEqual(0);
+        expect(resolvedValue).toEqual(expectedValue);
+    })
+
+})
+
+describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
+ 
+    enum PermissionsEnum {
+        ADMIN = "ADMIN",
+        USER = "USER"
+    }
+
+    class ExampleDTO05 {
+        @IsEmail()
+        @IsString()
+        email: string;
+        
+        @IsEquals(PermissionsEnum.ADMIN, { tags: ["admin"] })
+        @IsEquals(PermissionsEnum.USER, { tags: ["user"] })
+        permission: PermissionsEnum;
+    }
+
+    it("casting pass.", () => {
+
+        const providedValue = { 
+            email: "someadmin@gmail.com",
+            permission: PermissionsEnum.ADMIN
+        }
+        const expectedValue = providedValue;
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO05, 
+            providedValue,
+            { tags: ["admin"]}
         );
         
         expect(messages.length).toEqual(0);
