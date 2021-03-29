@@ -270,13 +270,18 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
         @IsEquals(PermissionsEnum.ADMIN, { tags: ["admin"] })
         @IsEquals(PermissionsEnum.USER, { tags: ["user"] })
         permission: PermissionsEnum;
+
+        @Nullable({ tags: ["user"] })
+        @IsString({ tags: ["admin"] })
+        department: string;
     }
 
     it("casting pass, using admin tag.", () => {
 
         const providedValue = { 
             email: "someadmin@gmail.com",
-            permission: PermissionsEnum.ADMIN
+            permission: PermissionsEnum.ADMIN,
+            department: "sales"
         }
         const expectedValue = providedValue;
 
@@ -294,7 +299,8 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
 
         const providedValue = { 
             email: "someadmin@gmail.com",
-            permission: PermissionsEnum.USER
+            permission: PermissionsEnum.USER,
+            department: undefined
         }
         // const expectedValue = providedValue;
 
@@ -304,8 +310,43 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
             { tags: ["admin"]}
         );
         
-        expect(messages.length).toEqual(1);
+        expect(messages.length).toEqual(2);
         expect(resolvedValue).toBeUndefined();
     })
 
+    it("casting pass, using user tag.", () => {
+
+        const providedValue = { 
+            email: "someadmin@gmail.com",
+            permission: PermissionsEnum.USER
+        }
+        const expectedValue = providedValue;
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO05, 
+            providedValue,
+            { tags: ["user"]}
+        );
+        
+        expect(messages.length).toEqual(0);
+        expect(resolvedValue).toEqual(expectedValue);
+    })
+
+    it("casting fail, using user tag.", () => {
+
+        const providedValue = { 
+            email: "someadmin@gmail.com",
+            permission: PermissionsEnum.ADMIN
+        }
+        // const expectedValue = providedValue;
+
+        const { messages, resolvedValue } = cast(
+            ExampleDTO05, 
+            providedValue,
+            { tags: ["user"]}
+        );
+        
+        expect(messages.length).toEqual(1);
+        expect(resolvedValue).toBeUndefined();
+    })
 })
