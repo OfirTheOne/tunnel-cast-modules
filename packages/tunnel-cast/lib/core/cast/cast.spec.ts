@@ -349,4 +349,22 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
         expect(messages.length).toEqual(1);
         expect(resolvedValue).toBeUndefined();
     })
+
+    // it("casting pass, using no tags.", () => {
+
+    //     const providedValue = { 
+    //         email: "someadmin@gmail.com",
+    //         permission: PermissionsEnum.ADMIN
+    //     }
+    //     const expectedValue = providedValue;
+
+    //     const { messages, resolvedValue } = cast(
+    //         ExampleDTO05, 
+    //         providedValue,
+    //     );
+        
+    //     expect(messages).toBeUndefined();
+    //     expect(messages.length).toEqual(0);
+    //     expect(resolvedValue).toEqual(expectedValue);
+    // })
 })
