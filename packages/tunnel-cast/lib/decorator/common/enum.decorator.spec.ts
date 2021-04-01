@@ -1,7 +1,7 @@
 import { IsEnum, isEnumMessageBuilder, isEnum } from "./enum.decorator";
 
 
-describe("IsEnum", () => {
+describe("[constraint fn] isEnum", () => {
 
     enum ExampleEnum {
         A="A", 
