@@ -1,15 +1,15 @@
 
 import { cast } from "./cast";
-import { IsString, isStringMessageBuilder } from "../../decorator/type/is-string";
+import { IsString, isStringMessageBuilder } from "../../decorator/type/is-string.decorator";
 import { IsMatch } from "../../decorator/string/is-match.decorator";
-import { IsNumber } from "../../decorator/type/is-number";
+import { IsNumber } from "../../decorator/type/is-number.decorator";
 import { SkipIf } from "../../decorator/common/skip-if.decorator";
 import { Required, requiredMessageBuilder } from "../../decorator/common/required.decorator";
 import { IsEmail, isEmailMessageBuilder } from "../../decorator/string/is-email.decorator";
 import { Nullable } from "../../decorator/common/nullable.decorator";
 import { Length, lengthMessageBuilder } from "../../decorator/common/length.decorator";
 import { Default } from "../../decorator/common/default.decorator";
-import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean";
+import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean.decorator";
 import { Map } from "../../decorator/common/map.decorator";
 import { IsEquals } from "../../decorator/common/is-equals.decorator";
 
