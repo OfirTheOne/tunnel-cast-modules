@@ -4,9 +4,10 @@ import { decoratorAdapter } from "../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-constraint-procedure-options";
 import { MessageBuilderFn } from "../../models/interfaces/message-builder-fn";
+import { FieldConstraintFn } from "../../models/interfaces/field-constraint-fn";
 
 export const REQUIRED = "required";
-export const required = ({ fieldValue }) => !globalSetting.defaultEmptyIdentifier({fieldValue} as any);
+export const required: FieldConstraintFn<{}> = ({ fieldValue }) => !globalSetting.defaultEmptyIdentifier({fieldValue} as any);
 export const requiredMessageBuilder: MessageBuilderFn = ({ fieldName, options }) => options.iterate ?
     `Each value in the field ${fieldName} is required.` :
     `The field ${fieldName} is required.`;
