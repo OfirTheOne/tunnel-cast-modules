@@ -4,9 +4,9 @@ import { executeCastProcedures } from "./execute-cast-procedures";
 import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
 import { FieldDefaultAssignmentProcedure } from "../../core/field-decorator-procedure/field-default-assignment.procedure";
 
-import * as isStringModule from "../../decorator/type/is-string.decorator";
-import * as requiredModule from "../../decorator/common/required.decorator";
-import * as defaultModule from "../../decorator/common/default.decorator";
+import * as isStringModule from "../../decorator/constraint/type/is-string.decorator";
+import * as requiredModule from "../../decorator/constraint/common/required.decorator";
+import * as defaultModule from "../../decorator/default-assignment/default.decorator";
 
 describe("executeCastProcedures", () => {
 

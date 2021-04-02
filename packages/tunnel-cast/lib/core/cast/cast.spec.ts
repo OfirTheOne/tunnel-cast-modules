@@ -1,17 +1,17 @@
 
 import { cast } from "./cast";
-import { IsString, isStringMessageBuilder } from "../../decorator/type/is-string.decorator";
-import { IsMatch } from "../../decorator/string/is-match.decorator";
-import { IsNumber } from "../../decorator/type/is-number.decorator";
-import { SkipIf } from "../../decorator/common/skip-if.decorator";
-import { Required, requiredMessageBuilder } from "../../decorator/common/required.decorator";
-import { IsEmail, isEmailMessageBuilder } from "../../decorator/string/is-email.decorator";
-import { Nullable } from "../../decorator/common/nullable.decorator";
-import { Length, lengthMessageBuilder } from "../../decorator/common/length.decorator";
-import { Default } from "../../decorator/common/default.decorator";
-import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/type/is-boolean.decorator";
-import { Map } from "../../decorator/common/map.decorator";
-import { IsEquals } from "../../decorator/common/is-equals.decorator";
+import { IsString, isStringMessageBuilder } from "../../decorator/constraint/type/is-string.decorator";
+import { Matches } from "../../decorator/constraint/string/matches.decorator";
+import { IsNumber } from "../../decorator/constraint/type/is-number.decorator";
+import { SkipIf } from "../../decorator/conditional/skip-if.decorator";
+import { Required, requiredMessageBuilder } from "../../decorator/constraint/common/required.decorator";
+import { IsEmail, isEmailMessageBuilder } from "../../decorator/constraint/string/is-email.decorator";
+import { Nullable } from "../../decorator/conditional/nullable.decorator";
+import { Length, lengthMessageBuilder } from "../../decorator/constraint/common/length.decorator";
+import { Default } from "../../decorator/default-assignment/default.decorator";
+import { IsBoolean, isBooleanMessageBuilder } from "../../decorator/constraint/type/is-boolean.decorator";
+import { Map } from "../../decorator/transformer/map.decorator";
+import { IsEquals } from "../../decorator/constraint/common/is-equals.decorator";
 
 describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate' behavior.", () => {
     
@@ -24,7 +24,7 @@ describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate'
         @IsNumber()
         myAge: number;
     
-        @IsMatch(/\d/, { iterate: true })
+        @Matches(/\d/, { iterate: true })
         @IsString()
         myId: string;
     

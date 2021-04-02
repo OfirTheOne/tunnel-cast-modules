@@ -2,11 +2,11 @@
 
 
 
-import { decoratorAdapter } from "../../core/factory/decorator-adapter";
-import { FieldConstraintProcedure } from "../../core/field-decorator-procedure/field-constraint.procedure";
-import { FieldConstraintProcedureOptions } from "../../models/interfaces/field-constraint-procedure-options";
-import {  FieldConstraintFn} from "../../models/interfaces/field-constraint-fn";
-import { escapeRegex } from "../../utils/escape-regex";
+import { decoratorAdapter } from "../../../core/factory/decorator-adapter";
+import { FieldConstraintProcedure } from "../../../core/field-decorator-procedure/field-constraint.procedure";
+import { FieldConstraintProcedureOptions } from "../../../models/interfaces/field-constraint-procedure-options";
+import {  FieldConstraintFn} from "../../../models/interfaces/field-constraint-fn";
+import { escapeRegex } from "../../../utils/escape-regex";
 
 
 export const IS_EMAIL = "is_email";
