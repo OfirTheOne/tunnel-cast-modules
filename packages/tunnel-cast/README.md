@@ -29,6 +29,30 @@ Dose the same as `cast` (invoke it internally), but in case of failure throw the
 
 <br>
 
+
+## Decorators
+
+
+### Constraints
+
++ `IsEquals`
++ `Required`
++ `IsEnum`
++ `Length`
+
++ `IsEmail`
++ `IsMatch`
++ `IsNumberString`
+
++ `IsNumber`
++ `IsString`
++ `IsBoolean`
++ `IsObject`
++ `IsArray`
++ `IsTypeOf`
++ `IsInstanceOf`
+<br>
+
 ## Internal api
 
 <br>
@@ -46,7 +70,3 @@ Dose the same as `cast` (invoke it internally), but in case of failure throw the
    * `FieldDefaultAssignmentProcedure`
    * `FieldParserProcedure`
    * `FieldTransformerProcedure`
-
-
-
-## Decorators
