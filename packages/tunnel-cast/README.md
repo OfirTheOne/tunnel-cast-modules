@@ -17,6 +17,7 @@ function cast<T>(model: (new (...args: any[]) => T), target: any, options?: Cast
 Apply the rules embedded in the model class on the target, and in case of success return the `resolvedValue`, and in case of failure return the `messages` list.
 
 <br>
+<br>
 
 
 ### `castOrReject`
@@ -28,9 +29,13 @@ function castOrReject<T=any>(model: new (...args: any[]) => T, target: any, opti
 Dose the same as `cast` (invoke it internally), but in case of failure throw the `messages` list, and in case of success return the `resolvedValue` directly (not wrapped in an object).
 
 <br>
+<br>
 
 
 ## decorators/constraint/common
+
+<br>
+
 
 ### `IsEnum`
 ```ts
@@ -39,11 +44,14 @@ function IsEnum(enumObj: Object, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 
+<br>
+
 + Arguments : 
   + `list` - 
   + `enumObj` - 
   + `options` - constraint options object.
-  
+
+<br>
 <br>
 
 ### `IsEquals`
@@ -52,12 +60,16 @@ function IsEquals(value: any, strict: boolean , options?: FieldConstraintProcedu
 function IsEquals(value: any, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate (assert) the value of the field against the argument `value`. 
+
+<br>
 
 + Arguments : 
-  + `value` - 
-  + `strict` - 
+  + `value` - the value to assert to.
+  + `strict` - if true, the assertion is done using `assert.deepStrictEqual`, else the assertion is done using `==`.
   + `options` - constraint options object.
-  
+
+<br>
 <br>
 
 ### `Length`
@@ -66,13 +78,17 @@ function Length(len: number, options?: FieldConstraintProcedureOptions);
 function Length(min: number, max: number, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected value has the property `length` and it's value - exact or the range, commonly used to validate length of string or array, but technically is could validate a property name `length` of any object.
+
+<br>
 
 + Arguments : 
   + `len` - the exact length of the expect string or array value.
   + `min` - the min (gte) length of the expect string or array value.
   + `max` - the max (lte) length of the expect string or array value.
   + `options` - constraint options object.
-  
+
+<br>
 <br>
 
 ### `Required`
@@ -80,10 +96,14 @@ function Length(min: number, max: number, options?: FieldConstraintProcedureOpti
 function Required(options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected value isn't equal to the values `null`, `undefined` of `''`.
+
+<br>
 
 + Arguments : 
   + `options` - constraint options object.
-  
+
+<br>
 <br>
 
 
