@@ -164,13 +164,104 @@ validate that the expected field value includes the provided `value` argument, i
 + `Matches`
 
 #### Type
-+ `IsArray`
-+ `IsBoolean`
-+ `IsInstanceOf`
-+ `IsNumber`
-+ `IsObject`
-+ `IsString`
-+ `IsTypeOf`
+
+### `IsArray`
+```ts
+function IsArray(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsBoolean`
+```ts
+function IsBoolean(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsInstanceOf`
+```ts
+function IsInstanceOf(instanceofType: any, options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsNumber`
+```ts
+function IsNumber(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsObject`
+```ts
+function IsObject(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsString`
+```ts
+function IsString(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsTypeOf`
+```ts
+function IsTypeOf(typeofString: string, options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
 
 
 
@@ -218,7 +309,14 @@ function SkipIf(cond: ((value, name, context) => boolean), options?: FieldCondit
 function decoratorAdapter(fieldProcedure: FieldProcedure): PropertyDecorator;
 ```
 
+<br>
+<br>
+
 ### Field-Procedure
+
+All the decorators are internally define a cast procedure over the field they decorating, the procedure can be looked as the decorator type. <br>
+The procedure define the nature of the decorator it's purpose and part it takes in the cast process. <br>
+Technically, a procedure class is a simple wrapper for the metadata needed be the cast process to apply is on the handled value. <br>
 
  Field-procedure classes : 
    * `FieldConstraintProcedure`
