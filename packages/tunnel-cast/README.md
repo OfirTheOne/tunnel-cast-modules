@@ -4,7 +4,7 @@
 
 <br>
 
-## Cast api
+## Cast
 
 <br>
 
@@ -32,7 +32,7 @@ Dose the same as `cast` (invoke it internally), but in case of failure throw the
 <br>
 
 
-## decorators/constraint/common
+## Decorators/constraint/common
 
 <br>
 
@@ -106,11 +106,54 @@ validate that the expected value isn't equal to the values `null`, `undefined` o
 <br>
 <br>
 
+## Decorators/constraint/sequence
 
-#### Sequence
-+ `EndsWith`
-+ `StartsWith`
-+ `Includes`
+### `EndsWith`
+```ts
+function EndsWith(value: (Array<any> | string | any), options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+validate that the expected field value end with the provided `value` argument (array of values of single), if the field value is an array the constrain will pass if it's end with the `value` argument an item(s), if the field value is a string the constrain will pass if it's end with the `value` argument as a substring.
+<br>
+
++ Arguments : 
+  + `value` - the value(s) that the field value to be end with. 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `StartsWith`
+```ts
+function StartsWith(value: (Array<any> | string | any), options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+validate that the expected field value start with the provided `value` argument (array of values of single), if the field value is an array the constrain will pass if it's start with the `value` argument an item(s), if the field value is a string the constrain will pass if it's start with the `value` argument as a substring.
+<br>
+
++ Arguments : 
+  + `value` - the value(s) that the field value to be start with. 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `Includes`
+```ts
+function Includes(value: any, options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+validate that the expected field value includes the provided `value` argument, if the field value is an array the constrain will pass if the `value` argument includes in it as an item, if the field value is a string the constrain will pass if the `value` argument includes in it as a substring.
+
+<br>
+
++ Arguments : 
+  + `value` - the value to be included in the field value. 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
 
 #### String
 + `IsDateString`
@@ -130,10 +173,41 @@ validate that the expected value isn't equal to the values `null`, `undefined` o
 + `IsTypeOf`
 
 
-### Conditionals
-Nullable
-SkipIf
+
+## Decorators/conditional
+
+### `Nullable`
+```ts
+function Nullable(options? : FieldConditionalHandlingProcedureOptions);
+```
++ Description : <br>
+
 <br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `SkipIf`
+```ts
+function SkipIf(cond: ((value, name, context) => boolean), options?: FieldConditionalHandlingProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `cond` - the  
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+
+
+
 
 ## Internal api
 
@@ -141,13 +215,13 @@ SkipIf
 
 ### `decoratorAdapter`
 ```ts
-
+function decoratorAdapter(fieldProcedure: FieldProcedure): PropertyDecorator;
 ```
 
 ### Field-Procedure
 
  Field-procedure classes : 
-   * `FieldConditionalHandlingProcedure`
+   * `FieldConstraintProcedure`
    * `FieldConditionalHandlingProcedure`
    * `FieldDefaultAssignmentProcedure`
    * `FieldParserProcedure`
