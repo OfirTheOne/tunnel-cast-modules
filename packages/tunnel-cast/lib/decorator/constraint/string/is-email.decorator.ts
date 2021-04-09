@@ -23,11 +23,11 @@ const buildDomainSpecificEmailRegex = (domains: Array<string>) => new RegExp(
  * 
  * @param param0 
  */
-export const isEmail: FieldConstraintFn<{isEmailOps?: {domains?: Array<string>}}> = 
+export const isEmail: FieldConstraintFn<{domains?: Array<string>}> = 
     ({ fieldValue, args }) => {
         let usedEmailRegex = emailRegex;
-        if(args?.isEmailOps?.domains?.length > 0) {
-            usedEmailRegex = buildDomainSpecificEmailRegex(args.isEmailOps.domains)
+        if(args?.domains?.length > 0) {
+            usedEmailRegex = buildDomainSpecificEmailRegex(args.domains)
         }
         return typeof fieldValue == 'string' && usedEmailRegex.test(fieldValue);
     };
@@ -35,11 +35,19 @@ export const isEmail: FieldConstraintFn<{isEmailOps?: {domains?: Array<string>}}
 
 export const isEmailMessageBuilder = ({ fieldName }) => `The field ${fieldName} is a valid email`;
 
-export function IsEmail(isEmailOps?: {domains: Array<string>} ,options?: FieldConstraintProcedureOptions) {
+export function IsEmail(domains: Array<string> ,options?: FieldConstraintProcedureOptions): PropertyDecorator;
+export function IsEmail(options?: FieldConstraintProcedureOptions): PropertyDecorator;
+export function IsEmail(domainsOrOps?: (Array<string> | FieldConstraintProcedureOptions) ,options?: FieldConstraintProcedureOptions) {
+    const domains = (arguments.length == 1 && Array.isArray(domainsOrOps)) ? domainsOrOps : [];
+    const actualOptions = 
+        (arguments.length == 2) ? options : 
+        (arguments.length == 1 && typeof domainsOrOps == 'object') ? 
+            domainsOrOps : undefined;
+
     const adaptee = new FieldConstraintProcedure(
         IS_EMAIL,
-        options,
-        { isEmailOps },
+        actualOptions as FieldConstraintProcedureOptions,
+        { domains },
         isEmail,
         isEmailMessageBuilder
     );
