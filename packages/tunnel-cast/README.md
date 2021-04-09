@@ -155,15 +155,96 @@ validate that the expected field value includes the provided `value` argument, i
 <br>
 
 
-#### String
-+ `IsDateString`
-+ `IsEmail`
-+ `IsISODate`
-+ `IsNumberString`
-+ `IsUUID`
-+ `Matches`
+## Decorators/constraint/string
 
-#### Type
+### `IsDateString`
+```ts
+function IsDateString(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsEmail`
+```ts
+function IsEmail(domains: Array<string> ,options?: FieldConstraintProcedureOptions);
+function IsEmail(options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `domains` - expectable email domains list.
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsISODate`
+```ts
+function IsISODate(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsNumberString`
+```ts
+function IsNumberString(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `IsUUID`
+```ts
+function IsUUID(options? : FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+### `Matches`
+```ts
+function Matches(pattern: RegExp, options?: FieldConstraintProcedureOptions);
+```
++ Description : <br>
+
+<br>
+
++ Arguments : 
+  + `pattern` - pattern to metch the againt the field value.
+  + `options` - constraint options object.
+
+<br>
+<br>
+
+## Decorators/constraint/type
 
 ### `IsArray`
 ```ts
