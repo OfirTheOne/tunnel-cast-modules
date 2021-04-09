@@ -32,7 +32,7 @@ Dose the same as `cast` (invoke it internally), but in case of failure throw the
 <br>
 
 
-## Decorators/constraint/common
+## Decorators / constraint / common
 
 <br>
 
@@ -106,7 +106,7 @@ validate that the expected value isn't equal to the values `null`, `undefined` o
 <br>
 <br>
 
-## Decorators/constraint/sequence
+## Decorators / constraint / sequence
 
 ### `EndsWith`
 ```ts
@@ -155,7 +155,7 @@ validate that the expected field value includes the provided `value` argument, i
 <br>
 
 
-## Decorators/constraint/string
+## Decorators / constraint / string
 
 ### `IsDateString`
 ```ts
@@ -244,7 +244,7 @@ function Matches(pattern: RegExp, options?: FieldConstraintProcedureOptions);
 <br>
 <br>
 
-## Decorators/constraint/type
+## Decorators / constraint / type
 
 ### `IsArray`
 ```ts
@@ -346,7 +346,7 @@ function IsTypeOf(typeofString: string, options?: FieldConstraintProcedureOption
 
 
 
-## Decorators/conditional
+## Decorators / conditional
 
 ### `Nullable`
 ```ts
