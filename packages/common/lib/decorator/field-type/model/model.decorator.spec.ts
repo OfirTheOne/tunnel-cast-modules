@@ -1,1 +1,0 @@
-test.todo("model.decorator");
