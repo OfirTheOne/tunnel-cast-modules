@@ -1,13 +1,13 @@
 {
-  "name": "@tunnel-cast/core",
-  "version": "1.0.2",
+  "name": "@tunnel-cast/tunnel-cast",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "repository": {
-    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/core",
+    "url": "https://github.com/OfirTheOne/tunnel-cast-modules/tree/master/packages/tunnel-cast",
     "type": "GitHub"
   },
   "types": "lib/index.d.ts",
@@ -71,6 +71,7 @@
   "keywords": [
     "object-to-model",
     "cast",
+    "tunnel-cast",
     "casting",
     "validation",
     "parsing",
