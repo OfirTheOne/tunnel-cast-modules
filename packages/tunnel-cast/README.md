@@ -4,7 +4,73 @@
 
 <br>
 
-## Cast
+## Overview
+
+The way (order) that cast-process execute the field-procedures is a key feature in this module. <br>
+each field-procedures have a type that indicate in what order it will be execute in relation to others. <br>
+
+<br>
+
+<u> *Field-procedures types :* </u>
+
+  * Conditional Handling - implemented using `FieldConditionalHandlingProcedure` class.
+  * Default Assignment - implemented using `FieldDefaultAssignmentProcedure` class.
+  * Parser - implemented using `FieldParserProcedure` class.
+  * Constraint - implemented using `FieldConstraintProcedure` class.
+  * Transformer - implemented using `FieldTransformerProcedure` class.
+
+Multiple field-procedures of the same type are, by default, executed in the order that they are decorated the processed fields. <br>
+
+<br>
+
+<u> *Quick flow review :* </u>
+
+1. **`[Conditional Handling]`** - run each conditional-handling, if all resolved ⟶ **`(2)`**, else ⟶ **`(done)`**.
+2. **`[Default Assignment]`** - run first default-assignment, if the field found to not be existed the default value is assigned ⟶ **`(done)`**, else ⟶ **`(3)`**.
+3. **`[Parser]`** - run each parser ⟶ **`(4)`**.
+4. **`[Constraint]`** - run each constraint, if all passed ⟶ **`(5)`**, else ⟶ **`(done with error)`**.
+5. **`[Transformer]`** - run each transformer ⟶ **`(done)`**.
+
+<br>
+
+<u> *Example :* </u>
+
+```ts
+class ExampleModel {
+  package: string;
+
+  @SkipIf((v, k, ctx) => v === "" )               // A - Conditional Handling
+  @SkipIf((v, k, ctx) => ctx.package === "HBO" )  // B - Conditional Handling
+  @Default("00001")                               // C - Default Assignment
+  @IsString()                                     // D - Constraint
+  @Length(5)                                      // E - Constraint
+  @IsNumberString()                               // F - Constraint
+  serial: string;
+}
+
+const { messages, resolvedValue } = cast(
+    ExampleModel, 
+    { serial: "30010", package: "DTV" }
+);
+
+console.log(messages)       // undefined
+console.log(resolvedValue)  // { serial: "30010", package: "DTV" }
+
+``` 
+
+Lets review the example by step :
+
+1. A & B all resolved.
+2. C not apply because field value is exists.
+3. non provided.
+4. D, E, & F all resolved.
+5. non provided. 
+
+<br>
+
+## Api Documentation
+
+### Cast
 
 <br>
 
@@ -32,10 +98,9 @@ Dose the same as `cast` (invoke it internally), but in case of failure throw the
 <br>
 
 
-## Decorators / constraint / common
+### Decorators / constraint / common
 
 <br>
-
 
 ### `IsEnum`
 ```ts
@@ -106,7 +171,9 @@ validate that the expected value isn't equal to the values `null`, `undefined` o
 <br>
 <br>
 
-## Decorators / constraint / sequence
+### Decorators / constraint / sequence
+
+<br>
 
 ### `EndsWith`
 ```ts
@@ -156,6 +223,8 @@ validate that the expected field value includes the provided `value` argument, i
 
 
 ## Decorators / constraint / string
+
+<br>
 
 ### `IsDateString`
 ```ts
@@ -244,14 +313,16 @@ function Matches(pattern: RegExp, options?: FieldConstraintProcedureOptions);
 <br>
 <br>
 
-## Decorators / constraint / type
+### Decorators / constraint / type
+
+<br>
 
 ### `IsArray`
 ```ts
 function IsArray(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
+validate that the expected field value is an array. 
 <br>
 
 + Arguments : 
@@ -265,6 +336,7 @@ function IsArray(options? : FieldConstraintProcedureOptions);
 function IsBoolean(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is of boolean type. 
 
 <br>
 
@@ -279,6 +351,7 @@ function IsBoolean(options? : FieldConstraintProcedureOptions);
 function IsInstanceOf(instanceofType: any, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is an instance-of the type provided in the argument `instanceofType`. 
 
 <br>
 
@@ -293,6 +366,7 @@ function IsInstanceOf(instanceofType: any, options?: FieldConstraintProcedureOpt
 function IsNumber(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is of number type. 
 
 <br>
 
@@ -307,6 +381,7 @@ function IsNumber(options? : FieldConstraintProcedureOptions);
 function IsObject(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is of object type. 
 
 <br>
 
@@ -321,6 +396,7 @@ function IsObject(options? : FieldConstraintProcedureOptions);
 function IsString(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is of string type. 
 
 <br>
 
@@ -335,6 +411,7 @@ function IsString(options? : FieldConstraintProcedureOptions);
 function IsTypeOf(typeofString: string, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
+validate that the expected field value is a type-of the type-string provided in the argument `typeofString`. 
 
 <br>
 
@@ -346,14 +423,16 @@ function IsTypeOf(typeofString: string, options?: FieldConstraintProcedureOption
 
 
 
-## Decorators / conditional
+### Decorators / conditional
+
+<br>
 
 ### `Nullable`
 ```ts
 function Nullable(options? : FieldConditionalHandlingProcedureOptions);
 ```
 + Description : <br>
-
+A field decorated with this decorator
 <br>
 
 + Arguments : 
@@ -371,7 +450,7 @@ function SkipIf(cond: ((value, name, context) => boolean), options?: FieldCondit
 <br>
 
 + Arguments : 
-  + `cond` - the  
+  + `cond` - a condition function, if it return true the field will be processed, otherwise it will be skipped.
   + `options` - constraint options object.
 
 <br>
