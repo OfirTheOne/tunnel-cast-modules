@@ -4,47 +4,56 @@ import { FieldConstraintProcedure } from "../../../core/field-decorator-procedur
 import { FieldConstraintFn } from "../../../models/interfaces/field-constraint-fn";
 
 export const LENGTH = "length";
-export const length: FieldConstraintFn<{len: number, min: number, max: number}> = ({ fieldValue, args }) => {
-    return (typeof fieldValue?.length == 'number') ?
-        ( args.len != undefined ?
-            args.len == fieldValue.length :
-            ((args.min == undefined || args.min <= fieldValue.length) && (args.max == undefined || args.max >= fieldValue.length))
-        ) : false;
+export const length: FieldConstraintFn<{ len: number; min: number; max: number }> = ({ fieldValue, args }) => {
+    return typeof fieldValue?.length == "number"
+        ? args.len != undefined
+            ? args.len == fieldValue.length
+            : (args.min == undefined || args.min <= fieldValue.length) &&
+              (args.max == undefined || args.max >= fieldValue.length)
+        : false;
 };
-export const lengthMessageBuilder = ({ fieldName }) => `The length of the field ${fieldName} dose not match the length constraint.`;
-
+export const lengthMessageBuilder = ({ fieldName }) =>
+    `The length of the field ${fieldName} dose not match the length constraint.`;
 
 /**
  * @decorator_type **FieldConstraintProcedure**
- * 
- * @param len 
- * @param options 
+ *
+ * @param len
+ * @param options
  */
 export function Length(len: number, options?: FieldConstraintProcedureOptions): PropertyDecorator;
 /**
  * @decorator_type **FieldConstraintProcedure**
  *
- * @param min 
- * @param max 
- * @param options 
+ * @param min
+ * @param max
+ * @param options
  */
 export function Length(min: number, max: number, options?: FieldConstraintProcedureOptions): PropertyDecorator;
 /**
  * @decorator_type **FieldConstraintProcedure**
- * 
- * @param min 
- * @param maxOrOptions 
- * @param options 
+ *
+ * @param min
+ * @param maxOrOptions
+ * @param options
  */
-export function Length(min: number, maxOrOptions?: number | FieldConstraintProcedureOptions, options?: FieldConstraintProcedureOptions) {
-    const constraintArgs = (maxOrOptions == undefined ? { len: min } : {min, max: maxOrOptions}) as {min: number, max: number, len: number};
-    const constraintOptions = maxOrOptions != undefined && typeof maxOrOptions == 'object' ? maxOrOptions : options;
+export function Length(
+    min: number,
+    maxOrOptions?: number | FieldConstraintProcedureOptions,
+    options?: FieldConstraintProcedureOptions,
+) {
+    const constraintArgs = (maxOrOptions == undefined ? { len: min } : { min, max: maxOrOptions }) as {
+        min: number;
+        max: number;
+        len: number;
+    };
+    const constraintOptions = maxOrOptions != undefined && typeof maxOrOptions == "object" ? maxOrOptions : options;
     const adaptee = new FieldConstraintProcedure(
         LENGTH,
         constraintOptions,
         constraintArgs,
         length,
-        lengthMessageBuilder
+        lengthMessageBuilder,
     );
     return decoratorAdapter(adaptee);
 }

@@ -13,7 +13,5 @@ export class FieldParserProcedure<A = any> implements FieldProcedure {
         public options: FieldParserProcedureOptions,
         public args: A,
         public readonly parse: FieldParserFn<A>,
-    ) {
-
-    }
+    ) {}
 }

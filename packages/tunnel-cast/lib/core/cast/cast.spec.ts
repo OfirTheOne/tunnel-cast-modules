@@ -1,4 +1,3 @@
-
 import { cast } from "./cast";
 import { IsString, isStringMessageBuilder } from "../../decorator/constraint/type/is-string.decorator";
 import { Matches } from "../../decorator/constraint/string/matches.decorator";
@@ -14,21 +13,19 @@ import { Map } from "../../decorator/transformer/map.decorator";
 import { IsEquals } from "../../decorator/constraint/common/is-equals.decorator";
 
 describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate' behavior.", () => {
-    
     class ExampleDTO01 {
-
         @Nullable()
         @Required()
         emptyField: any;
 
         @IsNumber()
         myAge: number;
-    
+
         @Matches(/\d/, { iterate: true })
         @IsString()
         myId: string;
-    
-        @IsEmail({ domains: ['gmail.com'] })
+
+        @IsEmail({ domains: ["gmail.com"] })
         myEmail: string;
 
         @Required()
@@ -39,52 +36,42 @@ describe("[ExampleDTO01] cast high level behavior, focus on constraint 'iterate'
     }
 
     it("casting pass.", () => {
-        const providedValue = { 
+        const providedValue = {
             myEmail: "autor@gmail.com",
-            myAge: 30, 
-            myId: "12312332", 
+            myAge: 30,
+            myId: "12312332",
             listOfStuff: [1, 2, "123"],
             blah: "blah",
-        }
+        };
         const expectedValue = providedValue;
-        const { messages, resolvedValue } = cast(
-            ExampleDTO01, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO01, providedValue);
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
-
+    });
 
     it("casting fail.", () => {
-
         const expectedErrMessages = [
-            isEmailMessageBuilder({fieldName: 'myEmail', options: {} } as any),
-            requiredMessageBuilder({fieldName: 'listOfStuff', options: { iterate: true } } as any),
-            requiredMessageBuilder({fieldName: 'blah', options: {} } as any),
+            isEmailMessageBuilder({ fieldName: "myEmail", options: {} } as any),
+            requiredMessageBuilder({ fieldName: "listOfStuff", options: { iterate: true } } as any),
+            requiredMessageBuilder({ fieldName: "blah", options: {} } as any),
         ];
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO01, 
-            { 
-                myEmail: "autor@gamil.com",
-                myAge: 30, 
-                myId: "12312332", 
-                listOfStuff: [1, undefined, "123"] 
-            }
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO01, {
+            myEmail: "autor@gamil.com",
+            myAge: 30,
+            myId: "12312332",
+            listOfStuff: [1, undefined, "123"],
+        });
+
         expect(resolvedValue).toBeUndefined();
         expect(messages).toBeDefined();
         expect(messages.length).toEqual(3);
-        expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
-    })
-
-})
+        expectedErrMessages.forEach((msg) => expect(messages).toContain(msg));
+    });
+});
 
 describe("[ExampleDTO02] cast high level behavior, focus on Required & Nullable behavior.", () => {
- 
     class ExampleDTO02 {
         @Required()
         importantMessage: string;
@@ -94,63 +81,51 @@ describe("[ExampleDTO02] cast high level behavior, focus on Required & Nullable 
         @Length(5, 10)
         dumbMessage: any;
 
-        @SkipIf((v, k, context) => context.firstName === "madona" )
-        @IsString() 
+        @SkipIf((v, k, context) => context.firstName === "madona")
+        @IsString()
         lastName: string;
 
-        @IsString() 
+        @IsString()
         firstName: string;
-
     }
 
     it("casting pass.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             importantMessage: "cast can make things easier",
-            dumbMessage: undefined, 
-            lastName: undefined, 
-            firstName: "madona"
-        }
+            dumbMessage: undefined,
+            lastName: undefined,
+            firstName: "madona",
+        };
         const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO02, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO02, providedValue);
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
+    });
 
     it("casting fail.", () => {
-        const expectedErrMessages = [
-            isStringMessageBuilder({fieldName: 'lastName', options: {} } as any),
-        ];
+        const expectedErrMessages = [isStringMessageBuilder({ fieldName: "lastName", options: {} } as any)];
 
-        const providedValue = { 
+        const providedValue = {
             importantMessage: 123,
-            dumbMessage: undefined, 
-            lastName: undefined, 
-            firstName: "kadona"
+            dumbMessage: undefined,
+            lastName: undefined,
+            firstName: "kadona",
         };
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO02, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO02, providedValue);
+
         expect(resolvedValue).toBeUndefined();
         expect(messages).toBeDefined();
         expect(messages.length).toEqual(1);
-        expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
-    })
-
-})
+        expectedErrMessages.forEach((msg) => expect(messages).toContain(msg));
+    });
+});
 
 describe("[ExampleDTO03] cast high level behavior, focus on Default behavior.", () => {
- 
     class ExampleDTO03 {
-        @Default( ({context}) => context.name )
+        @Default(({ context }) => context.name)
         nickname: string;
 
         @Required()
@@ -158,77 +133,62 @@ describe("[ExampleDTO03] cast high level behavior, focus on Default behavior.", 
         name: any;
 
         @Default(true)
-        @IsBoolean() 
+        @IsBoolean()
         notifications: boolean;
-
     }
 
     it("missing values, casting pass.", () => {
-
-        const providedValue = { 
-            name: "JohnSmith"
-        }
+        const providedValue = {
+            name: "JohnSmith",
+        };
         const expectedValue = {
             nickname: providedValue.name,
             name: providedValue.name,
-            notifications: true
-        } 
+            notifications: true,
+        };
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO03, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO03, providedValue);
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
+    });
 
     it("providing values, casting pass.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             name: "JohnSmith",
             nickname: "Johny",
-            notifications : false     
-        }
+            notifications: false,
+        };
         const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO03, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO03, providedValue);
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
+    });
 
     it("casting fail.", () => {
         const expectedErrMessages = [
-            lengthMessageBuilder({fieldName: 'name', options: {} } as any),
-            isBooleanMessageBuilder({fieldName: 'notifications', options: {} } as any)
+            lengthMessageBuilder({ fieldName: "name", options: {} } as any),
+            isBooleanMessageBuilder({ fieldName: "notifications", options: {} } as any),
         ];
 
-        const providedValue = { 
+        const providedValue = {
             name: "bob",
             nickname: "Johny",
-            notifications : 10     
-        }
+            notifications: 10,
+        };
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO03, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO03, providedValue);
+
         expect(resolvedValue).toBeUndefined();
         expect(messages).toBeDefined();
         expect(messages.length).toEqual(2);
-        expectedErrMessages.forEach(msg => expect(messages).toContain(msg));
-    })
-
-
-})
+        expectedErrMessages.forEach((msg) => expect(messages).toContain(msg));
+    });
+});
 
 describe("[ExampleDTO04] cast high level behavior, focus on Parsing.", () => {
- 
     class ExampleDTO04 {
         @Map((v) => `${v}_mapped`)
         @Required()
@@ -236,37 +196,31 @@ describe("[ExampleDTO04] cast high level behavior, focus on Parsing.", () => {
     }
 
     it("casting pass.", () => {
-
-        const providedValue = { 
-            list: ["a", "b"]
-        }
+        const providedValue = {
+            list: ["a", "b"],
+        };
         const expectedValue = {
-            list: ["a_mapped", "b_mapped"]
-        } 
+            list: ["a_mapped", "b_mapped"],
+        };
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO04, 
-            providedValue
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO04, providedValue);
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
-
-})
+    });
+});
 
 describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
- 
     enum PermissionsEnum {
         ADMIN = "ADMIN",
-        USER = "USER"
+        USER = "USER",
     }
 
     class ExampleDTO05 {
         @IsEmail()
         @IsString()
         email: string;
-        
+
         @IsEquals(PermissionsEnum.ADMIN, { tags: ["admin"] })
         @IsEquals(PermissionsEnum.USER, { tags: ["user"] })
         permission: PermissionsEnum;
@@ -277,94 +231,74 @@ describe("[ExampleDTO05] cast high level behavior, focus on tags.", () => {
     }
 
     it("casting pass, using admin tag.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             email: "someadmin@gmail.com",
             permission: PermissionsEnum.ADMIN,
-            department: "sales"
-        }
+            department: "sales",
+        };
         const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO05, 
-            providedValue,
-            { tags: ["admin"]}
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO05, providedValue, { tags: ["admin"] });
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
+    });
 
     it("casting fail, using admin tag.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             email: "someadmin@gmail.com",
             permission: PermissionsEnum.USER,
-            department: undefined
-        }
+            department: undefined,
+        };
         // const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO05, 
-            providedValue,
-            { tags: ["admin"]}
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO05, providedValue, { tags: ["admin"] });
+
         expect(messages.length).toEqual(2);
         expect(resolvedValue).toBeUndefined();
-    })
+    });
 
     it("casting pass, using user tag.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             email: "someadmin@gmail.com",
-            permission: PermissionsEnum.USER
-        }
+            permission: PermissionsEnum.USER,
+        };
         const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO05, 
-            providedValue,
-            { tags: ["user"]}
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO05, providedValue, { tags: ["user"] });
+
         expect(messages.length).toEqual(0);
         expect(resolvedValue).toEqual(expectedValue);
-    })
+    });
 
     it("casting fail, using user tag.", () => {
-
-        const providedValue = { 
+        const providedValue = {
             email: "someadmin@gmail.com",
-            permission: PermissionsEnum.ADMIN
-        }
+            permission: PermissionsEnum.ADMIN,
+        };
         // const expectedValue = providedValue;
 
-        const { messages, resolvedValue } = cast(
-            ExampleDTO05, 
-            providedValue,
-            { tags: ["user"]}
-        );
-        
+        const { messages, resolvedValue } = cast(ExampleDTO05, providedValue, { tags: ["user"] });
+
         expect(messages.length).toEqual(1);
         expect(resolvedValue).toBeUndefined();
-    })
+    });
 
     // it("casting pass, using no tags.", () => {
 
-    //     const providedValue = { 
+    //     const providedValue = {
     //         email: "someadmin@gmail.com",
     //         permission: PermissionsEnum.ADMIN
     //     }
     //     const expectedValue = providedValue;
 
     //     const { messages, resolvedValue } = cast(
-    //         ExampleDTO05, 
+    //         ExampleDTO05,
     //         providedValue,
     //     );
-        
+
     //     expect(messages).toBeUndefined();
     //     expect(messages.length).toEqual(0);
     //     expect(resolvedValue).toEqual(expectedValue);
     // })
-})
+});

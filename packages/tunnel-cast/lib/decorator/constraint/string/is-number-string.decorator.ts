@@ -3,13 +3,13 @@ import { decoratorAdapter } from "../../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../../core/field-decorator-procedure/field-constraint.procedure";
 
 export const IS_NUMBER_STRING = "is_string_number";
-export const isNumberString = ({ fieldValue }) => typeof fieldValue == 'string' && /^\d+/.test(fieldValue);
+export const isNumberString = ({ fieldValue }) => typeof fieldValue == "string" && /^\d+/.test(fieldValue);
 export const isNumberStringMessageBuilder = ({ fieldName }) => `The field ${fieldName} is not a string number`;
 
 /**
  * @decorator_type **FieldConstraintProcedure**
- * 
- * @param options 
+ *
+ * @param options
  */
 export function IsNumberString(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -17,7 +17,7 @@ export function IsNumberString(options?: FieldConstraintProcedureOptions) {
         options,
         {},
         isNumberString,
-        isNumberStringMessageBuilder
+        isNumberStringMessageBuilder,
     );
     return decoratorAdapter(adaptee);
 }

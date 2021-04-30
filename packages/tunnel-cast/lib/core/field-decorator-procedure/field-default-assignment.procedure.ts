@@ -15,8 +15,5 @@ export class FieldDefaultAssignmentProcedure<A = any> implements FieldProcedure 
         public args: A,
         public readonly defaultWith: DefaultWithFn<A> | unknown,
         public readonly emptyIdentifier?: EmptyIdentifierFn<A> | Array<any>,
-
-    ) {
-
-    }
+    ) {}
 }

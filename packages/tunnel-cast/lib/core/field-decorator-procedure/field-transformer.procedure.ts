@@ -13,8 +13,8 @@ export class FieldTransformerProcedure<A = any> implements FieldProcedure {
         public options: FieldConstraintProcedureOptions,
         public args: A,
         public readonly transform: FieldConstraintFn<A>,
-        public readonly messageBuilder: string | ((messageBuilderFnParams:  { args: A, fieldValue: any, fieldName: string, path: string}) => string)
-    ) {
-
-    }
+        public readonly messageBuilder:
+            | string
+            | ((messageBuilderFnParams: { args: A; fieldValue: any; fieldName: string; path: string }) => string),
+    ) {}
 }

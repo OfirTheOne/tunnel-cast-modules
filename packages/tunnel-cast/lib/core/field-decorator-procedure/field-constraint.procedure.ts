@@ -12,10 +12,8 @@ export class FieldConstraintProcedure<A = any> implements FieldProcedure {
     constructor(
         public readonly procedureId: string,
         public options: FieldConstraintProcedureOptions = {},
-        public args: A = ({} as any),
+        public args: A = {} as any,
         public readonly constraint: FieldConstraintFn<A>,
-        public readonly messageBuilder: string | MessageBuilderFn<A>
-    ) {
-
-    }
+        public readonly messageBuilder: string | MessageBuilderFn<A>,
+    ) {}
 }

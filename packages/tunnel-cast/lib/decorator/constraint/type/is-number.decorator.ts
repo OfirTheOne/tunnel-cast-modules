@@ -2,10 +2,9 @@ import { FieldConstraintProcedureOptions } from "../../../models/interfaces/fiel
 import { decoratorAdapter } from "../../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../../core/field-decorator-procedure/field-constraint.procedure";
 
-
 const IS_NUMBER = "is_number";
 
-const isNumber = ({ fieldValue }) => typeof fieldValue == 'number';
+const isNumber = ({ fieldValue }) => typeof fieldValue == "number";
 
 export function IsNumber(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -13,7 +12,7 @@ export function IsNumber(options?: FieldConstraintProcedureOptions) {
         options,
         {},
         isNumber,
-        ({ fieldName }) => `The field ${fieldName} is not of type number`
+        ({ fieldName }) => `The field ${fieldName} is not of type number`,
     );
     return decoratorAdapter(adaptee);
 }

@@ -2,14 +2,9 @@ import { FieldConstraintProcedureOptions } from "../../../models/interfaces/fiel
 import { decoratorAdapter } from "../../../core/factory/decorator-adapter";
 import { FieldConstraintProcedure } from "../../../core/field-decorator-procedure/field-constraint.procedure";
 
-
 const IS_OBJECT = "is_object";
 
-const isObject = ({ fieldValue }) => (
-    fieldValue != null && 
-    fieldValue != undefined && 
-    typeof fieldValue == 'object'
-);
+const isObject = ({ fieldValue }) => fieldValue != null && fieldValue != undefined && typeof fieldValue == "object";
 
 export function IsObject(options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -17,7 +12,7 @@ export function IsObject(options?: FieldConstraintProcedureOptions) {
         options,
         {},
         isObject,
-        ({ fieldName }) => `The field ${fieldName} is not of type object`
+        ({ fieldName }) => `The field ${fieldName} is not of type object`,
     );
     return decoratorAdapter(adaptee);
 }

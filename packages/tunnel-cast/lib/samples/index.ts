@@ -1,12 +1,10 @@
-import { IsString } from "../decorator/constraint/type/is-string";
-import { IsNumber } from "../decorator/constraint/type/is-number";
-
+import { IsString } from "../decorator/constraint/type/is-string.decorator";
+import { IsNumber } from "../decorator/constraint/type/is-number.decorator";
 
 export class ExampleDTO {
-
     @IsString()
-    myName: string
+    myName: string;
 
     @IsNumber()
-    myNumber: string
+    myNumber: string;
 }

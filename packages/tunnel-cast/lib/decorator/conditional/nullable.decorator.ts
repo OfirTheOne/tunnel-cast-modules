@@ -3,22 +3,16 @@ import { FieldConditionalHandlingProcedure } from "../../core/field-decorator-pr
 import { FieldConditionalHandlingProcedureOptions } from "../../models/interfaces/field-conditional-handling-procedure-options";
 
 export const NULLABLE = "nullable";
-export const nullable = ({ fieldValue, fieldName ,args, context }) => !(fieldValue == null || fieldValue == undefined);
-
+export const nullable = ({ fieldValue, fieldName, args, context }) => !(fieldValue == null || fieldValue == undefined);
 
 /**
  * @decorator_type **FieldConditionalHandlingProcedure**
- * 
+ *
  * @note get priority over Required decorator.
- * 
- * @param options 
+ *
+ * @param options
  */
-export function Nullable(options? : FieldConditionalHandlingProcedureOptions) {
-    const adaptee = new FieldConditionalHandlingProcedure(
-        NULLABLE,
-        options,
-        {},
-        nullable
-    );
+export function Nullable(options?: FieldConditionalHandlingProcedureOptions) {
+    const adaptee = new FieldConditionalHandlingProcedure(NULLABLE, options, {}, nullable);
     return decoratorAdapter(adaptee);
 }

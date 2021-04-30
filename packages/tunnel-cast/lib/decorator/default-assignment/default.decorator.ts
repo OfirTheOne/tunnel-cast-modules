@@ -4,25 +4,29 @@ import { FieldDefaultAssignmentProcedure } from "../../core/field-decorator-proc
 import { EmptyIdentifierFn } from "../../models/interfaces/empty-identifier-fn";
 import { DefaultWithFn } from "../../models/interfaces/default-with-fn";
 
-
 export const DEFAULT = "default";
-export const defaultAssigner: DefaultWithFn = (fnArgs) => typeof fnArgs.args.valueOrFactory == 'function' ? fnArgs.args.valueOrFactory(fnArgs) : fnArgs.args.valueOrFactory
+export const defaultAssigner: DefaultWithFn = (fnArgs) =>
+    typeof fnArgs.args.valueOrFactory == "function" ? fnArgs.args.valueOrFactory(fnArgs) : fnArgs.args.valueOrFactory;
 
 /**
- * 
+ *
  * @decorator_type **FieldDefaultAssignmentProcedure**
- * 
- * @param valueOrFactory 
- * @param emptyIdentifier 
- * @param options 
+ *
+ * @param valueOrFactory
+ * @param emptyIdentifier
+ * @param options
  */
-export function Default(valueOrFactory: DefaultWithFn | unknown, emptyIdentifier?: EmptyIdentifierFn|Array<any> , options?: FieldConstraintProcedureOptions) {
+export function Default(
+    valueOrFactory: DefaultWithFn | unknown,
+    emptyIdentifier?: EmptyIdentifierFn | Array<any>,
+    options?: FieldConstraintProcedureOptions,
+) {
     const adaptee = new FieldDefaultAssignmentProcedure(
         DEFAULT,
         options,
-        {valueOrFactory},
+        { valueOrFactory },
         defaultAssigner,
-        emptyIdentifier
+        emptyIdentifier,
     );
     return decoratorAdapter(adaptee);
 }

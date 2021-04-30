@@ -4,8 +4,10 @@ import { FieldConstraintProcedureOptions } from "../../../models/interfaces/fiel
 import { FieldConstraintFn } from "../../../models/interfaces/field-constraint-fn";
 
 export const IS_INSTANCEOF = "is_instanceof";
-export const isInstanceof: FieldConstraintFn<{ instanceofType: any }> = ({ fieldValue, args }) => fieldValue instanceof args.instanceofType;
-export const isInstanceofMessageBuilder = ({ fieldName, args }) => `The value ${fieldName} is an instance of ${args.instanceofType}.`
+export const isInstanceof: FieldConstraintFn<{ instanceofType: any }> = ({ fieldValue, args }) =>
+    fieldValue instanceof args.instanceofType;
+export const isInstanceofMessageBuilder = ({ fieldName, args }) =>
+    `The value ${fieldName} is an instance of ${args.instanceofType}.`;
 
 export function IsInstanceof(instanceofType: any, options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -13,7 +15,7 @@ export function IsInstanceof(instanceofType: any, options?: FieldConstraintProce
         options,
         { instanceofType },
         IsInstanceof,
-        isInstanceofMessageBuilder
+        isInstanceofMessageBuilder,
     );
     return decoratorAdapter(adaptee);
 }

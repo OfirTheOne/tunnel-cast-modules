@@ -4,7 +4,8 @@ import { FieldConstraintProcedureOptions } from "../../../models/interfaces/fiel
 import { FieldConstraintFn } from "../../../models/interfaces/field-constraint-fn";
 
 export const IS_TYPEOF = "is_typeof";
-export const isTypeof: FieldConstraintFn<{ typeofString: string }> = ({ fieldValue, args }) => typeof fieldValue == args.typeofString;
+export const isTypeof: FieldConstraintFn<{ typeofString: string }> = ({ fieldValue, args }) =>
+    typeof fieldValue == args.typeofString;
 
 export function IsTypeof(typeofString: string, options?: FieldConstraintProcedureOptions) {
     const adaptee = new FieldConstraintProcedure(
@@ -12,7 +13,7 @@ export function IsTypeof(typeofString: string, options?: FieldConstraintProcedur
         options,
         { typeofString },
         isTypeof,
-        ({ fieldName, args }) => `The value ${args.typeofString} is not equals to 'typeof' the field ${fieldName} is `
+        ({ fieldName, args }) => `The value ${args.typeofString} is not equals to 'typeof' the field ${fieldName} is `,
     );
     return decoratorAdapter(adaptee);
 }
