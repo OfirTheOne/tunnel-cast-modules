@@ -15,6 +15,7 @@
     "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
     "single-pack": "sh ../../sh/prepack-build.sh && npm pack ./dist",
     "prepack": "echo 'Pack start'",
+    "single-publish:beta": "sh ../../sh/prepack-build.sh && npm publish --tag beta ./dist",
     "single-publish": "sh ../../sh/prepack-build.sh && npm publish ./dist",
     "prepublishOnly": "echo 'Publish start'",
     "prebuild": "rimraf dist",
