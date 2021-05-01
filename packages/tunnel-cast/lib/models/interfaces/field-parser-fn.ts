@@ -1,7 +1,7 @@
 import { FieldParserProcedureOptions } from "./field-parser-procedure-options";
 
 export interface FieldParserFn<Args = any, Ret = any> {
-    (constraintFnParams: {
+    (parserFnParams: {
         args: Args;
         fieldValue: any;
         fieldName: string;
