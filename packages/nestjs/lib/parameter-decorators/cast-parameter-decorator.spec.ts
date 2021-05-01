@@ -2,7 +2,7 @@ import { Controller, Get, BadRequestException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { NestApplication } from "@nestjs/core";
 import * as request from "supertest";
-import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
+// import { ErrorCode } from "@tunnel-cast/core/enums/error-code.enum";
 
 import { CastModule } from "../cast.module";
 import { CastQuery, CastParam, CastBody } from "./cast-parameter-decorator";
@@ -77,7 +77,7 @@ describe("Common Cast Decorators", () => {
         errors: [
           {
             fieldName: "name",
-            errors: [{ code: ErrorCode.FieldRequiredError }]
+            // errors: [{ code: ErrorCode.FieldRequiredError }]
           }
         ]
       },
@@ -97,7 +97,7 @@ describe("Common Cast Decorators", () => {
         errors: [
           {
             fieldName: "name",
-            errors: [{ code: ErrorCode.TypeValidationError }]
+            // errors: [{ code: ErrorCode.TypeValidationError }]
           }
         ]
       },
@@ -120,7 +120,7 @@ describe("Common Cast Decorators", () => {
         errors: [
           {
             fieldName: "name",
-            errors: [{ code: ErrorCode.FieldRequiredError }]
+            // errors: [{ code: ErrorCode.FieldRequiredError }]
           }
         ]
       },

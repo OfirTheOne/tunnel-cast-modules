@@ -3,13 +3,15 @@ import { Controller, Get } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CastModule } from './cast.module';
 
-import { String, Required } from '@tunnel-cast/common';
+import { Required } from '@tunnel-cast/tunnel-cast/decorator/constraint/common/required.decorator';
+import { IsString } from '@tunnel-cast/tunnel-cast/decorator/constraint/type/is-string.decorator';
+import { Matches } from '@tunnel-cast/tunnel-cast/decorator/constraint/string/matches.decorator';
 import { CastParam } from './parameter-decorators';
 
 class GetByIdParams {
-    @Required(true)
-    @String.Format(/\d/)
-    @String()
+    @Required()
+    @Matches(/\d/)
+    @IsString()
     id: string
 }
 

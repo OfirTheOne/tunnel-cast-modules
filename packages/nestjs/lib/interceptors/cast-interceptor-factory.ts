@@ -12,7 +12,7 @@ import { Observable } from "rxjs";
 import { CAST_METADATA_STORAGE, CAST_MODULE_OPTIONS } from "../constants";
 import { InvalidCastException } from "../errors";
 
-import { cast } from "@tunnel-cast/common/cast";
+import { cast } from "@tunnel-cast/tunnel-cast/core/cast";
 import { MetadataStorage } from "../storage";
 import { CastModuleOptions } from "../interfaces";
 
@@ -34,12 +34,12 @@ export function CastInterceptor(
       const req: eRequest = ctx.getRequest();
       const res = ctx.getResponse();
       const castResult = cast(model, req[fieldKey]);
-      if (castResult.errors) {
+      if (castResult.messages) {
         throw new InvalidCastException(
-          this.options.transformError(castResult.errors)
+          this.options.transformError(castResult.messages)
         );
       } else {
-        req[fieldKey] = castResult.value;
+        req[fieldKey] = castResult.resolvedValue;
       }
       return next.handle();
     }
