@@ -2,9 +2,15 @@
 
 # Tunnel-Cast/tunnel-cast
 
+tunnel-cast is an extensive decorator based modal (DTO) library.
+
+<br>
 <br>
 
 ## Overview
+
+tunnel-cast is an extensive decorator based modal (DTO) library. <br>
+On top of data validation; the data handling that proceed the validation and the transformation that may come after, can also be embedded in the model class. <br>
 
 The way (order) that cast-process execute the field-procedures is a key feature in this module. <br>
 each field-procedures have a type that indicate in what order it will be execute in relation to others. <br>
@@ -67,14 +73,29 @@ Lets review the example by step :
 5. non provided. 
 
 <br>
+<br>
+
+
+## Feature List 
+
+* Conditional decorated procedures (validation and more).
+* Class extensions.
+* Tagging decorated procedures and activating by tag.
+
+
+<br>
+<br>
 
 ## Api Documentation
 
-### Cast
-
 <br>
 
-### `cast`
+### **Cast**
+
+<br>
+<br>
+
+#### `cast`
 ```ts
 function cast<T>(model: (new (...args: any[]) => T), target: any, options?: CastOptions): CastResult<T>
 ```
@@ -82,11 +103,16 @@ function cast<T>(model: (new (...args: any[]) => T), target: any, options?: Cast
 + Description : <br>
 Apply the rules embedded in the model class on the target, and in case of success return the `resolvedValue`, and in case of failure return the `messages` list.
 
++ Arguments : 
+  + `model` -
+  + `target` -
+  + `options` -
+
 <br>
 <br>
 
 
-### `castOrReject`
+#### `castOrReject`
 ```ts
 function castOrReject<T=any>(model: new (...args: any[]) => T, target: any, options?: CastOptions): T
 ```
@@ -94,22 +120,32 @@ function castOrReject<T=any>(model: new (...args: any[]) => T, target: any, opti
 + Description : <br>
 Dose the same as `cast` (invoke it internally), but in case of failure throw the `messages` list, and in case of success return the `resolvedValue` directly (not wrapped in an object).
 
++ Arguments : 
+  + `model` -
+  + `target` -
+  + `options` -
+
 <br>
 <br>
 
 
-### Decorators / constraint / common
+### **Decorators :: Constraint** 
 
 <br>
 
-### `IsEnum`
+### **Common** 
+Common constraints
+
+<br>
+<br>
+
+#### `IsEnum`
 ```ts
 function IsEnum(list: Array<string>, options?: FieldConstraintProcedureOptions);
 function IsEnum(enumObj: Object, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `list` - 
@@ -119,15 +155,13 @@ function IsEnum(enumObj: Object, options?: FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `IsEquals`
+#### `IsEquals`
 ```ts
 function IsEquals(value: any, strict: boolean , options?: FieldConstraintProcedureOptions);
 function IsEquals(value: any, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate (assert) the value of the field against the argument `value`. 
-
-<br>
 
 + Arguments : 
   + `value` - the value to assert to.
@@ -137,15 +171,13 @@ validate (assert) the value of the field against the argument `value`.
 <br>
 <br>
 
-### `Length`
+#### `Length`
 ```ts
 function Length(len: number, options?: FieldConstraintProcedureOptions);
 function Length(min: number, max: number, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected value has the property `length` and it's value - exact or the range, commonly used to validate length of string or array, but technically is could validate a property name `length` of any object.
-
-<br>
 
 + Arguments : 
   + `len` - the exact length of the expect string or array value.
@@ -156,14 +188,12 @@ validate that the expected value has the property `length` and it's value - exac
 <br>
 <br>
 
-### `Required`
+#### `Required`
 ```ts
 function Required(options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected value isn't equal to the values `null`, `undefined` of `''`.
-
-<br>
 
 + Arguments : 
   + `options` - constraint options object.
@@ -171,17 +201,18 @@ validate that the expected value isn't equal to the values `null`, `undefined` o
 <br>
 <br>
 
-### Decorators / constraint / sequence
+### **Sequence**
+Constraints that can handle both string or array.
 
 <br>
+<br>
 
-### `EndsWith`
+#### `EndsWith`
 ```ts
 function EndsWith(value: (Array<any> | string | any), options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value end with the provided `value` argument (array of values of single), if the field value is an array the constrain will pass if it's end with the `value` argument an item(s), if the field value is a string the constrain will pass if it's end with the `value` argument as a substring.
-<br>
 
 + Arguments : 
   + `value` - the value(s) that the field value to be end with. 
@@ -190,13 +221,12 @@ validate that the expected field value end with the provided `value` argument (a
 <br>
 <br>
 
-### `StartsWith`
+#### `StartsWith`
 ```ts
 function StartsWith(value: (Array<any> | string | any), options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value start with the provided `value` argument (array of values of single), if the field value is an array the constrain will pass if it's start with the `value` argument an item(s), if the field value is a string the constrain will pass if it's start with the `value` argument as a substring.
-<br>
 
 + Arguments : 
   + `value` - the value(s) that the field value to be start with. 
@@ -205,14 +235,12 @@ validate that the expected field value start with the provided `value` argument 
 <br>
 <br>
 
-### `Includes`
+#### `Includes`
 ```ts
 function Includes(value: any, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value includes the provided `value` argument, if the field value is an array the constrain will pass if the `value` argument includes in it as an item, if the field value is a string the constrain will pass if the `value` argument includes in it as a substring.
-
-<br>
 
 + Arguments : 
   + `value` - the value to be included in the field value. 
@@ -221,18 +249,18 @@ validate that the expected field value includes the provided `value` argument, i
 <br>
 <br>
 
-
-## Decorators / constraint / string
+###  **String**
+The classic string related constraints.
 
 <br>
+<br>
 
-### `IsDateString`
+#### `IsDateString`
 ```ts
 function IsDateString(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `options` - constraint options object.
@@ -240,14 +268,13 @@ function IsDateString(options? : FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `IsEmail`
+#### `IsEmail`
 ```ts
 function IsEmail(domains: Array<string> ,options?: FieldConstraintProcedureOptions);
 function IsEmail(options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `domains` - expectable email domains list.
@@ -256,13 +283,12 @@ function IsEmail(options?: FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `IsISODate`
+#### `IsISODate`
 ```ts
 function IsISODate(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `options` - constraint options object.
@@ -270,13 +296,12 @@ function IsISODate(options? : FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `IsNumberString`
+#### `IsNumberString`
 ```ts
 function IsNumberString(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `options` - constraint options object.
@@ -284,13 +309,12 @@ function IsNumberString(options? : FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `IsUUID`
+#### `IsUUID`
 ```ts
 function IsUUID(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `options` - constraint options object.
@@ -298,32 +322,32 @@ function IsUUID(options? : FieldConstraintProcedureOptions);
 <br>
 <br>
 
-### `Matches`
+#### `Matches`
 ```ts
 function Matches(pattern: RegExp, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
-  + `pattern` - pattern to metch the againt the field value.
+  + `pattern` - pattern to match the against the field value.
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### Decorators / constraint / type
+### **Type**
+Constraint handling the field's type.
 
 <br>
+<br>
 
-### `IsArray`
+#### `IsArray`
 ```ts
 function IsArray(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is an array. 
-<br>
 
 + Arguments : 
   + `options` - constraint options object.
@@ -331,109 +355,94 @@ validate that the expected field value is an array.
 <br>
 <br>
 
-### `IsBoolean`
+#### `IsBoolean`
 ```ts
 function IsBoolean(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is of boolean type. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### `IsInstanceOf`
+#### `IsInstanceOf`
 ```ts
 function IsInstanceOf(instanceofType: any, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is an instance-of the type provided in the argument `instanceofType`. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### `IsNumber`
+#### `IsNumber`
 ```ts
 function IsNumber(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is of number type. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### `IsObject`
+#### `IsObject`
 ```ts
 function IsObject(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is of object type. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### `IsString`
+#### `IsString`
 ```ts
 function IsString(options? : FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is of string type. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-### `IsTypeOf`
+#### `IsTypeOf`
 ```ts
 function IsTypeOf(typeofString: string, options?: FieldConstraintProcedureOptions);
 ```
 + Description : <br>
 validate that the expected field value is a type-of the type-string provided in the argument `typeofString`. 
 
-<br>
-
 + Arguments : 
   + `options` - constraint options object.
 
 <br>
 <br>
 
-
-
-### Decorators / conditional
+### **Decorators :: conditional**
 
 <br>
 
-### `Nullable`
+#### `Nullable`
 ```ts
 function Nullable(options? : FieldConditionalHandlingProcedureOptions);
 ```
 + Description : <br>
 A field decorated with this decorator
-<br>
 
 + Arguments : 
   + `options` - constraint options object.
@@ -441,13 +450,12 @@ A field decorated with this decorator
 <br>
 <br>
 
-### `SkipIf`
+#### `SkipIf`
 ```ts
 function SkipIf(cond: ((value, name, context) => boolean), options?: FieldConditionalHandlingProcedureOptions);
 ```
 + Description : <br>
-
-<br>
+TODO Description
 
 + Arguments : 
   + `cond` - a condition function, if it return true the field will be processed, otherwise it will be skipped.
@@ -460,11 +468,11 @@ function SkipIf(cond: ((value, name, context) => boolean), options?: FieldCondit
 
 
 
-## Internal api
+### [Documentation Draft] Internal API
 
 <br>
 
-### `decoratorAdapter`
+#### `decoratorAdapter`
 ```ts
 function decoratorAdapter(fieldProcedure: FieldProcedure): PropertyDecorator;
 ```
@@ -472,7 +480,7 @@ function decoratorAdapter(fieldProcedure: FieldProcedure): PropertyDecorator;
 <br>
 <br>
 
-### Field-Procedure
+#### Field-Procedure
 
 All the decorators are internally define a cast procedure over the field they decorating, the procedure can be looked as the decorator type. <br>
 The procedure define the nature of the decorator it's purpose and part it takes in the cast process. <br>
